@@ -1,0 +1,509 @@
+﻿@using AIRpgAgents.GameEngine.Rules
+@using Microsoft.AspNetCore.Components.Forms
+@using Radzen.Blazor.Rendering
+
+<EditForm Model="@CharacterSheet" OnValidSubmit="@(async () => await CharacterSheetChanged.InvokeAsync(CharacterSheet))">
+    <div class="character-sheet">
+        <div class="character-sheet-page">
+            <h2>Character Sheet - Page 1</h2>
+
+            <div class="header-section">
+                <div class="form-group">
+                    <label>Character Name:</label>
+                    <InputText @bind-Value="CharacterSheet.CharacterName" />
+                </div>
+                <div class="form-group">
+                    <label>Player Name:</label>
+                    <InputText @bind-Value="CharacterSheet.PlayerName" />
+                </div>
+                <div class="form-group">
+                    <label>Race:</label>
+                    <InputSelect @bind-Value="CharacterSheet.Race.Type" disabled>
+                        @foreach (var raceType in RaceTypes)
+                        {
+                            <option value="@raceType">@raceType</option>
+                        }
+                    </InputSelect>
+                </div>
+                <div class="form-group">
+                    <label>Class:</label>
+                    <InputSelect @bind-Value="CharacterSheet.Class.Type" disabled>
+                        @foreach (var classType in ClassTypes)
+                        {
+                            <option value="@classType">@classType</option>
+                        }
+                    </InputSelect>
+                </div>
+                <div class="form-group">
+                    <label>Level:</label>
+                    <InputNumber @bind-Value="CharacterSheet.Level" />
+                </div>
+                <div class="form-group">
+                    <label>Alignment:</label>
+                    <div class="alignment-selects">
+                        <InputSelect @bind-Value="CharacterSheet.Alignment.EthicalAlignment">
+                            @foreach (var ethical in EthicalAlignments)
+                            {
+                                <option value="@ethical">@ethical</option>
+                            }
+                        </InputSelect>
+                        <InputSelect @bind-Value="CharacterSheet.Alignment.MoralAlignment">
+                            @foreach (var moral in MoralAlignments)
+                            {
+                                <option value="@moral">@moral</option>
+                            }
+                        </InputSelect>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Deity:</label>
+                    <InputText @bind-Value="CharacterSheet.Deity" />
+                </div>
+            </div>
+
+            <!-- Attributes section remains mostly unchanged except for using InputNumber -->
+            <div class="attributes-section">
+                <div class="left-col">
+                    <h3>Attributes</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Attribute</th>
+                                <th>Score</th>
+                                <th>Modifier</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td><strong>Might</strong></td>
+                                <td>
+                                    <InputNumber @bind-Value="CharacterSheet.AttributeSet[RpgAttribute.Might]" class="small-input" />
+                                </td>
+                                <td>@FormatModifier(GetAttributeModifier(RpgAttribute.Might))</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Agility</strong></td>
+                                <td>
+                                    <InputNumber @bind-Value="CharacterSheet.AttributeSet[RpgAttribute.Agility]" class="small-input" />
+                                </td>
+                                <td>@FormatModifier(GetAttributeModifier(RpgAttribute.Agility))</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Vitality</strong></td>
+                                <td>
+                                    <InputNumber @bind-Value="CharacterSheet.AttributeSet[RpgAttribute.Vitality]" class="small-input" />
+                                </td>
+                                <td>@FormatModifier(GetAttributeModifier(RpgAttribute.Vitality))</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Wits</strong></td>
+                                <td>
+                                    <InputNumber @bind-Value="CharacterSheet.AttributeSet[RpgAttribute.Wits]" class="small-input" />
+                                </td>
+                                <td>@FormatModifier(GetAttributeModifier(RpgAttribute.Wits))</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Presence</strong></td>
+                                <td>
+                                    <InputNumber @bind-Value="CharacterSheet.AttributeSet[RpgAttribute.Presence]" class="small-input" />
+                                </td>
+                                <td>@FormatModifier(GetAttributeModifier(RpgAttribute.Presence))</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                @* <div class="right-col">
+                    <h3>Saving Throws</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Saving Throw</th>
+                                <th>Modifier</th>
+                                <th>Result</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var attributeName in AttributeNames)
+                            {
+                                <tr>
+                                    <td>@attributeName</td>
+                                    <td>@FormatModifier(GetAttributeModifier(attributeName))</td>
+                                    <td>
+                                        <InputNumber @bind-Value="@GetSavingThrow(attributeName)" class="small-input" disabled />
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div> *@
+            </div>
+
+            <!-- Combat stats section with InputNumber -->
+            <div class="combat-stats">
+                <h3>Combat Stats</h3>
+                <div class="combat-values">
+                    <div class="form-group">
+                        <label>HP:</label>
+                        <InputNumber @bind-Value="CharacterSheet.CurrentHP" class="small-input" /> /
+                        <InputNumber @bind-Value="CharacterSheet.MaxHP" class="small-input" />
+                    </div>
+                    <div class="form-group">
+                        <label>MP:</label>
+                        <InputNumber @bind-Value="CharacterSheet.CurrentMP" class="small-input" /> /
+                        <InputNumber @bind-Value="CharacterSheet.MaxMP" class="small-input" />
+                    </div>
+                    <div class="form-group">
+                        <label>Armor Class (AC):</label>
+                        <InputNumber @bind-Value="CharacterSheet.ArmorClass" class="small-input" />
+                    </div>
+                    <div class="form-group">
+                        <label>Initiative:</label>
+                        <InputNumber @bind-Value="CharacterSheet.Initiative" class="small-input" />
+                    </div>
+                    <div class="form-group">
+                        <label>Speed:</label>
+                        <InputNumber @bind-Value="CharacterSheet.Speed" class="small-input" /> ft.
+                    </div>
+                </div>
+
+                <h4>Weapons</h4>
+                <table class="weapons-table">
+                    <thead>
+                        <tr>
+                            <th>Weapon</th>
+                            <th>Type</th>
+                            <th>Attack Bonus</th>
+                            <th>Damage</th>
+                            <th>Range</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Math.Min(3, CharacterSheet.Weapons?.Count ?? 0); i++)
+                        {
+                            var weapon = CharacterSheet.Weapons[i];
+                            <tr>
+                                <td><InputText @bind-Value="weapon.Name" /></td>
+                                <td>
+                                    <InputSelect @bind-Value="weapon.Type">
+                                        @foreach (var type in WeaponTypes)
+                                        {
+                                            <option value="@type">@type</option>
+                                        }
+                                    </InputSelect>
+                                </td>
+                                <td><InputNumber @bind-Value="weapon.AttackBonus" class="small-input" /></td>
+                                <td><InputText @bind-Value="weapon.DamageFormula" class="small-input" /></td>
+                                <td><InputText @bind-Value="weapon.Range" class="small-input" /></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Rest of the form using appropriate Input components -->
+            <div class="skills-section">
+                <h3>Skills</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Skill</th>
+                            <th>Attribute</th>
+                            <th>Rank</th>
+                            <th>Bonus</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var skill in CharacterSheet.Skills)
+                        {
+                            <tr>
+                                <td>@skill.Value.Name</td>
+                                <td>@skill.Value.AssociatedAttribute</td>
+                                <td>
+                                    <InputNumber @bind-Value="skill.Value.Rank" class="small-input" />
+                                </td>
+                                <td>@skill.Value.Bonus</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            @if (CharacterSheet.Class.HasSpellcasting)
+            {
+                <div class="spellcasting-section">
+                    <h3>Spellcasting</h3>
+                    <div class="form-group">
+                        <label>Tradition:</label>
+                        <InputSelect @bind-Value="CharacterSheet.Class.SpellcastingTradition">
+                            @foreach (var tradition in MagicTraditions)
+                            {
+                                <option value="@tradition">@tradition</option>
+                            }
+                        </InputSelect>
+                    </div>
+                    <div class="form-group">
+                        <label>Spellcasting Ability:</label>
+                        <InputSelect @bind-Value="SpellcastingAbility" />
+                    </div>
+                    <div class="form-group">
+                        <label>Spell Save DC:</label>
+                        <InputNumber @bind-Value="SpellSaveDC" class="small-input" disabled />
+                    </div>
+                    <div class="form-group">
+                        <label>Spell Attack Modifier:</label>
+                        <InputNumber @bind-Value="SpellAttackModifier" class="small-input" disabled />
+                    </div>
+
+                    <h4>Spell Slots</h4>
+                    <table class="spell-slots-table">
+                        <thead>
+                            <tr>
+                                <th>Level</th>
+                                <th>Slots</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var slot in CharacterSheet.Spellcasting.SpellSlots)
+                            {
+                                <tr>
+                                    <td>@slot.Level.ToString()</td>
+                                    <td>
+                                        <InputNumber @bind-Value="@slot.Count" class="small-input" />
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                    <!-- Replace the current Known Spells section with this improved table layout -->
+                    <h4>Known Spells</h4>
+                    <div class="spells-by-band">
+                        <!-- Cantrips section -->
+                        <h5>Cantrips</h5>
+                        <table class="spells-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Cast Time</th>
+                                    <th>Range</th>
+                                    <th>Save Type</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    var cantrips = CharacterSheet.Spellcasting?.Spells?.Where(s => s.Level == 0);
+                                    if (cantrips?.Any() == true)
+                                    {
+                                        @foreach (var spell in cantrips)
+                                        {
+                                            <tr>
+                                                <td>@spell.Name</td>
+                                                <td>@spell.Description</td>
+                                                <td>@spell.CastTime</td>
+                                                <td>@spell.Range</td>
+                                                <td>@spell.SaveType</td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="5" class="text-center">No cantrips known</td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+
+                        <!-- Spells by Band -->
+                        @foreach (var band in Enum.GetValues<Band>())
+                        {
+                            <h5>@band.ToString() (@GetBandDescription(band))</h5>
+                            <table class="spells-table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Level</th>
+                                        <th>Mana Cost</th>
+                                        <th>Description</th>
+                                        <th>Cast Time</th>
+                                        <th>Save Type</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        var spells = CharacterSheet.Spellcasting?.Spells?.Where(s => s.Band == band);
+                                        if (spells?.Any() == true)
+                                        {
+                                            @foreach (var spell in spells.OrderBy(s => s.Level))
+                                            {
+                                                <tr>
+                                                    <td>@spell.Name</td>
+                                                    <td>@spell.Level</td>
+                                                    <td>@spell.ManaCost</td>
+                                                    <td>@spell.Description</td>
+                                                    <td>@spell.CastTime</td>
+                                                    <td>@spell.SaveType</td>
+                                                </tr>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <tr>
+                                                <td colspan="6" class="text-center">No @band.ToString() band spells known</td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="character-sheet-page">
+            <h2>Character Sheet - Page 2</h2>
+
+            <div class="abilities-section">
+                <h3>Class Abilities</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Ability</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (CharacterSheet.Class?.Abilities != null)
+                        {
+                            @foreach (var ability in CharacterSheet.Class.Abilities)
+                            {
+                                <tr>
+                                    <td>@ability.Name</td>
+                                    <td>@ability.Description</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+
+                <h3>Racial Traits</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Trait</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (CharacterSheet.Race?.Traits != null)
+                        {
+                            @foreach (var trait in CharacterSheet.Race.Traits)
+                            {
+                                <tr>
+                                    <td>@trait.Name</td>
+                                    <td>@trait.Description</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="equipment-section">
+                <h3>Equipment</h3>
+                <h4>Coins</h4>
+                <div class="currency">
+                    <div class="form-group">
+                        <label>Gold:</label>
+                        <InputNumber @bind-Value="CharacterSheet.GoldCoins" class="small-input" />
+                    </div>
+                    <div class="form-group">
+                        <label>Silver:</label>
+                        <InputNumber @bind-Value="CharacterSheet.SilverCoins" class="small-input" />
+                    </div>
+                    <div class="form-group">
+                        <label>Copper:</label>
+                        <InputNumber @bind-Value="CharacterSheet.CopperCoins" class="small-input" />
+                    </div>
+                </div>
+                <h4>Inventory</h4>
+                <table class="inventory-table">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Quantity</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in CharacterSheet.Inventory)
+                        {
+                            <tr>
+                                <td><InputText @bind-Value="item.Name" /></td>
+                                <td><InputNumber @bind-Value="item.Quantity" class="small-input" /></td>
+                                <td><InputText @bind-Value="item.Description" /></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <div class="armor-section">
+                    <div class="form-group">
+                        <label>Armor:</label>
+                        <InputText @bind-Value="@PrimaryArmorName" />
+                        (AC Bonus: <input type="number" value="@PrimaryArmorBonus" class="small-input" disabled />)
+                    </div>
+                    <div class="form-group">
+                        <label>Shield:</label>
+                        <InputText @bind-Value="@ShieldName" />
+                        (AC Bonus: <input type="number" Value="@ShieldBonus" class="small-input" disabled />)
+                    </div>
+                </div>
+            </div>
+
+            <div class="background-section">
+                <h3>Background</h3>
+                <div class="form-group">
+                    <label>Personality Traits:</label>
+                    <textarea @bind="CharacterSheet.PersonalityTraits"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Ideals:</label>
+                    <textarea @bind="CharacterSheet.Ideals"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Bonds:</label>
+                    <textarea @bind="CharacterSheet.Bonds"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Flaws:</label>
+                    <textarea @bind="CharacterSheet.Flaws"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Notes:</label>
+                    <textarea @bind="CharacterSheet.Notes"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</EditForm>
+
+<style>
+    .alignment-selects {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+        .alignment-selects ::deep select {
+            flex: 1;
+        }
+</style>
+
+@code {
+
+}

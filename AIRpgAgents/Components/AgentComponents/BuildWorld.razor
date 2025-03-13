@@ -1,0 +1,15 @@
+﻿<RadzenRow>
+    <RadzenColumn SizeLG="6" Style="position:relative">
+        <RadzenCard>
+
+            <ChatView ResetOnClose="false" AllowRemove=false ViewId="chatWithSk" Height="75vh" @ref=_chatView></ChatView>
+        </RadzenCard>
+
+        <RadzenCard Style="position:relative" Variant="Variant.Filled">
+            <UserInput IsRequired="@(false)" ButtonLabel="Send" HelperText="User Input" UserInputSubmit="HandleRequest" IsBusy="_isBusy" CancelRequest="Cancel"></UserInput>
+        </RadzenCard>
+    </RadzenColumn>
+    <RadzenColumn SizeLG="6" Style="max-height:80vh; overflow-y:auto">
+        <WorldDetails World="_worldState"></WorldDetails>
+    </RadzenColumn>
+</RadzenRow>

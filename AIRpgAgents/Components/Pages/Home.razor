@@ -1,0 +1,6 @@
+﻿@page "/"
+@attribute [Authorize]
+<PageTitle>Home</PageTitle>
+
+<RadzenFormField Text="Select Test Component"><RadzenDropDown @bind-Value="@_selectedComponent" Data="@_componentOptions.Keys.ToList()"></RadzenDropDown></RadzenFormField>
+<DynamicComponent Type="@_componentOptions[_selectedComponent]"></DynamicComponent>

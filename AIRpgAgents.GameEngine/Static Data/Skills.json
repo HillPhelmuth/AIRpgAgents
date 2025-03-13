@@ -1,0 +1,82 @@
+[
+  {
+    "Name": "Athletics",
+    "AssociatedAttribute": "Might",
+    "Description": "Climbing, swimming, jumping, and feats of physical exertion. Useful for scaling obstacles, escaping danger, and performing acts of raw strength."
+  },
+  {
+    "Name": "Melee Combat",
+    "AssociatedAttribute": "Might",
+    "Description": "Proficiency with close-range weapons like swords, axes, and maces. Governs attack accuracy and damage output in melee engagements."
+  },
+  {
+    "Name": "Ranged Combat",
+    "AssociatedAttribute": "Agility",
+    "Description": "Proficiency with ranged weapons such as bows and crossbows. Essential for dealing damage from a distance, often crucial for hunting or engaging enemies safely."
+  },
+  {
+    "Name": "Stealth",
+    "AssociatedAttribute": "Agility",
+    "Description": "Moving silently, hiding, and sneaking. Vital for ambushes, avoiding detection, and bypassing dangerous encounters."
+  },
+  {
+    "Name": "Acrobatics",
+    "AssociatedAttribute": "Agility",
+    "Description": "Tumbling, balancing, and performing agile maneuvers. Helpful for dodging attacks, crossing narrow paths, or dazzling enemies with quick movements."
+  },
+  {
+    "Name": "Endurance",
+    "AssociatedAttribute": "Vitality",
+    "Description": "Resisting fatigue, hunger, or environmental hazards. Determines how well a character can survive prolonged exposure to harsh conditions or physical strain."
+  },
+  {
+    "Name": "Survival",
+    "AssociatedAttribute": "Wits",
+    "Description": "Tracking, foraging, and navigating the wilderness. Crucial for sustaining oneself in the wild, finding food, and understanding natural patterns."
+  },
+  {
+    "Name": "Perception",
+    "AssociatedAttribute": "Wits",
+    "Description": "Spotting hidden dangers, noticing small details, and staying alert. Influences the detection of traps, secret doors, and incoming threats."
+  },
+  {
+    "Name": "Crafting",
+    "AssociatedAttribute": "Wits",
+    "Description": "Creating or repairing weapons, armor, and tools. Enables the production of useful gear and enhancements, allowing characters to prepare for upcoming challenges."
+  },
+  {
+    "Name": "Investigation",
+    "AssociatedAttribute": "Wits",
+    "Description": "Analyzing clues, solving puzzles, and searching for information. Useful for unraveling mysteries and uncovering secrets."
+  },
+  {
+    "Name": "Arcane Knowledge",
+    "AssociatedAttribute": "Wits",
+    "Description": "Understanding magical theory, recognizing spells, and deciphering arcane symbols. Essential for wizards and those dealing with magical phenomena."
+  },
+  {
+    "Name": "Medicine",
+    "AssociatedAttribute": "Wits",
+    "Description": "Treating wounds, curing diseases, and understanding anatomy. Crucial for healing party members and diagnosing ailments."
+  },
+  {
+    "Name": "Persuasion",
+    "AssociatedAttribute": "Presence",
+    "Description": "Convincing others, negotiation, and diplomacy. Allows characters to influence NPCs and resolve conflicts without violence."
+  },
+  {
+    "Name": "Intimidation",
+    "AssociatedAttribute": "Presence",
+    "Description": "Coercing others through fear or force of personality. Often used to assert dominance or compel obedience."
+  },
+  {
+    "Name": "Deception",
+    "AssociatedAttribute": "Presence",
+    "Description": "Lying, disguising, and bluffing. Helps in misdirection and concealing one's true intentions."
+  },
+  {
+    "Name": "Leadership",
+    "AssociatedAttribute": "Presence",
+    "Description": "Inspiring and directing allies, boosting morale. Improves group performance and can turn the tide of battle through coordination."
+  }
+]

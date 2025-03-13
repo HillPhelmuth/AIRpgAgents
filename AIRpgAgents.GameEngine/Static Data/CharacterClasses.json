@@ -1,0 +1,328 @@
+[
+  {
+    "Name": "Cleric",
+    "Type": "Cleric",
+    "Description": "Devoted servants of the divine, Clerics channel the will of their deities to heal the wounded, protect the weak, and smite the unholy. Whether they serve in temples or on the battlefield, their faith is their greatest weapon.",
+    "PrimaryAttributes": [ "Presence", "Wits" ],
+    "SpellcastingTradition": "Theurgic",
+    "Abilities": [
+      {
+        "Name": "Divine Healing",
+        "Description": "Cast healing spells with +1d4 bonus healing.",
+        "LevelGained": 1,
+        "Properties": {},
+        "UsesPerDay": -1,
+        "UsesRemaining": true
+      },
+      {
+        "Name": "Turn Undead",
+        "Description": "Force undead creatures within 30 feet to flee (Will save DC 10 + caster level).",
+        "LevelGained": 1,
+        "Properties": {},
+        "UsesPerDay": -1,
+        "UsesRemaining": true
+      },
+      {
+        "Name": "Radiant Smite",
+        "Description": "Once per combat, add 1d8 radiant damage to a melee attack.",
+        "LevelGained": 5,
+        "Properties": {},
+        "UsesPerDay": 1,
+        "UsesRemaining": true
+      },
+      {
+        "Name": "Blessing of Resilience",
+        "Description": "Allies within 10 feet gain +1 to AC.",
+        "LevelGained": 10,
+        "Properties": {},
+        "UsesPerDay": -1,
+        "UsesRemaining": true
+      },
+      {
+        "Name": "Channel Divinity",
+        "Description": "Rechargeable ability to amplify a spell or ability, such as doubling the effect range or duration.",
+        "LevelGained": 10,
+        "Properties": {},
+        "UsesPerDay": 1,
+        "UsesRemaining": true
+      },
+      {
+        "Name": "Divine Healing Mastery",
+        "Description": "Boost Divine Healing to +2d4 bonus.",
+        "LevelGained": 15,
+        "Properties": {},
+        "UsesPerDay": -1,
+        "UsesRemaining": true
+      }
+    ],
+    "HitDie": 8,
+    "HasSpellcasting": true,
+    "StartingHP": 8,
+    "ClassSkills": [ "Persuasion", "Medicine", "Melee Combat" ]
+  },
+  {
+    "Name": "Wizard",
+    "Type": "Wizard",
+    "Description": "Masters of arcane lore, Wizards harness the raw power of magic to manipulate the world around them. Though physically frail, their devastating spells make them invaluable.",
+    "PrimaryAttributes": [ "Wits", "Presence" ],
+    "SpellcastingTradition": "Arcane",
+    "Abilities": [
+      {
+        "Name": "Arcane Focus",
+        "Description": "Reduce mana cost of spells by 1 (minimum 1).",
+        "LevelGained": 1,
+        "Properties": {},
+        "UsesPerDay": -1,
+        "UsesRemaining": true
+      },
+      {
+        "Name": "Spellweaver",
+        "Description": "Cast two lower-level spells simultaneously once per day.",
+        "LevelGained": 5,
+        "Properties": {},
+        "UsesPerDay": 1,
+        "UsesRemaining": true
+      },
+      {
+        "Name": "Counterspell",
+        "Description": "Interrupt enemy spellcasting (DC 10 + spell level).",
+        "LevelGained": 10,
+        "Properties": {},
+        "UsesPerDay": -1,
+        "UsesRemaining": true
+      },
+      {
+        "Name": "Elemental Mastery",
+        "Description": "Choose one damage type (fire, lightning, or cold); gain +1 damage per die.",
+        "LevelGained": 15,
+        "Properties": {},
+        "UsesPerDay": -1,
+        "UsesRemaining": true
+      },
+      {
+        "Name": "Arcane Shield",
+        "Description": "Once per day, create a barrier absorbing 10 damage.",
+        "LevelGained": 15,
+        "Properties": {},
+        "UsesPerDay": 1,
+        "UsesRemaining": true
+      }
+    ],
+    "HitDie": 6,
+    "HasSpellcasting": true,
+    "StartingHP": 6,
+    "ClassSkills": [ "Arcane Knowledge", "Crafting", "Perception" ]
+  },
+  {
+    "Name": "Warrior",
+    "Type": "Warrior",
+    "Description": "Warriors are formidable combatants, excelling in physical prowess and battlefield tactics. Their unmatched endurance and weapon skills make them the backbone of any party.",
+    "PrimaryAttributes": ["Might", "Vitality"],
+    "Abilities": [
+      {
+        "Name": "Power Strike",
+        "Description": "Once per combat, deal an extra 1d10 damage.",
+        "LevelGained": 1,
+        "Properties": {},
+        "UsesPerDay": 1,
+        "UsesRemaining": true
+      },
+      {
+        "Name": "Battlefield Awareness",
+        "Description": "Gain +2 to initiative rolls.",
+        "LevelGained": 1,
+        "Properties": {},
+        "UsesPerDay": -1,
+        "UsesRemaining": true
+      },
+      {
+        "Name": "Shield Wall",
+        "Description": "When using a shield, allies within 5 feet gain +1 AC.",
+        "LevelGained": 5,
+        "Properties": {},
+        "UsesPerDay": -1,
+        "UsesRemaining": true
+      },
+      {
+        "Name": "Enduring Fighter",
+        "Description": "Regain 1d8 HP as a bonus action once per short rest.",
+        "LevelGained": 10,
+        "Properties": {},
+        "UsesPerDay": 1,
+        "UsesRemaining": true
+      },
+      {
+        "Name": "Weapon Mastery",
+        "Description": "Gain +2 to attack and damage with chosen weapon.",
+        "LevelGained": 15,
+        "Properties": {},
+        "UsesPerDay": -1,
+        "UsesRemaining": true
+      }
+    ],
+    "HitDie": 10,
+    "HasSpellcasting": false,
+    "SpellcastingTradition": 0,
+    "StartingHP": 10,
+    "ClassSkills": ["Melee Combat", "Endurance", "Athletics"]
+  },
+  {
+    "Name": "Rogue",
+    "Type": "Rogue",
+    "Description": "Rogues thrive in the shadows, using guile, precision, and agility to outmaneuver foes. Masters of stealth and subterfuge, they excel at exploiting vulnerabilities.",
+    "PrimaryAttributes": ["Agility", "Wits"],
+    "Abilities": [
+      {
+        "Name": "Backstab",
+        "Description": "Deal an extra 2d6 damage when attacking from stealth.",
+        "LevelGained": 1,
+        "Properties": {},
+        "UsesPerDay": -1,
+        "UsesRemaining": true
+      },
+      {
+        "Name": "Evasion",
+        "Description": "Avoid damage from area effects (DC 10 + caster level).",
+        "LevelGained": 1,
+        "Properties": {},
+        "UsesPerDay": -1,
+        "UsesRemaining": true
+      },
+      {
+        "Name": "Shadow Step",
+        "Description": "Teleport 20 feet in dim light or darkness once per combat.",
+        "LevelGained": 5,
+        "Properties": {},
+        "UsesPerDay": 1,
+        "UsesRemaining": true
+      },
+      {
+        "Name": "Trap Specialist",
+        "Description": "Automatically detect traps within 10 feet.",
+        "LevelGained": 10,
+        "Properties": {},
+        "UsesPerDay": -1,
+        "UsesRemaining": true
+      },
+      {
+        "Name": "Ambusher",
+        "Description": "Gain advantage on attack rolls in the first round of combat.",
+        "LevelGained": 15,
+        "Properties": {},
+        "UsesPerDay": -1,
+        "UsesRemaining": true
+      }
+    ],
+    "HitDie": 8,
+    "HasSpellcasting": false,
+    "SpellcastingTradition": 0,
+    "StartingHP": 8,
+    "ClassSkills": ["Stealth", "Acrobatics", "Deception"]
+  },
+  {
+    "Name": "Paladin",
+    "Type": "Paladin",
+    "Description": "Champions of justice, Paladins combine divine power with martial prowess. Their sacred oaths empower them to protect the innocent and smite evil.",
+    "PrimaryAttributes": [ "Might", "Presence" ],
+    "SpellcastingTradition": "Theurgic",
+    "Abilities": [
+      {
+        "Name": "Lay on Hands",
+        "Description": "Heal an ally for 1d8 + level HP once per long rest.",
+        "LevelGained": 1,
+        "Properties": {},
+        "UsesPerDay": 1,
+        "UsesRemaining": true
+      },
+      {
+        "Name": "Divine Smite",
+        "Description": "Add 1d8 radiant damage to a melee attack.",
+        "LevelGained": 5,
+        "Properties": {},
+        "UsesPerDay": -1,
+        "UsesRemaining": true
+      },
+      {
+        "Name": "Aura of Courage",
+        "Description": "Allies within 10 feet are immune to fear.",
+        "LevelGained": 5,
+        "Properties": {},
+        "UsesPerDay": -1,
+        "UsesRemaining": true
+      },
+      {
+        "Name": "Sacred Vow",
+        "Description": "Gain advantage on saving throws against mind control.",
+        "LevelGained": 10,
+        "Properties": {},
+        "UsesPerDay": -1,
+        "UsesRemaining": true
+      },
+      {
+        "Name": "Holy Avenger",
+        "Description": "Weapons deal an extra 1d6 radiant damage.",
+        "LevelGained": 15,
+        "Properties": {},
+        "UsesPerDay": -1,
+        "UsesRemaining": true
+      }
+    ],
+    "HitDie": 10,
+    "HasSpellcasting": true,
+    "StartingHP": 10,
+    "ClassSkills": [ "Leadership", "Melee Combat", "Survival" ]
+  },
+  {
+    "Name": "War Mage",
+    "Type": "WarMage",
+    "Description": "Combining martial skill with the destructive power of magic, War Mages are versatile combatants who can adapt to any situation. They use their spells to enhance their physical prowess and devastate enemies on the battlefield.",
+    "SpellcastingTradition": "Arcane",
+    "PrimaryAttributes": [ "Might", "Wits" ],
+    "Abilities": [
+      {
+        "Name": "Arcane Strike",
+        "Description": "Infuse melee attacks with magic, adding 1d6 elemental damage (fire, lightning, or cold).",
+        "LevelGained": 1,
+        "Properties": {},
+        "UsesPerDay": -1,
+        "UsesRemaining": true
+      },
+      {
+        "Name": "Spellblade Mastery",
+        "Description": "Once per day, cast a spell as a bonus action.",
+        "LevelGained": 5,
+        "Properties": {},
+        "UsesPerDay": 1,
+        "UsesRemaining": true
+      },
+      {
+        "Name": "Mana Shield",
+        "Description": "Absorb up to 10 damage by expending 2 MP.",
+        "LevelGained": 10,
+        "Properties": {},
+        "UsesPerDay": -1,
+        "UsesRemaining": true
+      },
+      {
+        "Name": "Battlecaster",
+        "Description": "Gain advantage on Concentration checks to maintain spells during combat.",
+        "LevelGained": 10,
+        "Properties": {},
+        "UsesPerDay": -1,
+        "UsesRemaining": true
+      },
+      {
+        "Name": "Elemental Surge",
+        "Description": "Add an extra 1d8 damage to a spell or melee attack once per combat.",
+        "LevelGained": 15,
+        "Properties": {},
+        "UsesPerDay": 1,
+        "UsesRemaining": true
+      }
+    ],
+    "HitDie": 8,
+    "HasSpellcasting": true,
+    "StartingHP": 8,
+    "ClassSkills": [ "Melee Combat", "Arcane Knowledge", "Athletics" ]
+  }
+]

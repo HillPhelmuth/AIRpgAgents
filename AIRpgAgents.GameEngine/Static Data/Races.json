@@ -1,0 +1,145 @@
+[
+  {
+    "Type": 0,
+    "Description": "Humans are the most widespread and adaptable race, thriving in nearly every environment. Their ambition and resilience drive them to excel in diverse roles, from leaders to warriors to cunning merchants.",
+    "AttributeModifiers": {
+      "PlayerChoice": 1
+    },
+    "Traits": [
+      {
+        "Name": "Adaptive",
+        "Description": "Gain +1 to any attribute of the player's choice.",
+        "Properties": {}
+      },
+      {
+        "Name": "Versatile",
+        "Description": "Start with one additional skill at Rank 1.",
+        "Properties": {}
+      },
+      {
+        "Name": "Resilient",
+        "Description": "Once per long rest, reroll a failed saving throw.",
+        "Properties": {}
+      }
+    ],
+    "BaseSpeed": 30,
+    "Languages": ["Common"],
+    "Size": "Medium"
+  },
+  {
+    "Type": 1,
+    "Description": "Duskborn dwell in the shadows, mastering stealth and subtlety. With skin ashen and eyes glowing faintly, they are often mistrusted by other races.",
+    "AttributeModifiers": {
+      "Agility": 2,
+      "Might": -1
+    },
+    "Traits": [
+      {
+        "Name": "Darkvision",
+        "Description": "Can see in dim light as if it were bright and in darkness as if it were dim.",
+        "Properties": {}
+      },
+      {
+        "Name": "Shadow Step",
+        "Description": "Once per long rest, teleport up to 30 feet to an unoccupied space in dim light or darkness.",
+        "Properties": {}
+      }
+    ],
+    "BaseSpeed": 30,
+    "Languages": ["Common", "Shadowtongue"],
+    "Size": "Medium"
+  },
+  {
+    "Type": 2,
+    "Description": "Ironforged are sturdy and unyielding, living deep within mountains and crafting legendary weapons and armor.",
+    "AttributeModifiers": {
+      "Vitality": 2,
+      "Agility": -1
+    },
+    "Traits": [
+      {
+        "Name": "Stonecunning",
+        "Description": "Gain advantage on Investigation or Crafting checks involving stone or metal. Add +2 to the result of any such checks.",
+        "Properties": {}
+      },
+      {
+        "Name": "Enduring Spirit",
+        "Description": "Reduce all non-magical damage by 1 (minimum 1).",
+        "Properties": {}
+      }
+    ],
+    "BaseSpeed": 25,
+    "Languages": ["Common", "Forge Speech"],
+    "Size": "Medium"
+  },
+  {
+    "Type": 3,
+    "Description": "Wildkin are closely tied to nature, bearing animalistic features such as fur, claws, or fangs.",
+    "AttributeModifiers": {
+      "Wits": 2,
+      "Presence": -1
+    },
+    "Traits": [
+      {
+        "Name": "Keen Senses",
+        "Description": "Gain advantage on Perception checks involving smell or hearing. Add +2 to the result of Perception checks involving these senses.",
+        "Properties": {}
+      },
+      {
+        "Name": "Savage Claws",
+        "Description": "Unarmed attacks deal 1d6 damage.",
+        "Properties": {}
+      }
+    ],
+    "BaseSpeed": 35,
+    "Languages": ["Common", "Wild Speech"],
+    "Size": "Medium"
+  },
+  {
+    "Type": 4,
+    "Description": "Born from the remnants of ancient volcanic clans, Emberfolk carry the essence of fire within their blood.",
+    "AttributeModifiers": {
+      "Presence": 2,
+      "Wits": -1
+    },
+    "Traits": [
+      {
+        "Name": "Fire Resistance",
+        "Description": "Reduce fire damage by half.",
+        "Properties": {}
+      },
+      {
+        "Name": "Flare Strike",
+        "Description": "Once per combat, ignite a weapon to deal an additional 1d6 fire damage.",
+        "Properties": {}
+      }
+    ],
+    "BaseSpeed": 30,
+    "Languages": ["Common", "Ignan"],
+    "Size": "Medium"
+  },
+  {
+    "Type": 5,
+    "Description": "Carved from stone and given life through ancient rituals, the Stoneborn are relics of an age long past.",
+    "AttributeModifiers": {
+      "Might": 1,
+      "Vitality": 1,
+      "Agility": -2
+    },
+    "Traits": [
+      {
+        "Name": "Immovable",
+        "Description": "Cannot be moved against their will by any physical means.",
+        "Properties": {}
+      },
+      {
+        "Name": "Fortress Skin",
+        "Description": "Gain +1 to Armor Class when wearing no armor.",
+        "Properties": {}
+      }
+    ],
+    "BaseSpeed": 25,
+    "Languages": ["Common", "Terran"],
+    "Size": "Medium"
+  }
+]

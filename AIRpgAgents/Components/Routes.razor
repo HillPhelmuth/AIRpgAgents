@@ -1,0 +1,19 @@
+﻿
+@using AIRpgAgents.Components.Layout
+<CascadingValue Name="Title" Value="@_title">
+    <Router AppAssembly="typeof(Program).Assembly" OnNavigateAsync="HandleNavigation">
+        <Found Context="routeData">
+            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+                <Authorizing>
+                    <p>Determining session state, please wait...</p>
+                </Authorizing>
+                <NotAuthorized>
+                    <h1>Sorry</h1>
+                    <p>You're not authorized to reach this page. You need to <a href="Account/Login?redirectUri=/">Log in</a> to continue</p>
+
+                </NotAuthorized>
+            </AuthorizeRouteView>
+            <FocusOnNavigate RouteData="routeData" Selector="h1" />
+        </Found>
+    </Router>
+</CascadingValue>

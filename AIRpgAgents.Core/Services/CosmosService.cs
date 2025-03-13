@@ -1,0 +1,56 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using AIRpgAgents.Core.Models;
+using AIRpgAgents.GameEngine.PlayerCharacter;
+using Microsoft.Azure.Cosmos;
+
+namespace AIRpgAgents.Core.Services;
+
+public class CosmosService(CosmosClient cosmosClient)
+{
+    private Container WorldStateContainer => cosmosClient.GetContainer("AIRpgAgentsDb", "WorldState");
+    private Container PlayerContainer => cosmosClient.GetContainer("AIRpgAgentsDb", "Player");
+
+    public async Task<Player> GetOrCreatePlayerAsync(string playerId)
+    {
+        try
+        {
+            var player = await PlayerContainer.ReadItemAsync<Player>(playerId, new PartitionKey(playerId));
+            return player.Resource;
+        }
+        catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+        {
+            return new Player() { Name = playerId };
+        }
+    }
+    public async Task<CharacterSheet> GetCharacterAsync(string playerId, string characterId)
+    {
+        try
+        {
+            var player = await GetOrCreatePlayerAsync(playerId);
+            return player?.Characters.FirstOrDefault(c => c.Id == characterId);
+        }
+        catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+        {
+            return null;
+        }
+    }
+    public async Task SaveCharacterAsync(string playerId, CharacterSheet character)
+    {
+        var player = await GetOrCreatePlayerAsync(playerId);
+        if (player == null)
+        {
+            player = new Player(){Name = playerId};
+        }
+        var existingCharacter = player.Characters.FirstOrDefault(c => c.Id == character.Id);
+        if (existingCharacter != null)
+        {
+            player.Characters.Remove(existingCharacter);
+        }
+        player.Characters.Add(character);
+        await PlayerContainer.UpsertItemAsync(player, new PartitionKey(player.Id));
+    }
+}

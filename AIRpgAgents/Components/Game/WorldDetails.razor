@@ -1,0 +1,147 @@
+﻿@using AIRpgAgents.GameEngine.WorldState
+@using Microsoft.AspNetCore.Components.Web
+
+<div class="world-details-container scroll-parchment">
+    @if (World == null)
+    {
+        <div class="loading-container">
+            <div class="loading-text">Loading world...</div>
+            <div class="spinner"></div>
+        </div>
+    }
+    else
+    {
+        <div class="world-header">
+            <h1 class="world-title">Fantasy World</h1>
+            <div class="brief-description">@World.BriefDescription</div>
+        </div>
+        
+        <div class="section-container">
+            <div class="section-header" @onclick="ToggleWorldDescription">
+                <h2>World Description</h2>
+                <span class="toggle-icon">@(ShowWorldDescription ? "▼" : "►")</span>
+            </div>
+            @if (ShowWorldDescription)
+            {
+                <div class="section-content world-description">
+                    @((MarkupString)FormatDescription(World.Description))
+                </div>
+            }
+        </div>
+        
+        <div class="section-container">
+            <div class="section-header" @onclick="ToggleLocations">
+                <h2>Locations</h2>
+                <span class="toggle-icon">@(ShowLocations ? "▼" : "►")</span>
+            </div>
+            @if (ShowLocations)
+            {
+                <div class="section-content locations-grid">
+                    @foreach (var location in World.Locations ?? new List<Location>())
+                    {
+                        <div class="location-card @(SelectedLocation?.Id == location.Id ? "selected" : "")" @onclick="() => SelectLocation(location)">
+                            <h3 class="location-name">@location.Name</h3>
+                            @if (SelectedLocation?.Id == location.Id)
+                            {
+                                <div class="location-description">
+                                    <p>@location.Description</p>
+                                    @if (location.Tags?.Any() == true)
+                                    {
+                                        <div class="tags-container">
+                                            @foreach (var tag in location.Tags)
+                                            {
+                                                <span class="tag">@tag</span>
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+        
+        <div class="section-container">
+            <div class="section-header" @onclick="ToggleNPCs">
+                <h2>NPCs</h2>
+                <span class="toggle-icon">@(ShowNPCs ? "▼" : "►")</span>
+            </div>
+            @if (ShowNPCs)
+            {
+                <div class="section-content characters-grid">
+                    @if (World.NPCs?.Any() == true)
+                    {
+                        @foreach (var npc in World.NPCs)
+                        {
+                            <div class="character-card @(SelectedNPC?.Id == npc.Name ? "selected" : "")">
+                                <h3 class="character-name">@npc.Name</h3>
+                                <div class="character-state @npc.State.ToString().ToLower()">@npc.State</div>
+                               
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="empty-state">No NPCs discovered yet</div>
+                    }
+                </div>
+            }
+        </div>
+        
+        <div class="section-container">
+            <div class="section-header" @onclick="ToggleQuests">
+                <h2>Quests</h2>
+                <span class="toggle-icon">@(ShowQuests ? "▼" : "►")</span>
+            </div>
+            @if (ShowQuests)
+            {
+                <div class="section-content quests-container">
+                    @if (World.Quests?.Any() == true)
+                    {
+                        @foreach (var quest in World.Quests)
+                        {
+                            <div class="quest-card @(SelectedQuest?.Id == quest.Id ? "selected" : "")" @onclick="() => SelectQuest(quest)">
+                                <div class="quest-header">
+                                    <h3 class="quest-name">@quest.Name</h3>
+                                    <div class="quest-location">@quest.LocationName</div>
+                                </div>
+                                @if (SelectedQuest?.Id == quest.Id)
+                                {
+                                    <div class="quest-details">
+                                        <p>@quest.Description</p>
+                                        <div class="quest-giver">
+                                            <span>Quest Giver: </span>
+                                            <span class="npc-name">@(quest.QuestGiver ?? "Unknown")</span>
+                                        </div>
+                                        @if (quest.PotentialRewardCoinsInGold > 0)
+                                        {
+                                            <div class="quest-reward">
+                                                <span>Reward: </span>
+                                                <span class="gold-amount">@quest.PotentialRewardCoinsInGold gold</span>
+                                            </div>
+                                        }
+                                        @if (quest.PotentialRewardItems?.Any() == true)
+                                        {
+                                            <div class="quest-items">
+                                                <span>Potential Items: </span>
+                                                @foreach (var item in quest.PotentialRewardItems)
+                                                {
+                                                    <span class="reward-item">@item</span>
+                                                }
+                                            </div>
+                                        }
+                                    </div>
+                                }
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="empty-state">No quests available</div>
+                    }
+                </div>
+            }
+        </div>
+    }
+</div>

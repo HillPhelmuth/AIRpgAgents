@@ -1,0 +1,28 @@
+﻿@using AIRpgAgents.GameEngine.PlayerCharacter
+@page "/player"
+<RadzenText TextStyle="TextStyle.DisplayH5" TextAlign="TextAlign.Center">Your Characters</RadzenText>
+
+<RadzenCard>
+    <RadzenDataGrid Data="@(_player?.Characters ?? [])" IsLoading="@(_player == null)" TItem="CharacterSheet" AllowPaging="true" AllowSorting="true" Density="Density.Compact" PageSize="5">
+        <Columns>
+            <RadzenDataGridColumn TItem="CharacterSheet" Property="@nameof(CharacterSheet.CharacterName)" Title="Name" Width="15%" />
+            <RadzenDataGridColumn TItem="CharacterSheet" Property="@nameof(CharacterSheet.Race)" Width="15%"></RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="CharacterSheet" Property="@nameof(CharacterSheet.Class)" Title="Class" Width="60%">
+                <Template Context="character">
+                    @character.Class.ToString()
+                </Template>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="CharacterSheet" Width="10%">
+                <Template Context="character">
+                    <RadzenButton Text="View" Size="ButtonSize.ExtraSmall" Click="@(() =>ViewCharacter(character))"></RadzenButton>
+                </Template>
+            </RadzenDataGridColumn>
+        </Columns>
+    </RadzenDataGrid>
+</RadzenCard>
+@if (_characterSheet != null)
+{
+    <RadzenCard>
+        <CharacterSheetView CharacterSheet="_characterSheet"></CharacterSheetView>
+    </RadzenCard>
+}

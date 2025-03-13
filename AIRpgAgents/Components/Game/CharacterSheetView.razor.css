@@ -1,0 +1,330 @@
+/* Base styling for the character sheet */
+.character-sheet {
+    font-family: 'Bookman Old Style', Georgia, serif;
+    max-width: 850px;
+    margin: 0 auto;
+    background-color: #f9f5e9; /* Light parchment color */
+    color: #333;
+    border: 1px solid #d4c8a8;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    padding: 20px;
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+.character-sheet-page {
+    padding: 15px 25px;
+    margin-bottom: 30px;
+    position: relative;
+    background-image: linear-gradient(to right, rgba(212, 200, 168, 0.2) 1px, transparent 1px),
+                      linear-gradient(to bottom, rgba(212, 200, 168, 0.2) 1px, transparent 1px);
+    background-size: 20px 20px;
+    background-position: 0 0;
+}
+
+.character-sheet-page::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 2px;
+    background-color: #b8a88a;
+}
+
+/* Headers */
+h2, h3, h4 {
+    color: #5c3a21; /* Dark brown */
+    border-bottom: 2px solid #b8a88a;
+    padding-bottom: 5px;
+    margin-top: 20px;
+    font-variant: small-caps;
+}
+
+h2 {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+h3 {
+    font-size: 1.25rem;
+    margin-bottom: 15px;
+}
+
+h4 {
+    border-bottom: 1px solid #b8a88a;
+}
+
+/* Form elements */
+.form-group {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.form-group label {
+    font-weight: bold;
+    /*min-width: 120px;*/
+    margin-right: 10px;
+    color: #5c3a21;
+}
+
+::deep input,
+::deep select,
+::deep textarea {
+    background-color: rgba(255, 255, 255, 0.7);
+    border: 1px solid #d4c8a8;
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-family: inherit;
+    color: #333;
+}
+
+::deep input:focus,
+::deep select:focus,
+::deep textarea:focus {
+    outline: none;
+    border-color: #8b7355;
+    box-shadow: 0 0 5px rgba(139, 115, 85, 0.5);
+}
+
+::deep .small-input {
+    width: 60px;
+}
+
+/* Header section */
+.header-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 20px;
+    border-bottom: 1px dashed #b8a88a;
+    padding-bottom: 15px;
+}
+
+.alignment-selects {
+    display: flex;
+    gap: 10px;
+}
+
+.alignment-selects ::deep select {
+    flex: 1;
+}
+
+/* Two-column layout for attributes and saving throws */
+.attributes-section {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px dashed #b8a88a;
+    padding-bottom: 15px;
+}
+
+.left-col, .right-col {
+    flex: 1;
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+}
+
+th {
+    text-align: left;
+    font-weight: bold;
+    padding: 6px 10px;
+    background-color: rgba(184, 168, 138, 0.3);
+    color: #5c3a21;
+    border-bottom: 1px solid #b8a88a;
+}
+
+td {
+    padding: 5px 10px;
+    border-bottom: 1px solid #d4c8a8;
+}
+
+tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Combat stats */
+.combat-stats {
+    margin-bottom: 20px;
+    border-bottom: 1px dashed #b8a88a;
+    padding-bottom: 15px;
+}
+
+.combat-values {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.combat-values .form-group {
+    margin-bottom: 15px; /* Increase spacing between form groups */
+}
+
+.weapons-table th, .weapons-table td {
+    text-align: center;
+}
+
+/* Skills section */
+.skills-section {
+    margin-bottom: 20px;
+    border-bottom: 1px dashed #b8a88a;
+    padding-bottom: 15px;
+}
+
+/* Spellcasting section */
+.spellcasting-section {
+    margin-bottom: 20px;
+    border-bottom: 1px dashed #b8a88a;
+    padding-bottom: 15px;
+}
+
+.spell-slots-table, .known-spells-table {
+    margin-top: 10px;
+}
+
+.known-spells-table ::deep textarea {
+    width: 100%;
+    height: 60px;
+    font-size: 0.9em;
+    resize: vertical;
+}
+
+/* Equipment section */
+.equipment-section {
+    margin-bottom: 20px;
+    border-bottom: 1px dashed #b8a88a;
+    padding-bottom: 15px;
+}
+
+.currency {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.armor-section {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: rgba(184, 168, 138, 0.1);
+    border-radius: 5px;
+}
+
+/* Background section */
+.background-section {
+    margin-bottom: 20px;
+}
+
+.background-section .form-group {
+    display: block;
+}
+
+.background-section label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.background-section ::deep textarea {
+    width: 100%;
+    height: 80px;
+    resize: vertical;
+    margin-bottom: 15px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .character-sheet {
+        padding: 10px;
+    }
+    
+    .header-section,
+    .attributes-section {
+        display: block;
+    }
+    
+    .left-col, .right-col {
+        margin-bottom: 15px;
+    }
+    
+    .combat-values {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .form-group {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .form-group label {
+        margin-bottom: 5px;
+    }
+    
+    h2 {
+        font-size: 1.3rem;
+    }
+    
+    h3 {
+        font-size: 1.1rem;
+    }
+}
+
+/* Create a decorative element for page corners */
+.character-sheet-page::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40px;
+    height: 40px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cpath d='M0,0 L40,0 L40,40 C40,18 25,0 0,0 Z' fill='%23d4c8a8' opacity='0.3'/%3E%3C/svg%3E");
+}
+
+/* Add some style to the disabled inputs */
+::deep input:disabled,
+::deep select:disabled {
+    background-color: rgba(212, 200, 168, 0.2);
+    color: #666;
+    border-color: #d4c8a8;
+}
+
+/* Styling for the inventory table */
+.inventory-table ::deep input[type="text"] {
+    width: 100%;
+}
+.spells-by-band h5 {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.spells-table {
+    width: 100%;
+    margin-bottom: 1rem;
+    border-collapse: collapse;
+}
+
+    .spells-table th,
+    .spells-table td {
+        padding: 0.5rem;
+        border: 1px solid #ddd;
+        font-size: 0.9rem;
+    }
+
+    .spells-table th {
+        background-color: #f5f5f5;
+        font-weight: bold;
+        text-align: left;
+    }
+
+    .spells-table td.text-center {
+        text-align: center;
+        font-style: italic;
+        color: #666;
+    }

@@ -1,0 +1,22 @@
+﻿@using SkPluginComponents.Models
+@using SkPluginComponents.Components
+<RadzenText TextStyle="TextStyle.DisplayH5" TextAlign="TextAlign.Center">Dice Playground</RadzenText>
+
+<RadzenRow>
+    <RadzenColumn Size="4" Offset="4">
+        <RadzenCard>
+            <RadzenTemplateForm TItem="DieRollRequest" Data="_dieRollRequest" Submit="RollDice">
+                <RadzenFormField Text="Number">
+                    <RadzenNumeric @bind-Value="_dieRollRequest.NumberOfRolls"></RadzenNumeric>
+                </RadzenFormField>
+                <RadzenFormField Text="Value">
+                    <RadzenDropDown Data="@(Enum.GetValues<DieType>())" @bind-Value="_dieRollRequest.DieType"></RadzenDropDown>
+                </RadzenFormField>
+            </RadzenTemplateForm>
+        </RadzenCard>
+    </RadzenColumn>
+    <RadzenColumn Size="6" Offset="3">
+        <DiceRoller DieType="@_dieRollRequest.DieType" NumberOfRolls="@_dieRollRequest.NumberOfRolls" IsStandalone="true" IsManual="true"></DiceRoller>
+    </RadzenColumn>
+    
+</RadzenRow>

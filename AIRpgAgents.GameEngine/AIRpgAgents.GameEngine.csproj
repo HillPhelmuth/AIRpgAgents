@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Static Data\CharacterClasses.json" />
+    <None Remove="Static Data\Equipment.json" />
+    <None Remove="Static Data\Races.json" />
+    <None Remove="Static Data\Skills.json" />
+    <None Remove="Static Data\Spells.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="RulesDocuments\*.md" />
+    <EmbeddedResource Include="Static Data\*.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SkPluginComponents\SkPluginComponents.csproj" />
+  </ItemGroup>
+
+</Project>
