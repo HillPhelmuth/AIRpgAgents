@@ -1,9 +1,9 @@
 ﻿.dice4content {
   height: 180px;
   width: 180px;
-  display: flex;
+  /*display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center;*/
   perspective: 1500px;
   margin: auto auto;
   position: relative;
@@ -11,8 +11,8 @@
 
 .die4 {
   position: relative;
-  width: 81px;
-  height: 77px;
+  width: 61px;
+  height: 57px;
   transform-style: preserve-3d;
   transition: transform 0.5s ease-out;
   cursor: pointer;

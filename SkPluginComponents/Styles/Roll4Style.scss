@@ -9,9 +9,9 @@ $side: 1;
 .dice4content {
     height: 180px;
     width: 180px;
-    display: flex;
+    /*display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: center;*/
     perspective: 1500px;
     margin: auto auto;
     position: relative;
@@ -29,8 +29,8 @@ $opacity: 0.87;
 $color: rgba(30, 180, 20, $opacity);
 .die4 {
     position: relative;
-    width: 81px;
-    height: 77px;
+    width: 61px;
+    height: 57px;
     transform-style: preserve-3d;
     transition: transform $transitionDuration ease-out;
     cursor: pointer;

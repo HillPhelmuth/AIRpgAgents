@@ -1,6 +1,19 @@
 ﻿@page "/"
 @attribute [Authorize]
 <PageTitle>Home</PageTitle>
-
-<RadzenFormField Text="Select Test Component"><RadzenDropDown @bind-Value="@_selectedComponent" Data="@_componentOptions.Keys.ToList()"></RadzenDropDown></RadzenFormField>
-<DynamicComponent Type="@_componentOptions[_selectedComponent]"></DynamicComponent>
+@* 
+<RadzenRow><RadzenColumn SizeLG="4" Offset="4"><RadzenFormField Text="Select Test Component"><RadzenDropDown @bind-Value="@_selectedComponent" Data="@_componentOptions.Keys.ToList()"></RadzenDropDown></RadzenFormField></RadzenColumn></RadzenRow>
+@if (!string.IsNullOrEmpty(_selectedComponent))
+{
+    <DynamicComponent Type="@_componentOptions[_selectedComponent]"></DynamicComponent>
+} *@
+<RadzenTabs TabPosition="TabPosition.Left">
+    <Tabs>
+        @foreach (var item in _componentOptions)
+        {
+            <RadzenTabsItem Text="@item.Key">
+                <DynamicComponent Type="@_componentOptions[item.Key]"></DynamicComponent>
+            </RadzenTabsItem>
+        }
+    </Tabs>
+</RadzenTabs>

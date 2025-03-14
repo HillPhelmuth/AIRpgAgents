@@ -1,0 +1,24 @@
+﻿@page "/worlds"
+@using AIRpgAgents.GameEngine.World
+<RadzenCard>
+    <RadzenDataGrid Data="@(_worlds)" IsLoading="@(_worlds.Count == 0)" TItem="WorldState" AllowPaging="true" AllowSorting="true" Density="Density.Compact" PageSize="5">
+        <Columns>
+            <RadzenDataGridColumn TItem="WorldState" Property="@nameof(WorldState.Name)" Title="Name" Width="15%" />
+            <RadzenDataGridColumn TItem="WorldState" Property="@nameof(WorldState.BriefDescription)" Width="15%"></RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="WorldState" Property="@nameof(WorldState.FullDescription)" Title="Class" Width="60%">
+                
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="WorldState" Width="10%">
+                <Template Context="character">
+                    <RadzenButton Text="View" Size="ButtonSize.ExtraSmall" Click="@(() =>SelectWorld(character))"></RadzenButton>
+                </Template>
+            </RadzenDataGridColumn>
+        </Columns>
+    </RadzenDataGrid>
+</RadzenCard>
+@if (SelectedWorld is not null)
+{
+    <RadzenCard>
+        <WorldDetails World="SelectedWorld"></WorldDetails>
+    </RadzenCard>
+}

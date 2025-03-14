@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace AIRpgAgents.GameEngine.WorldState;
+namespace AIRpgAgents.GameEngine.World;
 
 public class Quest
 {

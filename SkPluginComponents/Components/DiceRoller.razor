@@ -1,10 +1,13 @@
-﻿<h5>Total</h5>
-<h6>@_rolls.Sum()</h6>
-<button class="rpg-button" @onclick=RollAll>Roll All</button>
+﻿
 
-    <div class="die-grid">
-        @for (var i = 0; i < NumberOfRolls; i++)
-        {
+<div class="button-container">
+    <button class="rpg-button" @onclick=RollAll>Roll All</button>
+</div>
+
+<div class="die-grid">
+    @for (var i = 0; i < NumberOfRolls; i++)
+    {
         <DieRoller @ref="Component" DieType="@DieType" CurrentValueChanged="HandleValueUpdate" IsManual="IsManual" />
-        }
-    </div>
+    }
+</div>
+<h6 class="text-center"><string>Total:</string> @_rolls.Sum()</h6>

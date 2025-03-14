@@ -1,6 +1,5 @@
 using AIRpgAgents.ChatModels;
 using AIRpgAgents.Components.ChatComponents;
-using AIRpgAgents.Core.Models;
 using AIRpgAgents.Core.Services;
 using AIRpgAgents.Core;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -8,6 +7,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel;
 using SkPluginComponents.Models;
+using AIRpgAgents.Core.Agents;
 
 namespace AIRpgAgents.Components.AgentComponents;
 public partial class CharacterCreate

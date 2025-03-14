@@ -5,7 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AIRpgAgents.Core.Models;
-using AIRpgAgents.GameEngine.WorldState;
+using AIRpgAgents.Core.Services;
+using AIRpgAgents.GameEngine.World;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 
@@ -16,6 +18,7 @@ public class WorldBuilderPlugin
 {
     //private readonly IWorldStateManager _worldStateManager;
     private KernelFunction _createWorldFunction;
+    
     public WorldBuilderPlugin()
     {
         //_worldStateManager = worldStateManager;
@@ -30,5 +33,12 @@ public class WorldBuilderPlugin
         var kernelArgs = new KernelArguments(settings) { ["input"] = input };
         var response = await _createWorldFunction.InvokeAsync(kernel, kernelArgs);
         return response.ToString();
+    }
+    [KernelFunction, Description("Save the RPG world for the current game when you and the user finally agree")]
+    public async Task<string> SaveWorld(Kernel kernel, [Description("The world state to save")] WorldState worldState)
+    {
+        var cosmosService = kernel.Services.GetRequiredService<CosmosService>();
+        await cosmosService.SaveWorldStateAsync(worldState);
+        return "World saved";
     }
 }

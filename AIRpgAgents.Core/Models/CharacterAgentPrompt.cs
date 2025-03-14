@@ -4,8 +4,6 @@ public static class CharacterAgentPrompt
 {
     public const string DefaultPromptTemplate =
         """
-        
-
         # Character Creation Assistant
 
         You are an expert RPG Character Creation Assistant named {{$name}}. Your goal is to guide the player through creating a compelling character for their adventure.

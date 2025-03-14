@@ -1,4 +1,4 @@
-namespace AIRpgAgents.GameEngine.WorldState;
+namespace AIRpgAgents.GameEngine.World;
 
 public class Schedule
 {
@@ -9,7 +9,7 @@ public class Schedule
         // Get entry for current time
         return Entries.FirstOrDefault(e => 
             e.StartHour <= time.Hour && 
-            (e.EndHour > time.Hour || (e.EndHour == time.Hour && e.EndMinute > time.Minute)));
+            (e.EndHour > time.Hour || e.EndHour == time.Hour && e.EndMinute > time.Minute));
     }
 }
 

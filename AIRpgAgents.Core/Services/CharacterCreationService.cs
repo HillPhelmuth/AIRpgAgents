@@ -176,7 +176,7 @@ public class CharacterCreationService : ICharacterCreationService
                 {
                     MagicTradition.Arcane => RpgAttribute.Wits,
                     MagicTradition.Theurgic => RpgAttribute.Presence
-                },
+                }
                 
             };
         }

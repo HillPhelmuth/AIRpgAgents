@@ -1,4 +1,5 @@
-﻿using AIRpgAgents.Core.Plugins.NativePlugins;
+﻿using AIRpgAgents.Core.Models;
+using AIRpgAgents.Core.Plugins.NativePlugins;
 using AIRpgAgents.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.SemanticKernel;
@@ -7,7 +8,7 @@ using Microsoft.SemanticKernel.Connectors.OpenAI;
 using SkPluginComponents;
 using SkPluginComponents.Models;
 
-namespace AIRpgAgents.Core.Models;
+namespace AIRpgAgents.Core.Agents;
 
 public class CreateCharacterAgent : RpgAgent
 {
@@ -18,7 +19,7 @@ public class CreateCharacterAgent : RpgAgent
     private RollDiceService _rollDiceService;
     private AutoInvokeFilter _autoInvokeFilter = new();
     
-    public CreateCharacterAgent(AppState appState, CosmosService cosmosService, ICharacterCreationService charCreateService, RollDiceService rollDiceService) : base("CharacterAgent", "Create a new character", CharacterAgentPrompt.DefaultPromptTemplate, new OpenAIPromptExecutionSettings() { Temperature = 0.9, FunctionChoiceBehavior = FunctionChoiceBehavior.Auto() })
+    public CreateCharacterAgent(AppState appState, CosmosService cosmosService, ICharacterCreationService charCreateService, RollDiceService rollDiceService) : base("CharacterAgent", "Create a new character", PromptHelper.ExtractPromptFromFile("CreateCharacterPrompt.md"), new OpenAIPromptExecutionSettings() { Temperature = 0.9, FunctionChoiceBehavior = FunctionChoiceBehavior.Auto() })
     {
         RequiredArguments = new KernelArguments() { ["name"] = Name };
         _appState = appState;

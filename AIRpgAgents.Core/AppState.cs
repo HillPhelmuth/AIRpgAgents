@@ -6,17 +6,17 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using AIRpgAgents.Core.Models;
-using AIRpgAgents.GameEngine.WorldState;
+using AIRpgAgents.GameEngine.World;
 
 namespace AIRpgAgents.Core;
 
 public class AppState : INotifyPropertyChanged
 {
-    private RpgWorldState _worldState = new();
+    private WorldState _worldState = new();
     private Player _player = new();
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    public RpgWorldState WorldState
+    public WorldState WorldState
     {
         get => _worldState;
         set => SetField(ref _worldState, value);

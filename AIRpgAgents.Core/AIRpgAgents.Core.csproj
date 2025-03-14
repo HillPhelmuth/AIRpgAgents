@@ -27,8 +27,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Plugins\PromptPlugins\BuildWorldFunction.yaml" />
-    <EmbeddedResource Include="Prompts\GMPrompt.md" />
-    <EmbeddedResource Include="Prompts\WorldBuilderPrompt.md" />
+    <EmbeddedResource Include="Prompts\*.md" />
   </ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Azure.Cosmos" Version="3.47.2" />

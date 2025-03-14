@@ -227,7 +227,7 @@ public class CreateCharacterPlugin
         _characterCreationState ??= await creationService.GetCharacterCreationStateAsync(appState.Player.Name!);
         var createdState = _characterCreationState;
         var sheet = await _characterCreationService.CompleteCharacterCreationAsync(createdState.Id);
-        await _cosmosService.SaveCharacterAsync(appState.Player.Id, sheet);
+        await _cosmosService.SaveCharacterAsync(appState.Player.Id, new CharacterState(sheet));
         return $"Character creation completed for {createdState.Id}. Character sheet saved. Tell the player they're ready for an adventure! Fuck yeah!";
     }
     [KernelFunction]

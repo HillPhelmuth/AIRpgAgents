@@ -1,14 +1,14 @@
 using System.Text.Json;
 using AIRpgAgents.Components.ChatComponents;
-using AIRpgAgents.Core.Models;
 using AIRpgAgents.Core.Services;
 using AIRpgAgents.Core;
 using Microsoft.AspNetCore.Components;
 using SkPluginComponents.Models;
 using AIRpgAgents.ChatModels;
-using AIRpgAgents.GameEngine.WorldState;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
+using AIRpgAgents.GameEngine.World;
+using AIRpgAgents.Core.Agents;
 
 namespace AIRpgAgents.Components.AgentComponents;
 public partial class BuildWorld
@@ -44,7 +44,7 @@ public partial class BuildWorld
             await Task.Delay(1);
             var history = new ChatHistory();
             history.AddUserMessage("Go on. Ask me for my damn ideas.");
-            CreateWorldAgent = new CreateWorldAgent();
+            CreateWorldAgent = new CreateWorldAgent(CosmosService);
             CreateWorldAgent.WorldCreated += HandleWorldCreated;
             await foreach (var response in CreateWorldAgent.InvokeStreamingAsync(history))
             {

@@ -3,7 +3,7 @@
 <RadzenText TextStyle="TextStyle.DisplayH5" TextAlign="TextAlign.Center">Your Characters</RadzenText>
 
 <RadzenCard>
-    <RadzenDataGrid Data="@(_player?.Characters ?? [])" IsLoading="@(_player == null)" TItem="CharacterSheet" AllowPaging="true" AllowSorting="true" Density="Density.Compact" PageSize="5">
+    <RadzenDataGrid Data="@(_player?.Characters.Select(x => x.CharacterSheet) ?? [])" IsLoading="@(_player == null)" TItem="CharacterSheet" AllowPaging="true" AllowSorting="true" Density="Density.Compact" PageSize="5">
         <Columns>
             <RadzenDataGridColumn TItem="CharacterSheet" Property="@nameof(CharacterSheet.CharacterName)" Title="Name" Width="15%" />
             <RadzenDataGridColumn TItem="CharacterSheet" Property="@nameof(CharacterSheet.Race)" Width="15%"></RadzenDataGridColumn>

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Linq;
-using AIRpgAgents.GameEngine.WorldState;
+using AIRpgAgents.GameEngine.World;
 
 namespace AIRpgAgents.Components.Game;
 
@@ -13,16 +13,19 @@ public partial class WorldDetails
     private Location? SelectedLocation { get; set; }
     private NPC? SelectedNPC { get; set; }
     private Quest? SelectedQuest { get; set; }
+    private WorldEvent? SelectedEvent { get; set; }
     
     private bool ShowWorldDescription { get; set; } = true;
     private bool ShowLocations { get; set; } = true;
     private bool ShowNPCs { get; set; } = true;
     private bool ShowQuests { get; set; } = true;
+    private bool ShowEvents { get; set; } = true;
     
     private void ToggleWorldDescription() => ShowWorldDescription = !ShowWorldDescription;
     private void ToggleLocations() => ShowLocations = !ShowLocations;
     private void ToggleNPCs() => ShowNPCs = !ShowNPCs;
     private void ToggleQuests() => ShowQuests = !ShowQuests;
+    private void ToggleEvents() => ShowEvents = !ShowEvents;
     
     private void SelectLocation(Location location)
     {
@@ -46,6 +49,14 @@ public partial class WorldDetails
             SelectedQuest = null;
         else
             SelectedQuest = quest;
+    }
+    
+    private void SelectEvent(WorldEvent worldEvent)
+    {
+        if (SelectedEvent?.Name == worldEvent.Name)
+            SelectedEvent = null;
+        else
+            SelectedEvent = worldEvent;
     }
     
     private string GetRelationshipClass(int value)

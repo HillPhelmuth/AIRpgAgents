@@ -6,15 +6,18 @@
             <RadzenColumn Size="1"><RadzenSidebarToggle Click="@(() => _sidebar1Expanded = !_sidebar1Expanded)" /></RadzenColumn>
             <RadzenColumn Size="9"><RadzenText TextStyle="TextStyle.DisplayH6" TextAlign="TextAlign.Center" Text="@Title" /></RadzenColumn>
             <RadzenColumn Size="1">
-                <RadzenLink Style="width:32px; height:32px; margin-left:auto; margin-right:auto; display:block" Path="https://github.com/HillPhelmuth/AdventuresInSemanticKernel" Target="_blank">
-                    <RadzenImage Style="width:32px; height:32px" Path="github-mark.svg"></RadzenImage>
+                <RadzenLink Style="width:32px; height:32px; margin-left:auto; margin-right:auto; display:block" Path="https://github.com/HillPhelmuth/AIRpgAgents" Target="_blank">
+                    <RadzenImage Style="width:32px; height:32px" Path="images/github-mark.png"></RadzenImage>
                 </RadzenLink>
             </RadzenColumn>
         </RadzenRow>
     </RadzenHeader>
     <RadzenSidebar @bind-Expanded="@_sidebar1Expanded">
+        <RadzenText>Go to:</RadzenText>
+        <RadzenLink Path="" Text="Home"></RadzenLink>
         <RadzenLink Path="player" Text="Your Characters"></RadzenLink>
-        <hr />
+        <RadzenLink Path="worlds" Text="Worlds"></RadzenLink>
+        <hr/>
 
     </RadzenSidebar>
     <RadzenBody Style="padding:.75rem .5rem" @onclick="@(() => _sidebar1Expanded = false)">

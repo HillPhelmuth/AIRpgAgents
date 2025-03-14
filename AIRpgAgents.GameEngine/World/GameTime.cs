@@ -1,4 +1,4 @@
-namespace AIRpgAgents.GameEngine.WorldState;
+namespace AIRpgAgents.GameEngine.World;
 
 public class GameTime
 {

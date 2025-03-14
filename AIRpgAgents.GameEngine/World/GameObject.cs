@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace AIRpgAgents.GameEngine.WorldState;
+namespace AIRpgAgents.GameEngine.World;
 
 public class GameObject
 {
