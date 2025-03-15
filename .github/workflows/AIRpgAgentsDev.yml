@@ -40,12 +40,7 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: webapp
-        path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-    - name: Azure Login
-      uses: azure/login@v2
-      with:
-        creds: ${{ secrets.AIRpgAgentsDev_SPN }}
-        enable-AzPSSession: true
+        path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}   
     - name: Deploy to Azure WebApp
       uses: azure/webapps-deploy@v2
       with:
