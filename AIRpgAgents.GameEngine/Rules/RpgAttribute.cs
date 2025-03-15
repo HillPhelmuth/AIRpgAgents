@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using Newtonsoft.Json.Converters;
 
 namespace AIRpgAgents.GameEngine.Rules;
 
@@ -6,6 +7,7 @@ namespace AIRpgAgents.GameEngine.Rules;
 /// Represents the core character attributes in the game system.
 /// </summary>
 [JsonConverter(typeof(JsonStringEnumConverter))]
+[CosmosConverter(typeof(StringEnumConverter))]
 public enum RpgAttribute
 {
     Might,    // Physical strength, endurance, and power

@@ -14,8 +14,7 @@ namespace AIRpgAgents.Components.AgentComponents;
 public partial class BuildWorld
 {
     private ChatView _chatView;
-    [Inject]
-    private AppState AppState { get; set; } = default!;
+   
     [Inject]
     private CosmosService CosmosService { get; set; } = default!;
     [Inject]
@@ -45,6 +44,9 @@ public partial class BuildWorld
             var history = new ChatHistory();
             history.AddUserMessage("Go on. Ask me for my damn ideas.");
             CreateWorldAgent = new CreateWorldAgent(CosmosService);
+            var worldAgent = await CosmosService.GetAgent("WorldAgent");
+            if (worldAgent == null)
+                await CosmosService.SaveAgent(CreateWorldAgent.ToAgentData());
             CreateWorldAgent.WorldCreated += HandleWorldCreated;
             await foreach (var response in CreateWorldAgent.InvokeStreamingAsync(history))
             {

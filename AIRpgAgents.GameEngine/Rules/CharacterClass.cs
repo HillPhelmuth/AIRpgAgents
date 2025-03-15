@@ -1,6 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using AIRpgAgents.GameEngine.Extensions;
+using Newtonsoft.Json.Converters;
 
 namespace AIRpgAgents.GameEngine.Rules;
 
@@ -27,6 +28,7 @@ public class CharacterClass
     }
 }
 [JsonConverter(typeof(JsonStringEnumConverter))]
+[CosmosConverter(typeof(StringEnumConverter))]
 public enum ClassType
 {
     Cleric,

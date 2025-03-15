@@ -1,0 +1,16 @@
+﻿@using AIRpgAgents.Core.Agents
+@inherits RpgComponentBase
+
+<RadzenTemplateForm Data="Agent" TItem="AgentData" Submit="SaveAgent">
+    <RadzenText TextStyle="TextStyle.Subtitle1" TextAlign="TextAlign.Center">@Agent.Name</RadzenText>
+    <RadzenText>@Agent.Description</RadzenText>
+    <RadzenFormField Text="Prompt" Style="width:100%">
+        <ChildContent>
+            <RadzenTextArea Name="Prompt" @bind-Value="@Agent.PromptTemplate" Style="width:100%;height:25rem"></RadzenTextArea>
+        </ChildContent>
+        <Helper>
+            <RadzenRequiredValidator Component="Prompt"></RadzenRequiredValidator>
+        </Helper>
+    </RadzenFormField>
+    <RadzenButton Text="Save" ButtonType="ButtonType.Submit" Style="margin-top:1rem"></RadzenButton>
+</RadzenTemplateForm>

@@ -1,7 +1,10 @@
+using Newtonsoft.Json.Converters;
 using System.Text.Json.Serialization;
 
 namespace AIRpgAgents.GameEngine.Rules;
+
 [JsonConverter(typeof(JsonStringEnumConverter))]
+[CosmosConverter(typeof(StringEnumConverter))]
 public enum MagicTradition
 {
     Theurgic, // Divine/Clerical magic from deities

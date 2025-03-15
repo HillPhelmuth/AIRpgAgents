@@ -1,5 +1,6 @@
 using AIRpgAgents.GameEngine.PlayerCharacter;
 using AIRpgAgents.GameEngine.Rules;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -194,6 +195,7 @@ public class CharacterCreationState(string id)
 /// Represents the steps in the character creation process
 /// </summary>
 [JsonConverter(typeof(JsonStringEnumConverter))]
+[CosmosConverter(typeof(StringEnumConverter))]
 public enum CharacterCreationStep
 {
     [Description("Name, race, class, alignment")]
@@ -218,6 +220,7 @@ public enum CharacterCreationStep
 /// Method used for generating attribute scores
 /// </summary>
 [JsonConverter(typeof(JsonStringEnumConverter))]
+[CosmosConverter(typeof(StringEnumConverter))]
 public enum AttributeGenerationMethod
 {
     [Description("Roll 4d6 drop lowest")]

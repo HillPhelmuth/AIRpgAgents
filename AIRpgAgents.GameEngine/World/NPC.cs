@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using AIRpgAgents.GameEngine.Enums;
+using Newtonsoft.Json.Converters;
 
 namespace AIRpgAgents.GameEngine.World;
 
@@ -14,6 +15,7 @@ public class NPC
     
 }
 [JsonConverter(typeof(JsonStringEnumConverter))]
+[CosmosConverter(typeof(StringEnumConverter))]
 public enum NPCDisposition
 {
     Friendly,

@@ -32,6 +32,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.2" />
     <PackageReference Include="Microsoft.SemanticKernel" Version="1.40.1" />
     <PackageReference Include="BuildWebCompiler2022" Version="1.14.10" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,6 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using AIRpgAgents.GameEngine.Extensions;
+using Newtonsoft.Json.Converters;
 
 namespace AIRpgAgents.GameEngine.Rules;
 
@@ -26,6 +27,7 @@ public class RacialTrait
     public Dictionary<string, object> Properties { get; set; } = new();
 }
 [JsonConverter(typeof(JsonStringEnumConverter))]
+[CosmosConverter(typeof(StringEnumConverter))]
 public enum RaceType
 {
     Human,

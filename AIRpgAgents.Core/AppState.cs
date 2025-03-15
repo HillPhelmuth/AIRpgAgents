@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using AIRpgAgents.Core.Agents;
 using AIRpgAgents.Core.Models;
 using AIRpgAgents.GameEngine.World;
 
@@ -14,6 +15,7 @@ public class AppState : INotifyPropertyChanged
 {
     private WorldState _worldState = new();
     private Player _player = new();
+    private List<AgentData> _activeAgents = [];
     public event PropertyChangedEventHandler? PropertyChanged;
 
     public WorldState WorldState
@@ -26,6 +28,12 @@ public class AppState : INotifyPropertyChanged
     {
         get => _player;
         set => SetField(ref _player, value);
+    }
+
+    public List<AgentData> ActiveAgents
+    {
+        get => _activeAgents;
+        set => SetField(ref _activeAgents, value);
     }
 
     protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)

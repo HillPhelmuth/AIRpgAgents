@@ -35,6 +35,12 @@ public partial class CharacterCreate
             var history = new ChatHistory();
             history.AddUserMessage("Introduce yourself in a flamboyant way and explain the character creation process. Then Begin the first step.");
             CharacterAgent ??= new CreateCharacterAgent(AppState, CosmosService, CharacterCreationService, RollDiceService);
+            var characterAgent = await CosmosService.GetAgent("CharacterAgent");
+            if (characterAgent == null)
+            {
+                await CosmosService.SaveAgent(CharacterAgent.ToAgentData());
+            }
+            
             await foreach (var response in CharacterAgent.InvokeStreamingAsync(history))
             {
                 _chatView.ChatState.UpsertAssistantMessage(response);

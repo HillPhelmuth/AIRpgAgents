@@ -12,16 +12,13 @@ using Microsoft.SemanticKernel.ChatCompletion;
 using SkPluginComponents.Models;
 
 namespace AIRpgAgents.Components.Pages;
-public partial class Home
+public partial class Home 
 {
-    
-    [Inject]
-    private AppState AppState { get; set; } = default!;
-    
     [CascadingParameter]
     protected Task<AuthenticationState>? AuthenticationState { get; set; }
     private AuthenticationState? _authState;
-
+    [Inject]
+    private CosmosService CosmosService { get; set; } = default!;
     private Dictionary<string, Type> _componentOptions => new()
         { ["Dice Playground"] = typeof(DicePlayground), ["Create Character Agent"] = typeof(CharacterCreate), ["World Builder Agent"] = typeof(BuildWorld) }; 
     private string _selectedComponent = "Dice Playground";
@@ -35,10 +32,14 @@ public partial class Home
     {
         _authState ??= await AuthenticationState!;
         var identityName = _authState.User.Identity?.Name;
+
         //Console.WriteLine($"Identity Name: {identityName}");
         AppState.Player.Name ??= identityName;
-       
-        
+       if (_authState.User.Identity?.IsAuthenticated == true)
+        {
+            AppState.ActiveAgents = await CosmosService.GetAllAgents();
+        }
+
         await base.OnAfterRenderAsync(firstRender);
     }
 

@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Converters;
 using System.Text.Json.Serialization;
 
 namespace AIRpgAgents.GameEngine.Rules;
@@ -19,6 +20,7 @@ public class AlignmentValue
     }
 }
 [JsonConverter(typeof(JsonStringEnumConverter))]
+[CosmosConverter(typeof(StringEnumConverter))]
 public enum MoralAxis
 {
     Good,
@@ -26,6 +28,7 @@ public enum MoralAxis
     Evil
 }
 [JsonConverter(typeof(JsonStringEnumConverter))]
+[CosmosConverter(typeof(StringEnumConverter))]
 public enum EthicalAxis
 {
     Passionate,

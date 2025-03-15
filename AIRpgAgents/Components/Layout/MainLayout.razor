@@ -4,10 +4,13 @@
     <RadzenHeader>
         <RadzenRow AlignItems="AlignItems.Center">
             <RadzenColumn Size="1"><RadzenSidebarToggle Click="@(() => _sidebar1Expanded = !_sidebar1Expanded)" /></RadzenColumn>
-            <RadzenColumn Size="9"><RadzenText TextStyle="TextStyle.DisplayH6" TextAlign="TextAlign.Center" Text="@Title" /></RadzenColumn>
+            <RadzenColumn Size="9"><RadzenText TextStyle="TextStyle.DisplayH6" TextAlign="TextAlign.Center" Style="color:white" Text="@Title" /></RadzenColumn>
+            <RadzenColumn Size="1">
+                <Login/>
+            </RadzenColumn>
             <RadzenColumn Size="1">
                 <RadzenLink Style="width:32px; height:32px; margin-left:auto; margin-right:auto; display:block" Path="https://github.com/HillPhelmuth/AIRpgAgents" Target="_blank">
-                    <RadzenImage Style="width:32px; height:32px" Path="images/github-mark.png"></RadzenImage>
+                    <RadzenImage Style="width:32px; height:32px" Path="images/github-mark-white.png"></RadzenImage>
                 </RadzenLink>
             </RadzenColumn>
         </RadzenRow>
@@ -21,9 +24,7 @@
 
     </RadzenSidebar>
     <RadzenBody Style="padding:.75rem .5rem" @onclick="@(() => _sidebar1Expanded = false)">
-        <div>
-            @Body
-        </div>
+        <div class="rpg-body">@Body</div>
 
     </RadzenBody>
 

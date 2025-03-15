@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Text.Json.Serialization;
+using Newtonsoft.Json.Converters;
 
 namespace SkPluginComponents.Models;
 
@@ -7,6 +8,7 @@ namespace SkPluginComponents.Models;
 /// Represents the types of dice used in the RPG system.
 /// </summary>
 [JsonConverter(typeof(JsonStringEnumConverter))]
+[Newtonsoft.Json.JsonConverter(typeof(StringEnumConverter))]
 public enum DieType
 {
     [Description("A four-sided die.")]

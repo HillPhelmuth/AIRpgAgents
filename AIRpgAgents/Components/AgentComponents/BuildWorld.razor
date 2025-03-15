@@ -1,7 +1,8 @@
-﻿<RadzenRow>
+﻿@inherits AIRpgAgents.Components.Layout.RpgComponentBase
+<RadzenRow>
     <RadzenColumn SizeLG="6" Style="position:relative">
         <RadzenCard>
-
+            <RadzenButton Size="ButtonSize.Small" Icon="support_agent" Text="Edit Agent" Click="@(() => ShowAgent("WorldAgent"))"></RadzenButton>
             <ChatView ResetOnClose="false" AllowRemove=false ViewId="chatWithSk" Height="75vh" @ref=_chatView></ChatView>
         </RadzenCard>
 

@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Converters;
 using System.Text.Json.Serialization;
 
 namespace AIRpgAgents.GameEngine.Rules;
@@ -6,6 +7,7 @@ public static class CombatSystem
 {
     // Attack types
     [JsonConverter(typeof(JsonStringEnumConverter))]
+    [CosmosConverter(typeof(StringEnumConverter))]
     public enum AttackType
     {
         Melee,
@@ -16,6 +18,7 @@ public static class CombatSystem
 
     // Damage types
     [JsonConverter(typeof(JsonStringEnumConverter))]
+    [CosmosConverter(typeof(StringEnumConverter))]
     public enum DamageType
     {
         Slashing,

@@ -4,6 +4,7 @@ using System.Text.Json.Serialization;
 using AIRpgAgents.GameEngine.Extensions;
 using AIRpgAgents.GameEngine.Helpers;
 using AIRpgAgents.GameEngine.PlayerCharacter;
+using Newtonsoft.Json.Converters;
 
 namespace AIRpgAgents.GameEngine.Rules;
 
@@ -108,11 +109,14 @@ public class Spell
     public Band Band { get; set; }
 }
 [JsonConverter(typeof(JsonStringEnumConverter))]
+[CosmosConverter(typeof(StringEnumConverter))]
 public enum CastTime { Action, FullRound, Reaction, The1Minute };
 [JsonConverter(typeof(JsonStringEnumConverter))]
+[CosmosConverter(typeof(StringEnumConverter))]
 public enum SaveType { Fortitude, None, Reflex, Special, Will, WillForAttackers };
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
+[CosmosConverter(typeof(StringEnumConverter))]
 public enum Band
 {
     [Description("Levels 1 - 5")]

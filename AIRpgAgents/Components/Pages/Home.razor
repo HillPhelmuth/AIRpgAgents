@@ -1,5 +1,6 @@
 ﻿@page "/"
 @attribute [Authorize]
+@inherits AIRpgAgents.Components.Layout.RpgComponentBase
 <PageTitle>Home</PageTitle>
 @* 
 <RadzenRow><RadzenColumn SizeLG="4" Offset="4"><RadzenFormField Text="Select Test Component"><RadzenDropDown @bind-Value="@_selectedComponent" Data="@_componentOptions.Keys.ToList()"></RadzenDropDown></RadzenFormField></RadzenColumn></RadzenRow>
