@@ -11,7 +11,7 @@ public static class Helpers
 {
     public static bool TryExractArrayFromJson(string jsonString, out List<string> value)
     {
-        value = new List<string>();
+        value = [];
         try
         {
             using var doc = JsonDocument.Parse(jsonString);

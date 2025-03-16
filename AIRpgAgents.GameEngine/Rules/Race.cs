@@ -10,9 +10,9 @@ public class Race
     public RaceType Type { get; set; }
     public string Description { get; set; }
     public Dictionary<string, int> AttributeModifiers { get; set; } = new();
-    public List<RacialTrait> Traits { get; set; } = new();
+    public List<RacialTrait> Traits { get; set; } = [];
     public int BaseSpeed { get; set; } = 30;
-    public List<string> Languages { get; set; } = new();
+    public List<string> Languages { get; set; } = [];
     public string Size { get; set; } = "Medium";
     public override string ToString()
     {

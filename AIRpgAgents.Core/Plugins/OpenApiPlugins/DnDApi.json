@@ -1,0 +1,1161 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "D&D 5e API",
+    "description": "Welcome to the D&D 5th Edition API! This documentation provides guidance for accessing resources using HTTP requests. Start with the Getting Started section. To make a sample API request, use tools like curl or httpie (e.g., 'curl -X GET \"https://www.dnd5eapi.co/api/2014/ability-scores/cha\" -H \"Accept: application/json\"'). No authentication is needed; only GET requests are supported. Explore GraphQL at 'https://www.dnd5eapi.co/graphql' using the Apollo Sandbox Explorer. Schemas include APIReference (minimal resource representation), DC (difficulty checks), Damage (damage types and dice), and Choice (player decisions). Check out the SRD (Systems Reference Document) for open content guidelines: https://media.wizards.com/2016/downloads/DND/SRD-OGL_V5.1.pdf. Learn about the OGL (Open Game License) here: https://en.wikipedia.org/wiki/Open_Game_License. Missing SRD-compliant data? Contribute via issues or PRs. The API is self-hostable under MIT license with data compliant with SRD and OGL. Contribute to the API on GitHub: Data (https://github.com/bagelbits/5e-database), API implementation (https://github.com/bagelbits/5e-srd-api). For status updates, visit https://5e-bits.github.io/dnd-uptime/. Join the community on Discord: https://discord.gg/TQuYTv7.",
+    "version": "0.1",
+    "license": {
+      "name": "MIT License",
+      "url": "https://github.com/5e-bits/5e-srd-api/blob/main/LICENSE.md"
+    },
+    "contact": {
+      "name": "5eBits",
+      "url": "https://github.com/5e-bits"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://www.dnd5eapi.co",
+      "description": "Production"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Common"
+    },
+    {
+      "name": "Character Data"
+    }
+  ],
+  "paths": {
+    "/api/2014/monsters": {
+      "get": {
+        "summary": "Get list of monsters with optional filtering",
+        "description": "Get list of monsters with optional filtering by challenge_rating",
+        "tags": [
+          "Monsters"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/challenge-rating-filter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/APIReferenceList"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "Monsters"
+      }
+    },
+    "/api/2014/monsters/{index}": {
+      "get": {
+        "summary": "Get monster by index. (all lowercase and hyphens)",
+        "tags": [
+          "Monsters"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/monster-index"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Monster"
+                },
+                "example": {
+                  "index": "aboleth",
+                  "name": "Aboleth",
+                  "url": "/api/2014/monsters/aboleth",
+                  "actions": [
+                    {
+                      "attacks": [],
+                      "damage": [],
+                      "desc": "The aboleth makes three tentacle attacks.",
+                      "name": "Multiattack",
+                      "multiattack_type": "actions",
+                      "actions": [
+                        {
+                          "action_name": "Tentacle",
+                          "count": 3,
+                          "type": "melee"
+                        }
+                      ]
+                    },
+                    {
+                      "attack_bonus": 9,
+                      "attacks": [],
+                      "damage": [
+                        {
+                          "damage_dice": "2d6+5",
+                          "damage_type": {
+                            "index": "bludgeoning",
+                            "name": "Bludgeoning",
+                            "url": "/api/2014/damage-types/bludgeoning"
+                          }
+                        },
+                        {
+                          "damage_dice": "1d12",
+                          "damage_type": {
+                            "index": "acid",
+                            "name": "Acid",
+                            "url": "/api/2014/damage-types/acid"
+                          }
+                        }
+                      ],
+                      "dc": {
+                        "dc_type": {
+                          "index": "con",
+                          "name": "CON",
+                          "url": "/api/2014/ability-scores/con"
+                        },
+                        "dc_value": 14,
+                        "success_type": "none"
+                      },
+                      "desc": "Melee Weapon Attack: +9 to hit, reach 10 ft., one target. Hit: 12 (2d6 + 5) bludgeoning damage. If the target is a creature, it must succeed on a DC 14 Constitution saving throw or become diseased. The disease has no effect for 1 minute and can be removed by any magic that cures disease. After 1 minute, the diseased creature's skin becomes translucent and slimy, the creature can't regain hit points unless it is underwater, and the disease can be removed only by heal or another disease-curing spell of 6th level or higher. When the creature is outside a body of water, it takes 6 (1d12) acid damage every 10 minutes unless moisture is applied to the skin before 10 minutes have passed.",
+                      "name": "Tentacle"
+                    },
+                    {
+                      "attack_bonus": 9,
+                      "attacks": [],
+                      "damage": [
+                        {
+                          "damage_dice": "3d6+5",
+                          "damage_type": {
+                            "index": "bludgeoning",
+                            "name": "Bludgeoning",
+                            "url": "/api/2014/damage-types/bludgeoning"
+                          }
+                        }
+                      ],
+                      "desc": "Melee Weapon Attack: +9 to hit, reach 10 ft. one target. Hit: 15 (3d6 + 5) bludgeoning damage.",
+                      "name": "Tail"
+                    },
+                    {
+                      "attacks": [],
+                      "damage": [],
+                      "dc": {
+                        "dc_type": {
+                          "index": "wis",
+                          "name": "WIS",
+                          "url": "/api/2014/ability-scores/wis"
+                        },
+                        "dc_value": 14,
+                        "success_type": "none"
+                      },
+                      "desc": "The aboleth targets one creature it can see within 30 ft. of it. The target must succeed on a DC 14 Wisdom saving throw or be magically charmed by the aboleth until the aboleth dies or until it is on a different plane of existence from the target. The charmed target is under the aboleth's control and can't take reactions, and the aboleth and the target can communicate telepathically with each other over any distance.\nWhenever the charmed target takes damage, the target can repeat the saving throw. On a success, the effect ends. No more than once every 24 hours, the target can also repeat the saving throw when it is at least 1 mile away from the aboleth.",
+                      "name": "Enslave",
+                      "usage": {
+                        "times": 3,
+                        "type": "per day"
+                      }
+                    }
+                  ],
+                  "alignment": "lawful evil",
+                  "armor_class": [
+                    {
+                      "type": "natural",
+                      "value": 17
+                    }
+                  ],
+                  "challenge_rating": 10,
+                  "charisma": 18,
+                  "condition_immunities": [],
+                  "constitution": 15,
+                  "damage_immunities": [],
+                  "damage_resistances": [],
+                  "damage_vulnerabilities": [],
+                  "dexterity": 9,
+                  "forms": [],
+                  "hit_dice": "18d10",
+                  "hit_points": 135,
+                  "hit_points_roll": "18d10+36",
+                  "intelligence": 18,
+                  "languages": "Deep Speech, telepathy 120 ft.",
+                  "legendary_actions": [
+                    {
+                      "damage": [],
+                      "desc": "The aboleth makes a Wisdom (Perception) check.",
+                      "name": "Detect"
+                    },
+                    {
+                      "damage": [],
+                      "desc": "The aboleth makes one tail attack.",
+                      "name": "Tail Swipe"
+                    },
+                    {
+                      "attack_bonus": 0,
+                      "damage": [
+                        {
+                          "damage_dice": "3d6",
+                          "damage_type": {
+                            "index": "psychic",
+                            "name": "Psychic",
+                            "url": "/api/2014/damage-types/psychic"
+                          }
+                        }
+                      ],
+                      "desc": "One creature charmed by the aboleth takes 10 (3d6) psychic damage, and the aboleth regains hit points equal to the damage the creature takes.",
+                      "name": "Psychic Drain (Costs 2 Actions)"
+                    }
+                  ],
+                  "proficiencies": [
+                    {
+                      "proficiency": {
+                        "index": "saving-throw-con",
+                        "name": "Saving Throw: CON",
+                        "url": "/api/2014/proficiencies/saving-throw-con"
+                      },
+                      "value": 6
+                    },
+                    {
+                      "proficiency": {
+                        "index": "saving-throw-int",
+                        "name": "Saving Throw: INT",
+                        "url": "/api/2014/proficiencies/saving-throw-int"
+                      },
+                      "value": 8
+                    },
+                    {
+                      "proficiency": {
+                        "index": "saving-throw-wis",
+                        "name": "Saving Throw: WIS",
+                        "url": "/api/2014/proficiencies/saving-throw-wis"
+                      },
+                      "value": 6
+                    },
+                    {
+                      "proficiency": {
+                        "index": "skill-history",
+                        "name": "Skill: History",
+                        "url": "/api/2014/proficiencies/skill-history"
+                      },
+                      "value": 12
+                    },
+                    {
+                      "proficiency": {
+                        "index": "skill-perception",
+                        "name": "Skill: Perception",
+                        "url": "/api/2014/proficiencies/skill-perception"
+                      },
+                      "value": 10
+                    }
+                  ],
+                  "reactions": [],
+                  "senses": {
+                    "darkvision": "120 ft.",
+                    "passive_perception": 20
+                  },
+                  "size": "Large",
+                  "special_abilities": [
+                    {
+                      "damage": [],
+                      "desc": "The aboleth can breathe air and water.",
+                      "name": "Amphibious"
+                    },
+                    {
+                      "damage": [],
+                      "dc": {
+                        "dc_type": {
+                          "index": "con",
+                          "name": "CON",
+                          "url": "/api/2014/ability-scores/con"
+                        },
+                        "dc_value": 14,
+                        "success_type": "none"
+                      },
+                      "desc": "While underwater, the aboleth is surrounded by transformative mucus. A creature that touches the aboleth or that hits it with a melee attack while within 5 ft. of it must make a DC 14 Constitution saving throw. On a failure, the creature is diseased for 1d4 hours. The diseased creature can breathe only underwater.",
+                      "name": "Mucous Cloud"
+                    },
+                    {
+                      "damage": [],
+                      "desc": "If a creature communicates telepathically with the aboleth, the aboleth learns the creature's greatest desires if the aboleth can see the creature.",
+                      "name": "Probing Telepathy"
+                    }
+                  ],
+                  "speed": {
+                    "swim": "40 ft.",
+                    "walk": "10 ft."
+                  },
+                  "strength": 21,
+                  "subtype": null,
+                  "type": "aberration",
+                  "wisdom": 15,
+                  "xp": 5900
+                }
+              }
+            }
+          }
+        },
+        "operationId": "Monster"
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "challenge-rating-filter": {
+        "name": "challenge_rating",
+        "in": "query",
+        "required": false,
+        "description": "The challenge rating or ratings to filter on.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      "monster-index": {
+        "name": "name",
+        "in": "path",
+        "required": true,
+        "description": "The `index` of the `Monster` to get.\n",
+        "schema": {
+          "type": "string",
+          "example": "young-red-dragon"
+        }
+      }
+    },
+    "schemas": {
+      "APIReference": {
+        "description": "`APIReference`\n",
+        "type": "object",
+        "properties": {
+          "index": {
+            "description": "Resource index for shorthand searching.",
+            "type": "string"
+          },
+          "name": {
+            "description": "Name of the referenced resource.",
+            "type": "string"
+          },
+          "url": {
+            "description": "URL of the referenced resource.",
+            "type": "string"
+          }
+        }
+      },
+      "APIReferenceList": {
+        "description": "`APIReferenceList`\n",
+        "type": "object",
+        "properties": {
+          "count": {
+            "description": "Total number of resources available.",
+            "type": "number"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/APIReference"
+            }
+          }
+        }
+      },
+      "Damage": {
+        "description": "`Damage`\n",
+        "type": "object",
+        "properties": {
+          "damage_dice": {
+            "type": "string"
+          },
+          "damage_type": {
+            "$ref": "#/components/schemas/APIReference"
+          }
+        }
+      },
+      "Monster": {
+        "description": "`Monster`\n",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/APIReference"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "size": {
+                "description": "The size of the monster ranging from Tiny to Gargantuan.\"",
+                "type": "string",
+                "enum": [
+                  "Tiny",
+                  "Small",
+                  "Medium",
+                  "Large",
+                  "Huge",
+                  "Gargantuan"
+                ]
+              },
+              "type": {
+                "description": "The type of monster.",
+                "type": "string"
+              },
+              "subtype": {
+                "description": "The sub-category of a monster used for classification of monsters.\"",
+                "type": "string"
+              },
+              "alignments": {
+                "description": "A creature's general moral and personal attitudes.",
+                "type": "string",
+                "enum": [
+                  "chaotic neutral",
+                  "chaotic evil",
+                  "chaotic good",
+                  "lawful neutral",
+                  "lawful evil",
+                  "lawful good",
+                  "neutral",
+                  "neutral evil",
+                  "neutral good",
+                  "any alignment",
+                  "unaligned"
+                ]
+              },
+              "armor_class": {
+                "description": "The difficulty for a player to successfully deal damage to a monster.",
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/MonsterArmorClass"
+                }
+              },
+              "hit_points": {
+                "description": "The hit points of a monster determine how much damage it is able to take before it can be defeated.",
+                "type": "number"
+              },
+              "hit_dice": {
+                "description": "The hit die of a monster can be used to make a version of the same monster whose hit points are determined by the roll of the die. For example: A monster with 2d6 would have its hit points determine by rolling a 6 sided die twice.",
+                "type": "string"
+              },
+              "hit_points_roll": {
+                "description": "The roll for determining a monster's hit points, which consists of the hit dice (e.g. 18d10) and the modifier determined by its Constitution (e.g. +36). For example, 18d10+36",
+                "type": "string"
+              },
+              "actions": {
+                "description": "A list of actions that are available to the monster to take during combat.",
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/MonsterAction"
+                }
+              },
+              "legendary_actions": {
+                "description": "A list of legendary actions that are available to the monster to take during combat.",
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/MonsterAction"
+                }
+              },
+              "challenge_rating": {
+                "description": "A monster's challenge rating is a guideline number that says when a monster becomes an appropriate challenge against the party's average level. For example. A group of 4 players with an average level of 4 would have an appropriate combat challenge against a monster with a challenge rating of 4 but a monster with a challenge rating of 8 against the same group of players would pose a significant threat.",
+                "type": "number",
+                "minimum": 0,
+                "maximum": 21
+              },
+              "condition_immunities": {
+                "description": "A list of conditions that a monster is immune to.",
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/APIReference"
+                }
+              },
+              "damage_immunities": {
+                "description": "A list of damage types that a monster will take double damage from.",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "damage_resistances": {
+                "description": "A list of damage types that a monster will take half damage from.",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "damage_vulnerabilities": {
+                "description": "A list of damage types that a monster will take double damage from.",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "forms": {
+                "description": "List of other related monster entries that are of the same form. Only applicable to Lycanthropes that have multiple forms.",
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/APIReference"
+                }
+              },
+              "languages": {
+                "description": "The languages a monster is able to speak.",
+                "type": "string"
+              },
+              "proficiencies": {
+                "description": "A list of proficiencies of a monster.",
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/MonsterProficiency"
+                }
+              },
+              "reactions": {
+                "description": "A list of reactions that is available to the monster to take during combat.",
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/MonsterAction"
+                }
+              },
+              "senses": {
+                "description": "Monsters typically have a passive perception but they might also have other senses to detect players.",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/MonsterSense"
+                  }
+                ]
+              },
+              "special_abilities": {
+                "description": "A list of the monster's special abilities.",
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/MonsterSpecialAbility"
+                }
+              },
+              "speed": {
+                "description": "Speed for a monster determines how fast it can move per turn.",
+                "type": "object",
+                "properties": {
+                  "walk": {
+                    "description": "All creatures have a walking speed, simply called the monster’s speed. Creatures that have no form of ground-based locomotion have a walking speed of 0 feet.",
+                    "type": "string"
+                  },
+                  "burrow": {
+                    "description": "A monster that has a burrowing speed can use that speed to move through sand, earth, mud, or ice. A monster can’t burrow through solid rock unless it has a special trait that allows it to do so.",
+                    "type": "string"
+                  },
+                  "climb": {
+                    "description": "A monster that has a climbing speed can use all or part of its movement to move on vertical surfaces. The monster doesn’t need to spend extra movement to climb.",
+                    "type": "string"
+                  },
+                  "fly": {
+                    "description": "A monster that has a flying speed can use all or part of its movement to fly.",
+                    "type": "string"
+                  },
+                  "swim": {
+                    "description": "A monster that has a swimming speed doesn’t need to spend extra movement to swim.",
+                    "type": "string"
+                  }
+                }
+              },
+              "xp": {
+                "description": "The number of experience points (XP) a monster is worth is based on its challenge rating.",
+                "type": "number"
+              }
+            }
+          }
+        ]
+      },
+      "MonsterAction": {
+        "description": "Action available to a `Monster` in addition to the standard creature actions.",
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "desc": {
+            "type": "string"
+          },
+          "action_options": {
+            "$ref": "#/components/schemas/Choice"
+          },
+          "actions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MonsterMultiAttackAction"
+            }
+          },
+          "options": {
+            "$ref": "#/components/schemas/Choice"
+          },
+          "multiattack_type": {
+            "type": "string"
+          },
+          "attack_bonus": {
+            "type": "number"
+          },
+          "dc": {
+            "$ref": "#/components/schemas/DC"
+          },
+          "attacks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MonsterAttack"
+            }
+          },
+          "damage": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Damage"
+            }
+          }
+        }
+      },
+      "MonsterArmorClass": {
+        "description": "The armor class of a monster.",
+        "type": "object",
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "dex"
+                ]
+              },
+              "value": {
+                "type": "number"
+              },
+              "desc": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "natural"
+                ]
+              },
+              "value": {
+                "type": "number"
+              },
+              "desc": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "armor"
+                ]
+              },
+              "value": {
+                "type": "number"
+              },
+              "armor": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/APIReference"
+                }
+              },
+              "desc": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "spell"
+                ]
+              },
+              "value": {
+                "type": "number"
+              },
+              "spell": {
+                "$ref": "#/components/schemas/APIReference"
+              },
+              "desc": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "condition"
+                ]
+              },
+              "value": {
+                "type": "number"
+              },
+              "condition": {
+                "$ref": "#/components/schemas/APIReference"
+              },
+              "desc": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "MonsterAttack": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "dc": {
+            "$ref": "#/components/schemas/DC"
+          },
+          "damage": {
+            "$ref": "#/components/schemas/Damage"
+          }
+        }
+      },
+      "MonsterMultiAttackAction": {
+        "type": "object",
+        "properties": {
+          "action_name": {
+            "type": "string"
+          },
+          "count": {
+            "type": "number"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "melee",
+              "ranged",
+              "ability",
+              "magic"
+            ]
+          }
+        }
+      },
+      "MonsterProficiency": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "number"
+          },
+          "proficiency": {
+            "$ref": "#/components/schemas/APIReference"
+          }
+        }
+      },
+      "MonsterSense": {
+        "type": "object",
+        "properties": {
+          "passive_perception": {
+            "description": "The monster's passive perception (wisdom) score.",
+            "type": "number"
+          },
+          "blindsight": {
+            "description": "A monster with blindsight can perceive its surroundings without relying on sight, within a specific radius.",
+            "type": "string"
+          },
+          "darkvision": {
+            "description": "A monster with darkvision can see in the dark within a specific radius.",
+            "type": "string"
+          },
+          "tremorsense": {
+            "description": "A monster with tremorsense can detect and pinpoint the origin of vibrations within a specific radius, provided that the monster and the source of the vibrations are in contact with the same ground or substance.",
+            "type": "string"
+          },
+          "truesight": {
+            "description": "A monster with truesight can, out to a specific range, see in normal and magical darkness, see invisible creatures and objects, automatically detect visual illusions and succeed on saving throws against them, and perceive the original form of a shapechanger or a creature that is transformed by magic. Furthermore, the monster can see into the Ethereal Plane within the same range.",
+            "type": "string"
+          }
+        }
+      },
+      "MonsterSpecialAbility": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "desc": {
+            "type": "string"
+          },
+          "attack_bonus": {
+            "type": "number"
+          },
+          "damage": {
+            "$ref": "#/components/schemas/Damage"
+          },
+          "dc": {
+            "$ref": "#/components/schemas/DC"
+          },
+          "spellcasting": {
+            "$ref": "#/components/schemas/MonsterSpellcasting"
+          },
+          "usage": {
+            "$ref": "#/components/schemas/MonsterUsage"
+          }
+        }
+      },
+      "DC": {
+        "description": "`DC`\n",
+        "type": "object",
+        "properties": {
+          "dc_type": {
+            "$ref": "#/components/schemas/APIReference"
+          },
+          "dc_value": {
+            "description": "Value to beat",
+            "type": "number"
+          },
+          "success_type": {
+            "description": "Result of a successful save. Can be \\\"none\\\", \\\"half\\\", or \\\"other\\\"",
+            "type": "string"
+          }
+        }
+      },
+      "Choice": {
+        "description": "`Choice`\n",
+        "type": "object",
+        "properties": {
+          "desc": {
+            "description": "Description of the choice to be made.",
+            "type": "string"
+          },
+          "choose": {
+            "description": "Number of items to pick from the list.",
+            "type": "number"
+          },
+          "type": {
+            "description": "Type of the resources to choose from.",
+            "type": "string"
+          },
+          "from": {
+            "$ref": "#/components/schemas/OptionSet"
+          }
+        }
+      },
+      "OptionSet": {
+        "description": "`Option Set`\n",
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "option_set_type": {
+                "description": "Type of option set; determines other attributes.",
+                "type": "string"
+              },
+              "options_array": {
+                "description": "Array of options to choose from.",
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Option"
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "properties": {
+              "option_set_type": {
+                "description": "Type of option set; determines other attributes.",
+                "type": "string"
+              },
+              "equipment_category": {
+                "$ref": "#/components/schemas/APIReference"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "properties": {
+              "option_set_type": {
+                "description": "Type of option set; determines other attributes.",
+                "type": "string"
+              },
+              "resource_list": {
+                "description": "A reference (by URL) to a collection in the database.",
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "Option": {
+        "description": "`Option`\n",
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "option_type": {
+                "description": "Type of option; determines other attributes.",
+                "type": "string"
+              },
+              "item": {
+                "$ref": "#/components/schemas/APIReference"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "properties": {
+              "option_type": {
+                "description": "Type of option; determines other attributes.",
+                "type": "string"
+              },
+              "action_name": {
+                "description": "The name of the action.",
+                "type": "string"
+              },
+              "count": {
+                "description": "The number of times this action can be repeated if chosen.",
+                "type": "number"
+              },
+              "type": {
+                "description": "For attack options that can be melee, ranged, abilities, or thrown.",
+                "type": "string",
+                "enum": [
+                  "melee",
+                  "ranged",
+                  "ability",
+                  "magic"
+                ]
+              }
+            }
+          },
+          {
+            "type": "object",
+            "properties": {
+              "option_type": {
+                "description": "Type of option; determines other attributes.",
+                "type": "string"
+              },
+              "items": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Option"
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "properties": {
+              "option_type": {
+                "description": "Type of option; determines other attributes.",
+                "type": "string"
+              },
+              "choice": {
+                "$ref": "#/components/schemas/Choice"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "properties": {
+              "option_type": {
+                "description": "Type of option; determines other attributes.",
+                "type": "string"
+              },
+              "string": {
+                "description": "The string.",
+                "type": "string"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "properties": {
+              "option_type": {
+                "description": "Type of option; determines other attributes.",
+                "type": "string"
+              },
+              "desc": {
+                "description": "A description of the ideal.",
+                "type": "string"
+              },
+              "alignments": {
+                "description": "A list of alignments of those who might follow the ideal.",
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/APIReference"
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "properties": {
+              "option_type": {
+                "description": "Type of option; determines other attributes.",
+                "type": "string"
+              },
+              "count": {
+                "description": "Count",
+                "type": "number"
+              },
+              "of": {
+                "$ref": "#/components/schemas/APIReference"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "properties": {
+              "option_type": {
+                "description": "Type of option; determines other attributes.",
+                "type": "string"
+              },
+              "ability_score": {
+                "$ref": "#/components/schemas/APIReference"
+              },
+              "minimum_score": {
+                "description": "The minimum score required to satisfy the prerequisite.",
+                "type": "number"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "properties": {
+              "option_type": {
+                "description": "Type of option; determines other attributes.",
+                "type": "string"
+              },
+              "ability_score": {
+                "$ref": "#/components/schemas/APIReference"
+              },
+              "bonus": {
+                "description": "The bonus being applied to the ability score",
+                "type": "number"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "properties": {
+              "option_type": {
+                "description": "Type of option; determines other attributes.",
+                "type": "string"
+              },
+              "name": {
+                "description": "Name of the breath",
+                "type": "string"
+              },
+              "dc": {
+                "$ref": "#/components/schemas/DC"
+              },
+              "damage": {
+                "description": "Damage dealt by the breath attack, if any.",
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Damage"
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "properties": {
+              "option_type": {
+                "description": "Type of option; determines other attributes.",
+                "type": "string"
+              },
+              "damage_type": {
+                "$ref": "#/components/schemas/APIReference"
+              },
+              "damage_dice": {
+                "description": "Damage expressed in dice (e.g. \"13d6\").",
+                "type": "string"
+              },
+              "notes": {
+                "description": "Information regarding the damage.",
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "MonsterSpellcasting": {
+        "type": "object",
+        "properties": {
+          "ability": {
+            "$ref": "#/components/schemas/APIReference"
+          },
+          "dc": {
+            "type": "number"
+          },
+          "modifier": {
+            "type": "number"
+          },
+          "components_required": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "school": {
+            "type": "string"
+          },
+          "slots": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number"
+            }
+          },
+          "spells": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MonsterSpell"
+            }
+          }
+        }
+      },
+      "MonsterUsage": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "at will",
+              "per day",
+              "recharge after rest",
+              "recharge on roll"
+            ]
+          },
+          "rest_types": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "times": {
+            "type": "number"
+          }
+        }
+      },
+      "MonsterSpell": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "level": {
+            "type": "number"
+          },
+          "url": {
+            "type": "string"
+          },
+          "usage": {
+            "$ref": "#/components/schemas/MonsterUsage"
+          }
+        }
+      }
+    }
+  }
+}

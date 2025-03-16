@@ -1,7 +1,7 @@
 ﻿@using AIRpgAgents.GameEngine.World
 @using Microsoft.AspNetCore.Components.Web
 
-<div class="world-details-container scroll-parchment">
+<div class="world-details-container scroll-parchment" style="@CustomStyle">
     @if (World == null)
     {
         <div class="loading-container">
@@ -38,7 +38,7 @@
             @if (ShowLocations)
             {
                 <div class="section-content locations-grid">
-                    @foreach (var location in World.Locations ?? new List<Location>())
+                    @foreach (var location in World.Locations ?? [])
                     {
                         <div class="location-card @(SelectedLocation?.Id == location.Id ? "selected" : "")" @onclick="() => SelectLocation(location)">
                             <h3 class="location-name">@location.Name</h3>

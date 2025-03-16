@@ -1,3 +1,4 @@
+using System.Text;
 using System.Text.Json.Serialization;
 using AIRpgAgents.GameEngine.Rules;
 using CosmosName = Newtonsoft.Json.JsonPropertyAttribute;
@@ -12,8 +13,10 @@ public class CharacterSheet
     public string Id => $"{PlayerName}-{CharacterName}";
 
     public string PartitionKey => Id;
-    public string CharacterName { get; set; } = "";
     public string PlayerName { get; set; } = "";
+
+    public string CharacterName { get; set; } = "";
+    
     public Race Race { get; set; } = new();
     public CharacterClass Class { get; set; } = new();
     public int Level { get; set; } = 1;
@@ -113,5 +116,104 @@ public class CharacterSheet
     {
         return GetAttributeModifier(attributeName);
         // Add proficiency or other bonuses if needed
+    }
+
+    /// <summary>
+    /// Creates a markdown representation of the character's primary details in a hierarchical format.
+    /// </summary>
+    /// <returns>A string containing the markdown representation of the character sheet.</returns>
+    public string PrimaryDetailsMarkdown()
+    {
+        var markdown = new StringBuilder();
+
+        // Character name and basic info
+        markdown.AppendLine($"# {CharacterName}");
+        markdown.AppendLine($"**Level {Level} {Race.Type} {Class.Type}**");
+        
+        if (!string.IsNullOrEmpty(Deity))
+        {
+            markdown.AppendLine($"**Deity:** {Deity}");
+        }
+        
+        // Alignment
+        markdown.AppendLine();
+        markdown.AppendLine("## Alignment");
+        markdown.AppendLine($"* **Moral Axis:** {Alignment.MoralAlignment}");
+        markdown.AppendLine($"* **Ethical Axis:** {Alignment.EthicalAlignment}");
+        
+        // Race details
+        markdown.AppendLine();
+        markdown.AppendLine("## Race");
+        markdown.AppendLine($"* **Type:** {Race.Type}");
+        
+        if (!string.IsNullOrEmpty(Race.Description))
+        {
+            markdown.AppendLine($"* **Description:** {Race.Description}");
+        }
+        
+        if (Race.AttributeModifiers?.Count > 0)
+        {
+            markdown.AppendLine("* **Attribute Modifiers:**");
+            foreach (var modifier in Race.AttributeModifiers)
+            {
+                markdown.AppendLine($"  * {modifier.Key}: {(modifier.Value >= 0 ? "+" : "")}{modifier.Value}");
+            }
+        }
+        
+        if (Race.Traits?.Count > 0)
+        {
+            markdown.AppendLine("* **Racial Traits:**");
+            foreach (var trait in Race.Traits)
+            {
+                markdown.AppendLine($"  * {trait.Name}");
+            }
+        }
+        
+        // Class details
+        markdown.AppendLine();
+        markdown.AppendLine("## Class");
+        markdown.AppendLine($"* **Type:** {Class.Type}");
+        
+        if (!string.IsNullOrEmpty(Class.Description))
+        {
+            markdown.AppendLine($"* **Description:** {Class.Description}");
+        }
+        
+        if (Class.PrimaryAttributes?.Count > 0)
+        {
+            markdown.AppendLine($"* **Primary Attributes:** {string.Join(", ", Class.PrimaryAttributes)}");
+        }
+        
+        // Attributes
+        markdown.AppendLine();
+        markdown.AppendLine("## Attributes");
+        foreach (RpgAttribute attribute in Enum.GetValues(typeof(RpgAttribute)))
+        {
+            int value = AttributeSet[attribute];
+            int modifier = GetAttributeModifier(attribute);
+            string modifierStr = modifier >= 0 ? $"+{modifier}" : modifier.ToString();
+            
+            markdown.AppendLine($"* **{attribute}:** {value} ({modifierStr})");
+        }
+        
+        // Skills
+        if (Skills?.Count > 0)
+        {
+            markdown.AppendLine();
+            markdown.AppendLine("## Skills");
+            
+            foreach (var skill in Skills)
+            {
+                markdown.AppendLine($"* **{skill.Key}:** Rank {skill.Value.Rank}");
+                markdown.AppendLine($"  * Associated Attribute: {skill.Value.AssociatedAttribute}");
+                if (skill.Value.Bonus != 0)
+                {
+                    string bonusStr = skill.Value.Bonus >= 0 ? $"+{skill.Value.Bonus}" : skill.Value.Bonus.ToString();
+                    markdown.AppendLine($"  * Bonus: {bonusStr}");
+                }
+            }
+        }
+        
+        return markdown.ToString();
     }
 }

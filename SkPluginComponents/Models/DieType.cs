@@ -19,8 +19,6 @@ public enum DieType
     D8 = 8,
     [Description("A ten-sided die.")]
     D10 = 10,
-    [Description("A twelve-sided die.")]
-    D12 = 12,
     [Description("A twenty-sided die.")]
     D20 = 20
 }

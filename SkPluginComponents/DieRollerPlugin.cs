@@ -27,13 +27,18 @@ public class DieRollerPlugin(RollDiceService modalService)
     }
     [KernelFunction, Description("Rolls a die with the specified number of sides a specified number of times. (ex: 3D6 is D6 die rolled 3 times)")]
     [return: Description("The total of the results of the die rolls.")]
-    public async Task<DieRollResults> RollDice([Description("Type of the die based on number of sides")] DieType dieType, [Description("Number of roles of the indicated die")] int numberOfRolls, [Description("Value to add (or subtract, if negative) to the roll result")] int modifier = 0)
+    public async Task<DieRollResults> RollDice([Description("Type of the die based on number of sides")] DieType dieType, [Description("Number of roles of the indicated die")] int numberOfRolls, [Description("Value to add (or subtract, if negative) to the roll result")] int modifier = 0,[Description("Ignore the lowest die roll")] bool dropLowest = false)
     {
         var windowOptions = new RollDiceWindowOptions() { Title = $"Roll {numberOfRolls}{dieType}", Location = Location.Center, Style = "width:max-content;min-width:50vw;height:max-content" };
         var parameters = new RollDiceParameters() { ["DieType"] = dieType, ["NumberOfRolls"] = numberOfRolls };
         var result = await modalService.OpenAsync<DiceRoller>(parameters, windowOptions);
         var total = result?.Parameters.Get<int>("Total");
         var rolls = result?.Parameters.Get<List<int>>("Rolls");
+        if (dropLowest)
+        {
+            rolls = rolls?.OrderBy(x => x).Skip(1).ToList();
+            total = rolls?.Sum();
+        }
         return new DieRollResults(rolls ?? [], total.GetValueOrDefault() + modifier);
     }
 }

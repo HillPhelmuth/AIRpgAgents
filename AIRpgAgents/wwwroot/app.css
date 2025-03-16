@@ -58,7 +58,7 @@ h1:focus {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
     text-align: start;
 }
-.user {
+/*.user {
     background: #e9e9e9;
     background-size: 50% 50%;
     color: black;
@@ -86,7 +86,7 @@ h1:focus {
 
     .assistant h1, h2, h3, h4, h5 {
         color: black !important;
-    }
+    }*/
 
 .rz-form-field-label {
     color: blue !important;
@@ -235,3 +235,7 @@ h1:focus {
         pointer-events: none !important;
         z-index: 0 !important;
     }
+
+.rz-sidebar-collapsed{
+    display:none !important;
+}

@@ -16,14 +16,14 @@
         </RadzenRow>
     </RadzenHeader>
     <RadzenSidebar @bind-Expanded="@_sidebar1Expanded">
-        <RadzenText>Go to:</RadzenText>
-        <RadzenLink Path="" Text="Home"></RadzenLink>
+        
+        <RadzenLink Path="" Text="Dev Home"></RadzenLink>
         <RadzenLink Path="player" Text="Your Characters"></RadzenLink>
         <RadzenLink Path="worlds" Text="Worlds"></RadzenLink>
         <hr/>
 
     </RadzenSidebar>
-    <RadzenBody Style="padding:.75rem .5rem" @onclick="@(() => _sidebar1Expanded = false)">
+    <RadzenBody Style="padding:0" @onclick="@(() => _sidebar1Expanded = false)">
         <div class="rpg-body">@Body</div>
 
     </RadzenBody>

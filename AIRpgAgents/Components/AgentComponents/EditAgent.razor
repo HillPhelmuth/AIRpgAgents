@@ -1,16 +1,41 @@
 ﻿@using AIRpgAgents.Core.Agents
 @inherits RpgComponentBase
 
-<RadzenTemplateForm Data="Agent" TItem="AgentData" Submit="SaveAgent">
-    <RadzenText TextStyle="TextStyle.Subtitle1" TextAlign="TextAlign.Center">@Agent.Name</RadzenText>
-    <RadzenText>@Agent.Description</RadzenText>
-    <RadzenFormField Text="Prompt" Style="width:100%">
-        <ChildContent>
-            <RadzenTextArea Name="Prompt" @bind-Value="@Agent.PromptTemplate" Style="width:100%;height:25rem"></RadzenTextArea>
-        </ChildContent>
-        <Helper>
-            <RadzenRequiredValidator Component="Prompt"></RadzenRequiredValidator>
-        </Helper>
-    </RadzenFormField>
-    <RadzenButton Text="Save" ButtonType="ButtonType.Submit" Style="margin-top:1rem"></RadzenButton>
-</RadzenTemplateForm>
+<RadzenRow>
+    <RadzenColumn Size="6">
+        <RadzenText TextStyle="TextStyle.Subtitle1" TextAlign="TextAlign.Center">Name: @Agent.Name</RadzenText>
+        <RadzenText TextStyle="TextStyle.Caption" TextAlign="TextAlign.Center">Description: @Agent.Description</RadzenText>
+        <RadzenTemplateForm Data="Agent" TItem="AgentData" Submit="SaveAgent">
+            
+            <RadzenFormField Text="Prompt" Style="width:100%">
+                <ChildContent>
+                    <RadzenTextArea Name="Prompt" @bind-Value="@Agent.PromptTemplate" Style="width:100%;height:25rem"></RadzenTextArea>
+                </ChildContent>
+                <Helper>
+                    <RadzenRequiredValidator Component="Prompt"></RadzenRequiredValidator>
+                </Helper>
+            </RadzenFormField>
+            <RadzenButton Text="Save" ButtonType="ButtonType.Submit" Style="margin-top:1rem"></RadzenButton>
+        </RadzenTemplateForm>
+    </RadzenColumn>
+    <RadzenColumn Size="6">
+        <RadzenText TextStyle="TextStyle.Subtitle1" TextAlign="TextAlign.Center" Text="Agent Tools/Functions"></RadzenText>
+        <RadzenDataGrid TItem="AgentFunctionInfo" Data="@Agent.FunctionInfo" Density="Density.Compact" AllowPaging="true" PageSize="10" AllowColumnResize="true">
+            <Template Context="function">
+                <RadzenText TextAlign="TextAlign.Center">Function Parameters</RadzenText>
+                <RadzenDataGrid Data="function.Parameters" TItem="@(KeyValuePair<string, string>)" Density="Density.Compact" AllowColumnResize="true">
+                    <Template Context="parameters">
+                        <json-viewer data="@parameters.Value" id="@parameters.Key"></json-viewer>
+                    </Template>
+                    <Columns>
+                        <RadzenDataGridColumn Property="Key" Title="Name"></RadzenDataGridColumn>
+                    </Columns>
+                </RadzenDataGrid>
+            </Template>
+            <Columns>
+                <RadzenDataGridColumn Property="Name" Title="Function" Width="30%"></RadzenDataGridColumn>
+                <RadzenDataGridColumn Property="Description" Title="Description" Width="70%"></RadzenDataGridColumn>
+            </Columns>
+        </RadzenDataGrid>
+    </RadzenColumn>
+</RadzenRow>

@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="@Assets["app.css"]" />
     <link rel="stylesheet" href="@Assets["AIRpgAgents.styles.css"]" />
     <link rel="stylesheet" href="@Assets["_content/SkPluginComponents/css/allDice.css"]" />
+    <link rel="stylesheet" href="@Assets["_content/SkPluginComponents/All.css"]" />
     <ImportMap />
     <link rel="icon" type="image/png" href="aiRpgAgents_chatgpt.jpg" />
     <HeadOutlet @rendermode="InteractiveServer" />
@@ -16,9 +17,14 @@
 </head>
 
 <body>
-    <Routes @rendermode="InteractiveServer" />
-    <script src="_framework/blazor.web.js"></script>
-    <script src="_content/Radzen.Blazor/Radzen.Blazor.js?v=@(typeof(Radzen.Colors).Assembly.GetName().Version)"></script>
+<Routes @rendermode="InteractiveServer" />
+<script src="_framework/blazor.web.js"></script>
+<script src="@_jsonViewer"></script>
+<script src="_content/Radzen.Blazor/Radzen.Blazor.js?v=@(typeof(Radzen.Colors).Assembly.GetName().Version)"></script>
 </body>
 
 </html>
+@code
+{
+    private string _jsonViewer = @"https://unpkg.com/@alenaksu/json-viewer@2.0.0/dist/json-viewer.bundle.js";
+}

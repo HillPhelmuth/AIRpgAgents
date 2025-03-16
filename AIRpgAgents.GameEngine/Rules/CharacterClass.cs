@@ -52,7 +52,7 @@ public class ClassAbility
     
 public static class CharacterClasses
 {
-    private static readonly List<CharacterClass> _classes = new();
+    private static readonly List<CharacterClass> _classes = [];
     private static bool _isInitialized = false;
     
     public static List<CharacterClass> AllClasses 

@@ -26,8 +26,7 @@ public partial class ChatView : IDisposable, IAsyncDisposable
     private AppJsInterop AppJsInterop => new(JsRuntime);
 	[Parameter] public string Height { get; set; } = "60vh";
 	[Parameter] public bool ResetOnClose { get; set; } = true;
-	[Parameter]
-	public bool IsLogProbView { get; set; }
+	
 	[Parameter]
 	public bool Timestamps { get; set; } = true;
 	[Parameter]

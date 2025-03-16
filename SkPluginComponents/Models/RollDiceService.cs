@@ -4,8 +4,8 @@ namespace SkPluginComponents.Models;
 
 public class RollDiceService
 {
-    private readonly List<object> _modals = new();
-    private readonly List<AskUserReference> _askUserReferences = new();
+    private readonly List<object> _modals = [];
+    private readonly List<AskUserReference> _askUserReferences = [];
     public bool IsOpen { get; set; }
     public RollDiceParameters? Parameters { get; set; }
     public event Action<RollDiceResults?>? OnModalClose;

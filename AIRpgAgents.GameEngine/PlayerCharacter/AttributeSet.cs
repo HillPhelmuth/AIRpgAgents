@@ -82,7 +82,7 @@ public class AttributeSet
     /// </summary>
     public void RollAttributes()
     {
-        List<int> rolls = new List<int>();
+        List<int> rolls = [];
             
         // Generate 5 rolls
         for (int i = 0; i < 5; i++)

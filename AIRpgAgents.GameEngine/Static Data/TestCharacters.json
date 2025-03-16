@@ -1,0 +1,618 @@
+[
+  {
+    "CharacterSheet": {
+      "Id": "hughblows@yahoo.com-Monty",
+      "PartitionKey": "hughblows@yahoo.com-Monty",
+      "CharacterName": "Monty",
+      "PlayerName": "hughblows@yahoo.com",
+      "Race": {
+        "Type": "Stoneborn",
+        "Description": "Carved from stone and given life through ancient rituals, the Stoneborn are relics of an age long past.",
+        "AttributeModifiers": {
+          "Might": 1,
+          "Vitality": 1,
+          "Agility": -2
+        },
+        "Traits": [
+          {
+            "Name": "Immovable",
+            "Description": "Cannot be moved against their will by any physical means.",
+            "Properties": {}
+          },
+          {
+            "Name": "Fortress Skin",
+            "Description": "Gain \u002B1 to Armor Class when wearing no armor.",
+            "Properties": {}
+          }
+        ],
+        "BaseSpeed": 25,
+        "Languages": [
+          "Common",
+          "Terran"
+        ],
+        "Size": "Medium"
+      },
+      "Class": {
+        "Type": "Warrior",
+        "Name": "Warrior",
+        "Description": "Warriors are formidable combatants, excelling in physical prowess and battlefield tactics. Their unmatched endurance and weapon skills make them the backbone of any party.",
+        "PrimaryAttributes": [
+          "Might",
+          "Vitality"
+        ],
+        "Abilities": [
+          {
+            "Name": "Power Strike",
+            "Description": "Once per combat, deal an extra 1d10 damage.",
+            "LevelGained": 1,
+            "Properties": {},
+            "UsesPerDay": 1,
+            "UsesRemaining": true
+          },
+          {
+            "Name": "Battlefield Awareness",
+            "Description": "Gain \u002B2 to initiative rolls.",
+            "LevelGained": 1,
+            "Properties": {},
+            "UsesPerDay": -1,
+            "UsesRemaining": true
+          },
+          {
+            "Name": "Shield Wall",
+            "Description": "When using a shield, allies within 5 feet gain \u002B1 AC.",
+            "LevelGained": 5,
+            "Properties": {},
+            "UsesPerDay": -1,
+            "UsesRemaining": true
+          },
+          {
+            "Name": "Enduring Fighter",
+            "Description": "Regain 1d8 HP as a bonus action once per short rest.",
+            "LevelGained": 10,
+            "Properties": {},
+            "UsesPerDay": 1,
+            "UsesRemaining": true
+          },
+          {
+            "Name": "Weapon Mastery",
+            "Description": "Gain \u002B2 to attack and damage with chosen weapon.",
+            "LevelGained": 15,
+            "Properties": {},
+            "UsesPerDay": -1,
+            "UsesRemaining": true
+          }
+        ],
+        "HitDie": 10,
+        "HasSpellcasting": false,
+        "SpellcastingTradition": "Theurgic",
+        "StartingHP": 10,
+        "ClassSkills": [
+          "Melee Combat",
+          "Endurance",
+          "Athletics"
+        ]
+      },
+      "Level": 1,
+      "Alignment": {
+        "MoralAlignment": "Evil",
+        "EthicalAlignment": "Reasonable"
+      },
+      "Deity": "",
+      "AttributeSet": {},
+      "Might": 16,
+      "Agility": 7,
+      "Wits": 11,
+      "Vitality": 15,
+      "Presence": 12,
+      "Skills": {
+        "Melee Combat": {
+          "Name": "Melee Combat",
+          "AssociatedAttribute": "Might",
+          "Rank": 1,
+          "Bonus": 0
+        },
+        "Athletics": {
+          "Name": "Athletics",
+          "AssociatedAttribute": "Might",
+          "Rank": 1,
+          "Bonus": 0
+        },
+        "Endurance": {
+          "Name": "Endurance",
+          "AssociatedAttribute": "Vitality",
+          "Rank": 1,
+          "Bonus": 0
+        },
+        "Intimidation": {
+          "Name": "Intimidation",
+          "AssociatedAttribute": "Presence",
+          "Rank": 1,
+          "Bonus": 0
+        },
+        "Survival": {
+          "Name": "Survival",
+          "AssociatedAttribute": "Wits",
+          "Rank": 1,
+          "Bonus": 0
+        }
+      },
+      "CurrentHP": 0,
+      "MaxHP": 0,
+      "CurrentMP": 0,
+      "MaxMP": 0,
+      "ArmorClass": 0,
+      "Initiative": 0,
+      "Speed": 30,
+      "Weapons": [
+        {
+          "DamageFormula": "1d8",
+          "DamageType": "Bludgeoning",
+          "AttackBonus": 0,
+          "Range": null,
+          "Type": "Melee",
+          "Properties": [
+            "Versatile (1d10)"
+          ],
+          "Name": "Warhammer",
+          "Quantity": 0,
+          "Description": null,
+          "Weight": 5,
+          "Value": 200,
+          "IsEquippable": true,
+          "IsConsumable": false
+        }
+      ],
+      "Armor": [
+        {
+          "ArmorBonus": 3,
+          "IsShield": false,
+          "StrengthRequirement": 10,
+          "Properties": [
+            "Disadvantage on Stealth checks"
+          ],
+          "Name": "Chain Mail",
+          "Quantity": 0,
+          "Description": null,
+          "Weight": 20,
+          "Value": 500,
+          "IsEquippable": true,
+          "IsConsumable": false
+        }
+      ],
+      "Gear": [
+        {
+          "Properties": [],
+          "Name": "Backpack",
+          "Quantity": 0,
+          "Description": null,
+          "Weight": 2,
+          "Value": 20,
+          "IsEquippable": true,
+          "IsConsumable": false
+        },
+        {
+          "Properties": [],
+          "Name": "Bedroll",
+          "Quantity": 0,
+          "Description": null,
+          "Weight": 3,
+          "Value": 10,
+          "IsEquippable": false,
+          "IsConsumable": false
+        },
+        {
+          "Properties": [],
+          "Name": "Rations (1 day)",
+          "Quantity": 3,
+          "Description": null,
+          "Weight": 1,
+          "Value": 3,
+          "IsEquippable": false,
+          "IsConsumable": true
+        },
+        {
+          "Properties": [],
+          "Name": "Torch",
+          "Quantity": 0,
+          "Description": null,
+          "Weight": 0.5,
+          "Value": 1,
+          "IsEquippable": true,
+          "IsConsumable": true
+        },
+        {
+          "Properties": [],
+          "Name": "Rope (50 ft)",
+          "Quantity": 0,
+          "Description": null,
+          "Weight": 5,
+          "Value": 10,
+          "IsEquippable": false,
+          "IsConsumable": false
+        }
+      ],
+      "Spellcasting": null,
+      "GoldCoins": 2,
+      "SilverCoins": 5,
+      "CopperCoins": 6,
+      "PersonalityTraits": "Monty often speaks in rhymes, finding an inexplicable joy in matching words while smashing skulls. He has a bizarre habit of collecting shiny pebbles, convinced they\u0027re remnants of a mythical Stoneborn treasure.",
+      "Ideals": "To Monty, might makes right, and if it\u0027s shiny, it must be true. His ideal is to gather the shiniest collection of pebbles ever seen, believing it equates to unparalleled wisdom and power.",
+      "Bonds": "Monty is fiercely attached to an imaginary friend named \u0027Rocky,\u0027 a talking boulder who gives Monty the worst advice, like challenging clouds to duels. Yet, Monty remains steadfastly loyal.",
+      "Flaws": "Monty\u0027s biggest flaw is his insatiable curiosity, often leading him to poke things he shouldn\u0027t, like dragon nostrils or magical portals. His love for shiny objects often distracts him, even in battle.",
+      "Notes": ""
+    },
+    "ActiveCampaignIds": [],
+    "CurrentCampaignId": null,
+    "CurrentCampaignState": null,
+    "ExhaustionLevel": 0,
+    "LastLongRest": "0001-01-01T00:00:00",
+    "LastShortRest": "0001-01-01T00:00:00",
+    "LongRestsRemaining": 1,
+    "ShortRestsUsed": 0,
+    "ShortRestsAvailable": 2,
+    "DamageByType": {},
+    "RecentActions": [],
+    "MaxActionHistory": 20,
+    "TemporaryHitPoints": 0,
+    "IsUnconscious": false,
+    "IsStabilized": false,
+    "DeathSavesSuccesses": 0,
+    "DeathSavesFailures": 0,
+    "CharacterId": "hughblows@yahoo.com-Monty",
+    "CharacterName": "Monty",
+    "CurrentHitPoints": 0,
+    "MaxHitPoints": 0
+  },
+  {
+    "CharacterSheet": {
+      "Id": "hughblows@yahoo.com-Gorlf",
+      "PartitionKey": "hughblows@yahoo.com-Gorlf",
+      "CharacterName": "Gorlf",
+      "PlayerName": "hughblows@yahoo.com",
+      "Race": {
+        "Type": "Duskborn",
+        "Description": "Duskborn dwell in the shadows, mastering stealth and subtlety. With skin ashen and eyes glowing faintly, they are often mistrusted by other races.",
+        "AttributeModifiers": {
+          "Agility": 2,
+          "Might": -1
+        },
+        "Traits": [
+          {
+            "Name": "Darkvision",
+            "Description": "Can see in dim light as if it were bright and in darkness as if it were dim.",
+            "Properties": {}
+          },
+          {
+            "Name": "Shadow Step",
+            "Description": "Once per long rest, teleport up to 30 feet to an unoccupied space in dim light or darkness.",
+            "Properties": {}
+          }
+        ],
+        "BaseSpeed": 30,
+        "Languages": [
+          "Common",
+          "Shadowtongue"
+        ],
+        "Size": "Medium"
+      },
+      "Class": {
+        "Type": "WarMage",
+        "Name": "War Mage",
+        "Description": "Combining martial skill with the destructive power of magic, War Mages are versatile combatants who can adapt to any situation. They use their spells to enhance their physical prowess and devastate enemies on the battlefield.",
+        "PrimaryAttributes": [
+          "Might",
+          "Wits"
+        ],
+        "Abilities": [
+          {
+            "Name": "Arcane Strike",
+            "Description": "Infuse melee attacks with magic, adding 1d6 elemental damage (fire, lightning, or cold).",
+            "LevelGained": 1,
+            "Properties": {},
+            "UsesPerDay": -1,
+            "UsesRemaining": true
+          },
+          {
+            "Name": "Spellblade Mastery",
+            "Description": "Once per day, cast a spell as a bonus action.",
+            "LevelGained": 5,
+            "Properties": {},
+            "UsesPerDay": 1,
+            "UsesRemaining": true
+          },
+          {
+            "Name": "Mana Shield",
+            "Description": "Absorb up to 10 damage by expending 2 MP.",
+            "LevelGained": 10,
+            "Properties": {},
+            "UsesPerDay": -1,
+            "UsesRemaining": true
+          },
+          {
+            "Name": "Battlecaster",
+            "Description": "Gain advantage on Concentration checks to maintain spells during combat.",
+            "LevelGained": 10,
+            "Properties": {},
+            "UsesPerDay": -1,
+            "UsesRemaining": true
+          },
+          {
+            "Name": "Elemental Surge",
+            "Description": "Add an extra 1d8 damage to a spell or melee attack once per combat.",
+            "LevelGained": 15,
+            "Properties": {},
+            "UsesPerDay": 1,
+            "UsesRemaining": true
+          }
+        ],
+        "HitDie": 8,
+        "HasSpellcasting": true,
+        "SpellcastingTradition": "Arcane",
+        "StartingHP": 8,
+        "ClassSkills": [
+          "Melee Combat",
+          "Arcane Knowledge",
+          "Athletics"
+        ]
+      },
+      "Level": 1,
+      "Alignment": {
+        "MoralAlignment": "Neutral",
+        "EthicalAlignment": "Passionate"
+      },
+      "Deity": "",
+      "AttributeSet": {},
+      "Might": 16,
+      "Agility": 20,
+      "Wits": 12,
+      "Vitality": 9,
+      "Presence": 9,
+      "Skills": {
+        "Melee Combat": {
+          "Name": "Melee Combat",
+          "AssociatedAttribute": "Might",
+          "Rank": 1,
+          "Bonus": 0
+        },
+        "Ranged Combat": {
+          "Name": "Ranged Combat",
+          "AssociatedAttribute": "Agility",
+          "Rank": 1,
+          "Bonus": 0
+        },
+        "Arcane Knowledge": {
+          "Name": "Arcane Knowledge",
+          "AssociatedAttribute": "Wits",
+          "Rank": 1,
+          "Bonus": 0
+        },
+        "Perception": {
+          "Name": "Perception",
+          "AssociatedAttribute": "Wits",
+          "Rank": 1,
+          "Bonus": 0
+        },
+        "Crafting": {
+          "Name": "Crafting",
+          "AssociatedAttribute": "Wits",
+          "Rank": 1,
+          "Bonus": 0
+        }
+      },
+      "CurrentHP": 0,
+      "MaxHP": 0,
+      "CurrentMP": 0,
+      "MaxMP": 0,
+      "ArmorClass": 0,
+      "Initiative": 0,
+      "Speed": 30,
+      "Weapons": [
+        {
+          "DamageFormula": "1d8",
+          "DamageType": "Slashing",
+          "AttackBonus": 0,
+          "Range": "Melee",
+          "Type": "Melee",
+          "Properties": [
+            "Versatile (1d10)"
+          ],
+          "Name": "Longsword",
+          "Quantity": 1,
+          "Description": "The standard weapon of knights and soldiers, versatile for one or two-handed use.",
+          "Weight": 3,
+          "Value": 150,
+          "IsEquippable": true,
+          "IsConsumable": false
+        },
+        {
+          "DamageFormula": "1d6",
+          "DamageType": "Piercing",
+          "AttackBonus": 0,
+          "Range": "80/320",
+          "Type": "Ranged",
+          "Properties": [
+            "Ranged",
+            "Ammunition"
+          ],
+          "Name": "Short Bow",
+          "Quantity": 1,
+          "Description": "A compact bow designed for hunting and skirmishes.",
+          "Weight": 2,
+          "Value": 250,
+          "IsEquippable": true,
+          "IsConsumable": false
+        }
+      ],
+      "Armor": [
+        {
+          "ArmorBonus": 1,
+          "IsShield": false,
+          "StrengthRequirement": null,
+          "Properties": [
+            "No Stealth penalty"
+          ],
+          "Name": "Leather Armor",
+          "Quantity": 1,
+          "Description": "Hardened leather armor offering basic protection without restricting movement.",
+          "Weight": 10,
+          "Value": 100,
+          "IsEquippable": true,
+          "IsConsumable": false
+        }
+      ],
+      "Gear": [
+        {
+          "Properties": [
+            "Increases carrying capacity"
+          ],
+          "Name": "Backpack",
+          "Quantity": 1,
+          "Description": "A leather pack with straps that can hold gear and supplies.",
+          "Weight": 2,
+          "Value": 20,
+          "IsEquippable": true,
+          "IsConsumable": false
+        },
+        {
+          "Properties": [
+            "Provides comfort when resting"
+          ],
+          "Name": "Bedroll",
+          "Quantity": 1,
+          "Description": "A lightweight sleeping roll for resting outdoors.",
+          "Weight": 3,
+          "Value": 10,
+          "IsEquippable": false,
+          "IsConsumable": false
+        },
+        {
+          "Properties": [
+            "Prevents hunger"
+          ],
+          "Name": "Rations (1 day)",
+          "Quantity": 2,
+          "Description": "Preserved food sufficient for one day of travel.",
+          "Weight": 1,
+          "Value": 3,
+          "IsEquippable": false,
+          "IsConsumable": true
+        },
+        {
+          "Properties": [
+            "Burns for 1 hour",
+            "Provides bright light in a 20 ft radius"
+          ],
+          "Name": "Torch",
+          "Quantity": 1,
+          "Description": "A wooden stick wrapped with cloth soaked in pitch.",
+          "Weight": 0.5,
+          "Value": 1,
+          "IsEquippable": true,
+          "IsConsumable": true
+        },
+        {
+          "Properties": [
+            "Can support up to 500 pounds"
+          ],
+          "Name": "Rope (50 ft)",
+          "Quantity": 1,
+          "Description": "Strong hemp rope useful for climbing and securing objects.",
+          "Weight": 5,
+          "Value": 10,
+          "IsEquippable": false,
+          "IsConsumable": false
+        },
+        {
+          "Properties": [
+            "Holds 2 pints of liquid"
+          ],
+          "Name": "Waterskin",
+          "Quantity": 1,
+          "Description": "A container for holding water or other liquids.",
+          "Weight": 1,
+          "Value": 5,
+          "IsEquippable": true,
+          "IsConsumable": false
+        },
+        {
+          "Properties": [
+            "Can start a fire in 1 minute with dry kindling"
+          ],
+          "Name": "Flint \u0026 Steel",
+          "Quantity": 1,
+          "Description": "Used to start fires.",
+          "Weight": 0.5,
+          "Value": 10,
+          "IsEquippable": false,
+          "IsConsumable": false
+        }
+      ],
+      "Spellcasting": {
+        "SpellcastingAbility": "Wits",
+        "SpellSaveDC": 0,
+        "SpellAttackModifier": 0,
+        "SpellSlots": [],
+        "Spells": [
+          {
+            "Name": "Magic Missile",
+            "Level": 1,
+            "Description": "Fire 3 magical bolts, each dealing 1d4 \u002B caster level damage. Gain an additional bolt at levels 3, 6, 9, 12, and 15.",
+            "ManaCost": 3,
+            "CastTime": "Action",
+            "Range": "120 feet",
+            "Duration": "Instantaneous",
+            "DamageType": "Force",
+            "DamageFormula": "1d4 \u002B caster level per bolt",
+            "AreaOfEffect": "Multiple targets possible",
+            "SaveType": "None",
+            "Band": "Lower"
+          },
+          {
+            "Name": "Arcane Sight",
+            "Level": 3,
+            "Description": "Detect magical auras and enchantments within 60 ft for 10 minutes.",
+            "ManaCost": 4,
+            "CastTime": "Action",
+            "Range": "Self",
+            "Duration": "10 minutes",
+            "DamageType": "None",
+            "DamageFormula": "",
+            "AreaOfEffect": "60-foot radius",
+            "SaveType": "None",
+            "Band": "Lower"
+          }
+        ],
+        "MagicTradition": "Arcane"
+      },
+      "GoldCoins": 4,
+      "SilverCoins": 4,
+      "CopperCoins": 1,
+      "PersonalityTraits": "Gorlf possesses a deviant sense of humor, delighting in double entendres and daring flirtations. Their irreverent wit is matched only by their penchant for indulgence.",
+      "Ideals": "In Lustgard, Gorlf believes that life\u0027s greatest purpose is to indulge in every pleasure and folly. Only through complete hedonism can one truly find enlightenment or at least a damn good time.",
+      "Bonds": "Gorlf is deeply bonded with the Midnight Bacchanal, a secretive society that revels in perpetual revelry and mischief under the full moon.",
+      "Flaws": "Gorlf\u0027s insatiable appetite for excess often leads them into precarious situations, such as waking up in strange places or with questionable companions.",
+      "Notes": ""
+    },
+    "ActiveCampaignIds": [],
+    "CurrentCampaignId": null,
+    "CurrentCampaignState": null,
+    "ExhaustionLevel": 0,
+    "LastLongRest": "0001-01-01T00:00:00",
+    "LastShortRest": "0001-01-01T00:00:00",
+    "LongRestsRemaining": 1,
+    "ShortRestsUsed": 0,
+    "ShortRestsAvailable": 2,
+    "DamageByType": {},
+    "RecentActions": [],
+    "MaxActionHistory": 20,
+    "TemporaryHitPoints": 0,
+    "IsUnconscious": false,
+    "IsStabilized": false,
+    "DeathSavesSuccesses": 0,
+    "DeathSavesFailures": 0,
+    "CharacterId": "hughblows@yahoo.com-Gorlf",
+    "CharacterName": "Gorlf",
+    "CurrentHitPoints": 0,
+    "MaxHitPoints": 0
+  }
+]

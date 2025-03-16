@@ -114,30 +114,6 @@
                     </table>
                 </div>
 
-                @* <div class="right-col">
-                    <h3>Saving Throws</h3>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Saving Throw</th>
-                                <th>Modifier</th>
-                                <th>Result</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var attributeName in AttributeNames)
-                            {
-                                <tr>
-                                    <td>@attributeName</td>
-                                    <td>@FormatModifier(GetAttributeModifier(attributeName))</td>
-                                    <td>
-                                        <InputNumber @bind-Value="@GetSavingThrow(attributeName)" class="small-input" disabled />
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div> *@
             </div>
 
             <!-- Combat stats section with InputNumber -->

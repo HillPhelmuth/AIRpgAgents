@@ -18,7 +18,7 @@ public class Weapon : InventoryItem
     public int AttackBonus { get; set; }
     public string Range { get; set; }
     public WeaponType Type { get; set; }
-    public List<string> Properties { get; set; } = new List<string>();
+    public List<string> Properties { get; set; } = [];
         
     public Weapon()
     {
@@ -31,7 +31,7 @@ public class Armor : InventoryItem
     public int ArmorBonus { get; set; }
     public bool IsShield { get; set; }
     public int? StrengthRequirement { get; set; }
-    public List<string> Properties { get; set; } = new List<string>();
+    public List<string> Properties { get; set; } = [];
         
     public Armor()
     {
@@ -40,5 +40,5 @@ public class Armor : InventoryItem
 }
 public class AdventuringGear : InventoryItem
 {
-    public List<string> Properties { get; set; } = new List<string>();
+    public List<string> Properties { get; set; } = [];
 }

@@ -1,8 +1,11 @@
 ﻿using System.Text.Json;
 using AIRpgAgents.Core.Models;
 using AIRpgAgents.Core.Plugins.NativePlugins;
+using AIRpgAgents.GameEngine.PlayerCharacter;
+using AIRpgAgents.GameEngine.World;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
+using Microsoft.SemanticKernel.Connectors.OpenAI;
 using Newtonsoft.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
@@ -55,7 +58,7 @@ public class RpgAgent(string name, string description, string promptTemplate, Pr
         var pluginFunctions = Kernel.Plugins.SelectMany(x => x);
         agentData.FunctionInfo = pluginFunctions.Select(fn => new AgentFunctionInfo($"{fn.PluginName}-{fn.Name}", fn.Description,
             fn.Metadata.Parameters.ToDictionary(x => x.Name,
-                y => (object)y.Schema!)));
+                y => JsonSerializer.Serialize(y.Schema!))));
         return agentData;
     }
 
@@ -71,4 +74,4 @@ public class AgentData
     public IEnumerable<AgentFunctionInfo> FunctionInfo { get; set; } = [];
 
 }
-public record AgentFunctionInfo(string Name, string Description, Dictionary<string, object> Parameters);
+public record AgentFunctionInfo(string Name, string Description, Dictionary<string, string> Parameters);

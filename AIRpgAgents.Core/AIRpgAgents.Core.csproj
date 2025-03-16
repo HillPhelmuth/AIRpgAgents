@@ -20,12 +20,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Plugins\OpenApiPlugins\DnDApi.json" />
     <None Remove="Plugins\PromptPlugins\BuildWorldFunction.yaml" />
     <None Remove="Prompts\GMPrompt.md" />
     <None Remove="Prompts\WorldBuilderPrompt.md" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Plugins\OpenApiPlugins\DnDApi.json" />
     <EmbeddedResource Include="Plugins\PromptPlugins\BuildWorldFunction.yaml" />
     <EmbeddedResource Include="Prompts\*.md" />
   </ItemGroup>
@@ -36,6 +38,7 @@
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.3" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.3" />
 		<PackageReference Include="Microsoft.SemanticKernel" Version="1.41.0" />
+		<PackageReference Include="Microsoft.SemanticKernel.Plugins.OpenApi" Version="1.41.0" />
 		<PackageReference Include="Microsoft.SemanticKernel.Yaml" Version="1.41.0" />
 		<PackageReference Include="Polly" Version="8.5.2" />
 		<PackageReference Include="Polly.Extensions.Http" Version="3.0.0" />

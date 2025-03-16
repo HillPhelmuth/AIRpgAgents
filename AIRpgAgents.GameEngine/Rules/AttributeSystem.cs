@@ -50,5 +50,5 @@ public static class AttributeSystem
     }
         
     // Get the standard array of attribute values
-    public static int[] GetStandardArray() => new[] { 15, 14, 13, 12, 10 };
+    public static int[] GetStandardArray() => [15, 14, 13, 12, 10];
 }

@@ -24,7 +24,7 @@
   animation: roll 3s linear;
 }
 .die4.stopped[data-face="1"] {
-  transform: rotateX(90deg) rotateY(180deg) translate3d(0, 0, 0);
+  transform: rotateX(90deg) rotateY(180deg) translate3d(-25px, -75px, 105px);
 }
 .die4.stopped[data-face="2"] {
   transform: rotateX(-20deg) rotateY(120deg) translate3d(0, 0, 0);

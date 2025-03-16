@@ -48,8 +48,8 @@ public static class CombatSystem
     };
         
     // Standard combat actions
-    public static readonly List<string> StandardActions = new List<string>
-    {
+    public static readonly List<string> StandardActions =
+    [
         "Attack",
         "Cast Spell",
         "Dash",
@@ -60,22 +60,22 @@ public static class CombatSystem
         "Ready",
         "Search",
         "Use Item"
-    };
+    ];
         
     // Bonus actions (based on circumstance, class, etc.)
-    public static readonly List<string> BonusActions = new List<string>
-    {
+    public static readonly List<string> BonusActions =
+    [
         "Off-hand Attack",
         "Cast Bonus Action Spell",
         "Use Class Feature"
-    };
+    ];
         
     // Reactions
-    public static readonly List<string> ReactionActions = new List<string>
-    {
+    public static readonly List<string> ReactionActions =
+    [
         "Opportunity Attack",
         "Readied Action",
         "Shield Spell",
         "Parry"
-    };
+    ];
 }

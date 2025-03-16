@@ -1,0 +1,358 @@
+﻿
+.rpgui-content {
+  padding: 0 0 0 0;
+  margin: 0 0 0 0;
+  width: 100%;
+  height: 100%;
+  /*left: 50px;
+  top: 0px;
+  position: absolute;*/
+  overflow: auto;
+  font-size: 0.9em;
+}
+
+/* general rules to apply on anything inside the content */
+::deep .rpgui-content * {
+  /* remove outline effect for input elements etc */
+  outline: none;
+  /* prevent text selecting */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  /* pixelated enlargement filter (to keep the pixel-art style when enlarging pictures) */
+  -ms-interpolation-mode: nearest-neighbor;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: -webkit-crisp-edges;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -o-crisp-edges;
+  image-rendering: pixelated;
+  /* default font */
+  font-family: "Press Start 2P", cursive;
+}
+
+/**
+* customized divs (containers) and framed objects (background and frame image).
+*/
+/* game div without background image*/
+.rpgui-container {
+    /* position style and default z */
+    /*position: absolute;*/
+    z-index: 10;
+    overflow: auto !important;
+    
+    background-blend-mode: overlay;
+}
+
+/* game div with background image*/
+    .rpgui-container.framed {
+        /* border */
+        border-style: solid;
+        border-image: url("img/border-image.png") 6 6 6 6/3px repeat;
+        border-width: 5px;
+        /*padding: 12px;*/
+        /* internal border */
+        box-sizing: border-box;
+        /* background */
+        background: url("img/background-image.png") repeat repeat border-box border-box center;
+        background-color: rgba(0, 0, 0, 0.486) !important;
+        color: white;
+    }
+
+/* game div with golden background image*/
+    .rpgui-container.framedgolden {
+        /* border */
+        border-style: solid;
+        border-image: url("img/border-image.png") 4 4 4 4/3px repeat;
+        border-width: 5px;
+        /* internal border */
+        box-sizing: border-box;
+        /* background */
+        background: url("img/background-image-golden.png") repeat repeat border-box border-box center;
+        background-color: rgba(255, 255, 255, 0.486) !important;
+        color:black;
+    }
+
+/* game div with golden2 background image*/
+    .rpgui-container.framedgolden2 {
+        /* border */
+        border-style: solid;
+        border-image: url("img/border-image.png") 4 4 4 4/3px repeat;
+        border-width: 5px;
+        box-sizing: border-box;
+        /* background */
+        background: url("img/background-image-golden2.png") repeat repeat border-box border-box center;
+        background-color: rgba(255, 255, 255, 0.486) !important;
+    }
+
+/* game div with soft grey background image*/
+.rpgui-container.framedgrey {
+  /*position: relative;*/
+  /* border */
+  border-style: solid;
+  border-image: url("img/border-image.png") 3 3 3 3/4px repeat;
+  border-width: 7px;
+  /* internal border */
+  box-sizing: border-box;
+  /* background */
+  background: url("img/background-image-grey.png") repeat repeat border-box border-box center;
+}
+
+.modal-overlay {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 101;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-overlay .window {
+  position: absolute;
+  height: auto;
+  max-height: 90vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: auto;
+  background-color: white;
+  padding: 1rem 2rem;
+  border-radius: 15px;
+  z-index: 1000;
+}
+
+.modal-overlay .center {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.modal-overlay .left {
+  top: 50%;
+  left: 10%;
+  transform: translate(-50%, -50%);
+}
+
+.modal-overlay .topleft {
+  top: 10%;
+  left: 10%;
+  transform: translate(-10%, -10%);
+}
+
+.modal-overlay .topright {
+  top: 10%;
+  right: 10%;
+  transform: translate(-10%, -10%);
+}
+
+.modal-overlay .right {
+  top: 50%;
+  right: 10%;
+}
+
+.close {
+  margin: -1.5rem -1.8rem -0.5rem auto;
+  height: 3rem;
+  width: 3rem;
+  background-image: url(img/icons/foreign/x.png);
+}
+
+.title {
+  font-size: 1.2rem;
+  top: 5px;
+}
+
+.confirm-grid .confirm {
+  background-color: blue;
+  color: white;
+  border-radius: 5px;
+  padding: 2px 6px;
+  margin: 1px 0.5rem;
+}
+
+.confirm-grid .decline {
+  background-color: red;
+  color: white;
+  font-size: 105%;
+  border-radius: 5px;
+  padding: 2px 6px;
+  margin: 1px 0.5rem;
+}
+
+.rpgui-modal {
+  border-style: solid;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
+  /*max-height: 99vh;*/ /*99% of the browser height*/
+  overflow: auto;
+  /*padding: 12px;*/
+}
+
+.modal-xlarge {
+  min-width: 95vw;
+  max-width: 98vw;
+  min-height: 75vh;
+}
+
+.modal-large {
+  min-width: 80vw;
+  max-width: 90vw;
+  min-height: 50vh;
+}
+
+.modal-medium {
+  min-width: 50vw;
+  max-width: 75vw;
+  min-height: 30vh;
+  max-height: 70vh;
+}
+
+.modal-small {
+  min-width: 25vw;
+  max-width: 50vw;
+  min-height: 25vh;
+  max-height: 50vh;
+}
+
+.modal-xsmall {
+  min-width: 10vw;
+  max-width: 25vw;
+  min-height: 10vh;
+  max-height: 25vh;
+}
+
+.rpgui-modal.framed {
+  /* border */
+  border-style: solid;
+  border-image: url("img/border-image.png") 6 6 6 6/3px repeat;
+  border-width: 5px;
+  /* internal border */
+  box-sizing: border-box;
+  /* background */
+  background: url("img/background-image.png") repeat repeat border-box border-box center;
+}
+
+.rpgui-modal.framedgolden {
+  /* border */
+  border-style: solid;
+  border-image: url("img/border-image.png") 4 4 4 4/3px repeat;
+  border-width: 5px;
+  /* internal border */
+  box-sizing: border-box;
+  /* background */
+  background: url("img/background-image-golden.png") repeat repeat border-box border-box center;
+}
+
+.rpgui-modal.framedgolden2 {
+  /* border */
+  border-style: solid;
+  border-image: url("img/border-image.png") 4 4 4 4/3px repeat;
+  border-width: 5px;
+  box-sizing: border-box;
+  /* background */
+  background: url("img/background-image-golden2.png") repeat repeat border-box border-box center;
+}
+
+.rpgui-modal.framedgrey {
+  /* border */
+  border-style: solid;
+  border-image: url("img/border-image.png") 3 3 3 3/7px repeat;
+  border-width: 7px;
+  /* internal border */
+  box-sizing: border-box;
+  /* background */
+  background: url("img/background-image-grey.png") repeat repeat border-box border-box center;
+}
+
+.rpgui-content {
+  padding: 0 0 0 0;
+  margin: 0 0 0 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  font-size: 0.9em;
+}
+
+/* general rules to apply on anything inside the content */
+::deep .rpgui-content * {
+  /* remove outline effect for input elements etc */
+  outline: none;
+  /* prevent text selecting */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  /* pixelated enlargement filter (to keep the pixel-art style when enlarging pictures) */
+  -ms-interpolation-mode: nearest-neighbor;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: -webkit-crisp-edges;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -o-crisp-edges;
+  image-rendering: pixelated;
+  /* default font */
+  font-family: "Press Start 2P", cursive;
+}
+
+/**
+* customized divs (containers) and framed objects (background and frame image).
+*/
+/* game div without background image*/
+/*.rpgui-container {
+  z-index: 10;
+  overflow: auto;
+}*/
+
+/* game div with background image*/
+/*.rpgui-container.framed {*/
+  /* border */
+  /*border-style: solid;
+  border-image: url("img/border-image.png") 6 6 6 6/3px repeat;
+  border-width: 5px;*/
+  /*padding: 12px;*/
+  /* internal border */
+  /*box-sizing: border-box;*/
+  /* background */
+  /*background: url("img/background-image.png") repeat repeat border-box border-box center;
+}*/
+
+/* game div with golden background image*/
+/*.rpgui-container.framedgolden {*/
+  /* border */
+  /*border-style: solid;
+  border-image: url("img/border-image.png") 4 4 4 4/3px repeat;
+  border-width: 5px;*/
+  /* internal border */
+  /*box-sizing: border-box;*/
+  /* background */
+  /*background: url("img/background-image-golden.png") repeat repeat border-box border-box center;
+}*/
+
+/* game div with golden2 background image*/
+/*.rpgui-container.framedgolden2 {*/
+  /* border */
+  /*border-style: solid;
+  border-image: url("img/border-image.png") 4 4 4 4/3px repeat;
+  border-width: 5px;
+  box-sizing: border-box;*/
+  /* background */
+  /*background: url("img/background-image-golden2.png") repeat repeat border-box border-box center;
+}*/
+
+/* game div with soft grey background image*/
+/*.rpgui-container.framedgrey {*/
+  /*position: relative;*/
+  /* border */
+  /*border-style: solid;
+  border-image: url("img/border-image.png") 3 3 3 3/7px repeat;
+  border-width: 7px;*/
+  /* internal border */
+  /*box-sizing: border-box;*/
+  /* background */
+  /*background: url("img/background-image-grey.png") repeat repeat border-box border-box center;
+}*/

@@ -17,7 +17,7 @@ public class RpgComponentBase : ComponentBase
         var agent = await CosmosService.GetAgent(agentId);
         if (agent != null)
         {
-            DialogService.Open<EditAgent>("",new Dictionary<string, object>() { ["Agent"] = agent});
+            DialogService.Open<EditAgent>("",new Dictionary<string, object>() { ["Agent"] = agent}, new DialogOptions(){Style = "width:80vw"});
             return;
         }
     }

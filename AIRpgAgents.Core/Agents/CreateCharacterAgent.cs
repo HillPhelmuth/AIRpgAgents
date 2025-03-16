@@ -14,10 +14,10 @@ public class CreateCharacterAgent : RpgAgent
 {
     private readonly AppState _appState;
     private readonly CosmosService _cosmosService;
-    private CharacterCreationState _characterCreationState;
-    private ICharacterCreationService _charCreateService;
-    private RollDiceService _rollDiceService;
-    private AutoInvokeFilter _autoInvokeFilter = new();
+    private readonly CharacterCreationState _characterCreationState;
+    private readonly ICharacterCreationService _charCreateService;
+    private readonly RollDiceService _rollDiceService;
+    private readonly AutoInvokeFilter _autoInvokeFilter = new();
     
     public CreateCharacterAgent(AppState appState, CosmosService cosmosService, ICharacterCreationService charCreateService, RollDiceService rollDiceService) : base("CharacterAgent", "Create a new character", PromptHelper.ExtractPromptFromFile("CreateCharacterPrompt.md"), new OpenAIPromptExecutionSettings() { Temperature = 0.9, FunctionChoiceBehavior = FunctionChoiceBehavior.Auto() })
     {
@@ -28,14 +28,16 @@ public class CreateCharacterAgent : RpgAgent
         _charCreateService = charCreateService;
         _rollDiceService = rollDiceService;
     }
-    // Track the current character creation state
-    public string CurrentCreationStateId { get; set; }
+    public CreateCharacterAgent(AppState appState, CosmosService cosmosService, ICharacterCreationService charCreateService, RollDiceService rollDiceService, string promptTemplate) : base("CharacterAgent", "Create a new character", promptTemplate, new OpenAIPromptExecutionSettings() { Temperature = 0.9, FunctionChoiceBehavior = FunctionChoiceBehavior.Auto() })
+    {
+        RequiredArguments = new KernelArguments() { ["name"] = Name };
+        _appState = appState;
+        _cosmosService = cosmosService;
+        _characterCreationState = new CharacterCreationState(appState.Player.Name ?? Guid.NewGuid().ToString()); ;
+        _charCreateService = charCreateService;
+        _rollDiceService = rollDiceService;
+    }
 
-    // Current step in the character creation process
-    public CharacterCreationStep CurrentStep { get; set; } = CharacterCreationStep.BasicInfo;
-
-    // Whether the character creation process is completed
-    public bool IsCharacterCreationCompleted => CurrentStep == CharacterCreationStep.Completed;
 
     protected override Kernel CreateKernel()
     {

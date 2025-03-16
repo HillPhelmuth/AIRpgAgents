@@ -7,66 +7,14 @@ namespace AIRpgAgents.GameEngine.PlayerCharacter;
 public class EquipmentDatabase
 {
     private static bool _isInitialized = false;
-    private static List<Weapon> _weapons = [];
-    private static List<Armor> _armor = [];
-    private static List<AdventuringGear> _adventuringGear = [];
     private static EquipmentData? _equipmentData;
     public static EquipmentData EquipmentData => _equipmentData ??= FileHelper.ExtractFromAssembly<EquipmentData>("Equipment.json");
-    public static List<Weapon> Weapons 
-    {
-        get
-        {
-            EnsureInitialized();
-            return _weapons;
-        }
-    }
-    
-    public static List<Armor> Armor
-    {
-        get
-        {
-            EnsureInitialized();
-            return _armor;
-        }
-    }
-    
-    public static List<AdventuringGear> AdventuringGear
-    {
-        get
-        {
-            EnsureInitialized();
-            return _adventuringGear;
-        }
-    }
-    
-    private static void EnsureInitialized()
-    {
-        if (_isInitialized)
-            return;
-            
-        try
-        {
-            var equipmentData = FileHelper.ExtractFromAssembly<EquipmentData>("Equipment.json");
-            
-            if (equipmentData != null)
-            {
-                _weapons = equipmentData.Weapons ?? [];
-                _armor = equipmentData.Armor ?? [];
-                _adventuringGear = equipmentData.AdventuringGear ?? [];
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error loading equipment data: {ex.Message}");
-            // Initialize with empty collections in case of error
-            _weapons = [];
-            _armor = [];
-            _adventuringGear = [];
-        }
-        
-        _isInitialized = true;
-    }
-    
+    public static List<Weapon> Weapons => EquipmentData.Weapons;
+
+    public static List<Armor> Armor => EquipmentData.Armor;
+
+    public static List<AdventuringGear> AdventuringGear => EquipmentData.AdventuringGear;
+
     public static Weapon GetWeaponByName(string name)
     {
         return Weapons.FirstOrDefault(w => w.Name.Equals(name, StringComparison.OrdinalIgnoreCase));

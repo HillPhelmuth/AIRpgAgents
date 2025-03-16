@@ -1,41 +1,43 @@
 ﻿@* @inherits AppComponentBase *@
-<div style="position:relative; padding:1rem" class="@Message.CssClass">
-	@if (AllowRemove)
-	{
-		<div style="position:absolute; right:4px; top: 30%;">
-			<RadzenButton Size=ButtonSize.ExtraSmall Variant=Variant.Text Icon="edit" title="Edit message" Click="Modify"></RadzenButton>
-            <RadzenButton Size=ButtonSize.ExtraSmall Variant=Variant.Text Icon="delete" title="Remove message" Click="@(() => OnRemove.InvokeAsync(Message))"></RadzenButton>
-			
-		</div>
-	}
-	@if (Message.ImageUrls.Count > 0)
-	{
-        <div style="display:flex;flex-direction:row; gap:4px">
-			@foreach (var image in Message.ImageUrls)
-            {
-				if (string.IsNullOrEmpty(image))
-                {
-                    <span>image url is empty</span>
-                }
-				<img src="@image" style="max-height:200px;max-width:200px" alt="uploaded image" />
-            }
-        </div>
-		@* <img src="@(Message.ImageUrl)" style="max-height:200px;max-width:200px" alt="uploaded image" /> *@
-	}
-	@if (_isModify)
-	{
-		<RadzenTemplateForm Data="_modifyForm" TItem="ModifyForm" Submit="Accept">
-			<RadzenFormField Text="Modify">
-				<RadzenTextArea @bind-Value=Message.Content Style="width:100%; height:7rem"></RadzenTextArea>
-			</RadzenFormField>
-			<br />
-			<RadzenButton ButtonType="ButtonType.Submit" Size=ButtonSize.ExtraSmall Variant=Variant.Text Icon="done" title="Finished"></RadzenButton>
-			<RadzenButton Size=ButtonSize.ExtraSmall Variant=Variant.Text Icon="cancel" ButtonStyle="ButtonStyle.Danger" Click="Cancel" title="Finished"></RadzenButton>
-		</RadzenTemplateForm>
-	}
-	else
-	{
-		<div @ref=_ref style="@("width:100%")">@((MarkupString)AsHtml(Message.Content))</div>
-	}
-	
+<div class="@Message.CssClass">
+	<div class="message-content">
+		@if (AllowRemove)
+		{
+			<div class="message-actions">
+				<RadzenButton Size=ButtonSize.ExtraSmall Variant=Variant.Text Icon="edit" title="Edit message" Click="Modify" class="rpg-button"></RadzenButton>
+				<RadzenButton Size=ButtonSize.ExtraSmall Variant=Variant.Text Icon="delete" title="Remove message" Click="@(() => OnRemove.InvokeAsync(Message))" class="rpg-button"></RadzenButton>
+			</div>
+		}
+		@if (Message.ImageUrls.Count > 0)
+		{
+			<div class="message-images">
+				@foreach (var image in Message.ImageUrls)
+				{
+					if (string.IsNullOrEmpty(image))
+					{
+						<span class="image-error">image url is empty</span>
+					}
+					<div class="rpg-image-frame">
+						<img src="@image" alt="uploaded image" />
+					</div>
+				}
+			</div>
+		}
+		@if (_isModify)
+		{
+			<RadzenTemplateForm Data="_modifyForm" TItem="ModifyForm" Submit="Accept" class="modify-form">
+				<RadzenFormField Text="Modify">
+					<RadzenTextArea @bind-Value=Message.Content class="rpg-textarea"></RadzenTextArea>
+				</RadzenFormField>
+				<div class="form-actions">
+					<RadzenButton ButtonType="ButtonType.Submit" Size=ButtonSize.ExtraSmall Variant=Variant.Text Icon="done" title="Finished" class="rpg-button confirm"></RadzenButton>
+					<RadzenButton Size=ButtonSize.ExtraSmall Variant=Variant.Text Icon="cancel" ButtonStyle="ButtonStyle.Danger" Click="Cancel" title="Cancel" class="rpg-button cancel"></RadzenButton>
+				</div>
+			</RadzenTemplateForm>
+		}
+		else
+		{
+			<div @ref=_ref class="message-text">@((MarkupString)AsHtml(Message.Content))</div>
+		}
+	</div>
 </div>

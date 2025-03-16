@@ -14,7 +14,7 @@ public class CharacterState(CharacterSheet characterSheet)
     
 
     // Campaign tracking
-    public List<string> ActiveCampaignIds { get; set; } = new();
+    public List<string> ActiveCampaignIds { get; set; } = [];
     public string? CurrentCampaignId { get; set; }
     public WorldState? CurrentCampaignState { get; set; }
 
@@ -30,7 +30,7 @@ public class CharacterState(CharacterSheet characterSheet)
     public Dictionary<string, int> DamageByType { get; set; } = new();
     
     // Action history
-    public List<CharacterAction> RecentActions { get; set; } = new();
+    public List<CharacterAction> RecentActions { get; set; } = [];
     public int MaxActionHistory { get; set; } = 20;
     
     // Temporary hit points are managed separately from CharacterSheet
@@ -91,13 +91,9 @@ public class CharacterState(CharacterSheet characterSheet)
     public void TakeDamage(int amount, string damageType)
     {
         // Record damage by type
-        if (DamageByType.ContainsKey(damageType))
+        if (!DamageByType.TryAdd(damageType, amount))
         {
             DamageByType[damageType] += amount;
-        }
-        else
-        {
-            DamageByType[damageType] = amount;
         }
 
         // Apply damage to hit points

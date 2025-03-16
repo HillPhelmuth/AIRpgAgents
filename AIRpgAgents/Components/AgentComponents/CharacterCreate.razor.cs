@@ -23,7 +23,7 @@ public partial class CharacterCreate
     private RollDiceService RollDiceService { get; set; } = default!;
     private CreateCharacterAgent? CharacterAgent { get; set; }
     private bool _isBusy;
-    
+
     private CancellationTokenSource _cts = new();
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -32,15 +32,21 @@ public partial class CharacterCreate
             _isBusy = true;
             StateHasChanged();
             await Task.Delay(1);
-            var history = new ChatHistory();
-            history.AddUserMessage("Introduce yourself in a flamboyant way and explain the character creation process. Then Begin the first step.");
-            CharacterAgent ??= new CreateCharacterAgent(AppState, CosmosService, CharacterCreationService, RollDiceService);
+            
+
             var characterAgent = await CosmosService.GetAgent("CharacterAgent");
             if (characterAgent == null)
             {
+                CharacterAgent ??= new CreateCharacterAgent(AppState, CosmosService, CharacterCreationService, RollDiceService);
                 await CosmosService.SaveAgent(CharacterAgent.ToAgentData());
             }
-            
+            else
+            {
+                CharacterAgent = new CreateCharacterAgent(AppState, CosmosService, CharacterCreationService,
+                    RollDiceService, characterAgent.PromptTemplate!);
+            }
+            var history = new ChatHistory();
+            history.AddUserMessage("Introduce yourself in a flamboyant way and explain the character creation process. Then Begin the first step.");
             await foreach (var response in CharacterAgent.InvokeStreamingAsync(history))
             {
                 _chatView.ChatState.UpsertAssistantMessage(response);

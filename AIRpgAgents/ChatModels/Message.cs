@@ -29,7 +29,21 @@ public class Message(Role role, string content, int order)
         return new Message(Role.Assistant, content, order);
     }
 
-    public string CssClass => Role.ToString().ToLower();
+    public string CssClass
+    {
+        get
+        {
+            if (Role == Role.User)
+            {
+                return "rpgui-container framedgolden2 user";
+            }
+            if (Role == Role.Assistant)
+            {
+                return "rpgui-container framed assistant";
+            }
+            return Role.ToString().ToLower();
+        }
+    }
 }
 public class NewMessageForm
 {

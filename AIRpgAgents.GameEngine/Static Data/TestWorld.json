@@ -1,0 +1,172 @@
+{
+  "id": "Cock \u0026 Gore: Bloodfuck Chronicles",
+  "Name": "Cock \u0026 Gore: Bloodfuck Chronicles",
+  "BriefDescription": "A hellscape where debauchery and death flourish under the brutal rule of Lord Vulgarius the Cocksmiter.",
+  "FullDescription": "Cock \u0026 Gore is a dark, grotesque kingdom ruled by Lord Vulgarius, where every corner pulsates with hedonistic desires and violence. Towns serve as endless playgrounds of vice, forests are slaughterhouses masked beneath verdant canopies, and rivers sweep away the remnants of countless disputes. Vulgarius, a tyrant as depraved as feared, keeps his regime alive through pleasure and bloodshed, wielding his infamous spiked dildo-scepter as he dictates over gladiatorial arenas, where only the ruthless survive.",
+  "NPCs": [
+    {
+      "Id": "Lord Vulgarius the Cocksmiter",
+      "Name": "Lord Vulgarius the Cocksmiter",
+      "Description": "A towering figure clad in lavish fur cloaks, with an ever-present wicked grin and bejeweled crown. Sadistic and cunning, his grip on the realm is unyielding, fortified by both fear and indulgence.",
+      "CurrentLocationId": "LOC001",
+      "State": "Idle",
+      "Disposition": "Hostile"
+    },
+    {
+      "Id": "Lady Whiplash",
+      "Name": "Lady Whiplash",
+      "Description": "Once a loyal servant of Vulgarius, now a fallen courtesan seeking redemption. Known for her striking beauty and prowess with a cat o\u0027 nine tails, she suffers under the wrath of her former master.",
+      "CurrentLocationId": "LOC002",
+      "State": "Walking",
+      "Disposition": "Neutral"
+    },
+    {
+      "Id": "Thorian Bonegrinder",
+      "Name": "Thorian Bonegrinder",
+      "Description": "An ogre gladiator with brawn matched only by his kindness. Thorian bears the scars of countless arena victories, fighting not for pleasure but survival.",
+      "CurrentLocationId": "LOC003",
+      "State": "Combat",
+      "Disposition": "Friendly"
+    },
+    {
+      "Id": "Balthazar the Alchemist",
+      "Name": "Balthazar the Alchemist",
+      "Description": "A wiry, bespectacled goblin with the knowledge to concoct both panaceas and poisons. His loyalty is fickle, as he values gold above kin.",
+      "CurrentLocationId": "LOC004",
+      "State": "Working",
+      "Disposition": "Neutral"
+    },
+    {
+      "Id": "Sibil Serrathake",
+      "Name": "Sibil Serrathake",
+      "Description": "A mysterious oracle with snake-like features. She dances between the realms of vision and madness, her prophecies sought by the desperate.",
+      "CurrentLocationId": "LOC002",
+      "State": "Talking",
+      "Disposition": "Neutral"
+    }
+  ],
+  "Quests": [
+    {
+      "Id": "QST001",
+      "Name": "The Succubus\u0027 Redemption",
+      "Description": "Help Lady Whiplash retrieve a stolen amulet to break free from Vulgarius\u0027 curse.",
+      "LocationName": "Velvet Maze Courtesan\u0027s House",
+      "QuestGiver": "Lady Whiplash",
+      "PotentialRewardItems": [
+        "Whiplash\u0027s Loyalty",
+        "Heirloom Amulet"
+      ],
+      "PotentialRewardCoinsInGold": 100
+    },
+    {
+      "Id": "QST002",
+      "Name": "Recipe for Destruction",
+      "Description": "Gather rare ingredients for Balthazar\u0027s latest elixir, which promises unimaginable power.",
+      "LocationName": "The Alchemist\u0027s Lair",
+      "QuestGiver": "Balthazar the Alchemist",
+      "PotentialRewardItems": [
+        "Vault of Enigmas",
+        "Vial of Unending Fury"
+      ],
+      "PotentialRewardCoinsInGold": 250
+    },
+    {
+      "Id": "QST003",
+      "Name": "Gladiator\u0027s Respite",
+      "Description": "Deliver a secret weapon to Thorian Bonegrinder during his next arena bout. Time is critical.",
+      "LocationName": "Arena of Red Sands",
+      "QuestGiver": "Mysterious Benefactor",
+      "PotentialRewardItems": [
+        "Gladiator\u0027s Shield",
+        "Goblet of Immortality"
+      ],
+      "PotentialRewardCoinsInGold": 150
+    }
+  ],
+  "Locations": [
+    {
+      "Id": "LOC001",
+      "Name": "Palace of Sins",
+      "Description": "A gilt-laden fortress pulsing with orgiastic revelry and screams of gladiator tournaments. The walls tell tales of conquest and tyranny.",
+      "Tags": [
+        "Fortress",
+        "Pleasure",
+        "Blood Sport"
+      ],
+      "IsDiscovered": true
+    },
+    {
+      "Id": "LOC002",
+      "Name": "Velvet Maze",
+      "Description": "An endless labyrinth of make-shift brothels and hidden seductions where Lady Whiplash rules her imbricated domain.",
+      "Tags": [
+        "Pleasure",
+        "Secrets"
+      ],
+      "IsDiscovered": true
+    },
+    {
+      "Id": "LOC003",
+      "Name": "Arena of Red Sands",
+      "Description": "The blood-soaked grounds echo with the roar of spectators and the clang of steel. Only the mightiest survive here.",
+      "Tags": [
+        "Combat",
+        "Arena"
+      ],
+      "IsDiscovered": true
+    },
+    {
+      "Id": "LOC004",
+      "Name": "The Alchemist\u0027s Lair",
+      "Description": "A chaotic den filled with bubbling brews and cryptic tomes, where Balthazar experiments with both toxins and cures.",
+      "Tags": [
+        "Alchemy",
+        "Mystery"
+      ],
+      "IsDiscovered": true
+    },
+    {
+      "Id": "LOC005",
+      "Name": "Whispering Woods",
+      "Description": "A dark forest that sings with the cries of both wildlife and the fallen. It\u0027s said that one\u0027s sins are louder here.",
+      "Tags": [
+        "Forest",
+        "Danger"
+      ],
+      "IsDiscovered": true
+    }
+  ],
+  "Events": [
+    {
+      "Name": "The Ascension of Vulgarius",
+      "Description": "Through blackmail and bloodshed, Lord Vulgarius ascended to power, outlawing dissent beneath ruthlessness and revelry.",
+      "LocationId": "LOC001",
+      "RelatedEntityIds": [
+        "NPC001"
+      ],
+      "IsResolved": true,
+      "StartTime": "2020-01-01",
+      "Tags": [
+        "Tyranny",
+        "Conquest"
+      ],
+      "Notes": "A shift that veiled the entire realm in darkness."
+    },
+    {
+      "Name": "The Feast of Gore",
+      "Description": "An annual tradition where gladiators battle for survival, offering blood to sate the wolverines and the appetite of spectators.",
+      "LocationId": "LOC003",
+      "RelatedEntityIds": [
+        "NPC003"
+      ],
+      "IsResolved": false,
+      "StartTime": "2024-10-01",
+      "Tags": [
+        "Celebration",
+        "Bloodshed"
+      ],
+      "Notes": "Continues to strengthen Vulgarius\u0027 hold on the kingdom."
+    }
+  ],
+  "OtherNotes": "A world of extremes, where ecstasy and cruelty dance to the same rhythm, bound by the lustful chains of its ruler, Vulgarius."
+}

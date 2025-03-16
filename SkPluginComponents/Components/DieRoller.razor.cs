@@ -15,7 +15,7 @@ public partial class DieRoller
     [Parameter]
     public bool IsManual { get; set; }
 
-    private string _diceClass = "";
+    private string _diceClass = "stopped";
     private string _rollingCss = "";
     private int _currentFace = 1;
     private Timer _rollTimer;

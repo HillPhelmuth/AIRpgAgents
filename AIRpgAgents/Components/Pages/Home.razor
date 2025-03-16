@@ -13,7 +13,7 @@
         @foreach (var item in _componentOptions)
         {
             <RadzenTabsItem Text="@item.Key">
-                <DynamicComponent Type="@_componentOptions[item.Key]"></DynamicComponent>
+                <div style="height:88vh"><DynamicComponent Type="@_componentOptions[item.Key]"></DynamicComponent></div>
             </RadzenTabsItem>
         }
     </Tabs>

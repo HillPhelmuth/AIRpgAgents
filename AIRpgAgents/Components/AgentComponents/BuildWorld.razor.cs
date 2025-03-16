@@ -9,12 +9,13 @@ using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using AIRpgAgents.GameEngine.World;
 using AIRpgAgents.Core.Agents;
+using AIRpgAgents.Core.Models;
 
 namespace AIRpgAgents.Components.AgentComponents;
 public partial class BuildWorld
 {
     private ChatView _chatView;
-   
+
     [Inject]
     private CosmosService CosmosService { get; set; } = default!;
     [Inject]
@@ -26,7 +27,7 @@ public partial class BuildWorld
 
     private CancellationTokenSource _cts = new();
     private WorldState? _worldState;
-   
+
     private void HandleWorldCreated(WorldState obj)
     {
         _worldState = obj;
@@ -43,10 +44,18 @@ public partial class BuildWorld
             await Task.Delay(1);
             var history = new ChatHistory();
             history.AddUserMessage("Go on. Ask me for my damn ideas.");
-            CreateWorldAgent = new CreateWorldAgent(CosmosService);
+            
             var worldAgent = await CosmosService.GetAgent("WorldAgent");
             if (worldAgent == null)
+            {
+                CreateWorldAgent = new CreateWorldAgent(CosmosService);
                 await CosmosService.SaveAgent(CreateWorldAgent.ToAgentData());
+            }
+            else
+            {
+                PromptHelper.PromptDictionary["WorldBuilderPrompt.md"] = worldAgent.PromptTemplate!;
+                CreateWorldAgent = new CreateWorldAgent(CosmosService, worldAgent.PromptTemplate!);
+            }
             CreateWorldAgent.WorldCreated += HandleWorldCreated;
             await foreach (var response in CreateWorldAgent.InvokeStreamingAsync(history))
             {

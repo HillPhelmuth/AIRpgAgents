@@ -21,6 +21,13 @@ public class CreateWorldAgent : RpgAgent
         _autoInvokeFilter.OnCompleted += HandleCompleted;
         _cosmos = cosmos;
     }
+    public CreateWorldAgent(CosmosService cosmos, string promptTemplate): base("WorldAgent", "Create a new world", promptTemplate, new OpenAIPromptExecutionSettings() { Temperature = 1.1, FunctionChoiceBehavior = FunctionChoiceBehavior.Auto() })
+    {
+        RequiredArguments = new KernelArguments() { ["name"] = Name };
+        _autoInvokeFilter = new AutoInvokeFilterEvents();
+        _autoInvokeFilter.OnCompleted += HandleCompleted;
+        _cosmos = cosmos;
+    }
 
     private void HandleCompleted(object? sender, AutoFunctionInvocationContext e)
     {

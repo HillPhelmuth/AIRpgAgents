@@ -1,8 +1,10 @@
 using AIRpgAgents.Core;
+using AIRpgAgents.Core.Models;
 using AIRpgAgents.Core.Services;
 using AIRpgAgents.GameEngine.World;
 using Microsoft.AspNetCore.Components;
 using Radzen;
+using System.Text.Json;
 
 namespace AIRpgAgents.Components.Pages;
 public partial class WorldsPage
@@ -13,7 +15,7 @@ public partial class WorldsPage
     private CosmosService CosmosService { get; set; } = default!;
     [Inject]
     private NotificationService NotificationService { get; set; } = default!;
-    private List<WorldState> _worlds = new();
+    private List<WorldState> _worlds = [];
     private WorldState? SelectedWorld { get; set; }
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

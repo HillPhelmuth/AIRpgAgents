@@ -2,8 +2,8 @@
 <RadzenRow>
     <RadzenColumn SizeLG="6" Style="position:relative">
         <RadzenCard>
-            <RadzenButton Size="ButtonSize.Small" Icon="support_agent" Text="Edit Agent" Click="@(() => ShowAgent("CharacterAgent"))"></RadzenButton>
-            <ChatView ResetOnClose="false" AllowRemove=false ViewId="chatWithSk" Height="75vh" @ref=_chatView></ChatView>
+            <RadzenButton Size="ButtonSize.ExtraSmall" Icon="support_agent" Text="Edit Agent" Click="@(() => ShowAgent("CharacterAgent"))"></RadzenButton>
+            <ChatView ResetOnClose="false" AllowRemove=false ViewId="character" Height="75vh" @ref=_chatView></ChatView>
         </RadzenCard>
 
         <RadzenCard Style="position:relative" Variant="Variant.Filled">

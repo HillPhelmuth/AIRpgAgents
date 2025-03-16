@@ -9,7 +9,9 @@ public partial class WorldDetails
 {
     [Parameter] 
     public WorldState? World { get; set; }
-    
+    [Parameter]
+    public string CustomStyle { get; set; } = "";
+
     private Location? SelectedLocation { get; set; }
     private NPC? SelectedNPC { get; set; }
     private Quest? SelectedQuest { get; set; }
@@ -78,7 +80,7 @@ public partial class WorldDetails
         
         // Convert line breaks to proper HTML paragraphs
         return string.Join("", description
-            .Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries)
+            .Split(["\r\n", "\r", "\n"], StringSplitOptions.RemoveEmptyEntries)
             .Select(p => $"<p>{p}</p>"));
     }
 }
