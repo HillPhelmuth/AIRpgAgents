@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AIRpgAgents.Core.Agents;
 using AIRpgAgents.Core.Models;
+using AIRpgAgents.Core.Plugins.NativePlugins;
 using AIRpgAgents.GameEngine.World;
 
 namespace AIRpgAgents.Core;
@@ -16,6 +17,7 @@ public class AppState : INotifyPropertyChanged
     private WorldState _worldState = new();
     private Player _player = new();
     private List<AgentData> _activeAgents = [];
+    private NarrativeState? _globalNarrative;
     public event PropertyChangedEventHandler? PropertyChanged;
 
     public WorldState WorldState
@@ -28,6 +30,12 @@ public class AppState : INotifyPropertyChanged
     {
         get => _player;
         set => SetField(ref _player, value);
+    }
+
+    public NarrativeState? NarrativeState
+    {
+        get => _globalNarrative;
+        set => SetField(ref _globalNarrative, value);
     }
 
     public List<AgentData> ActiveAgents

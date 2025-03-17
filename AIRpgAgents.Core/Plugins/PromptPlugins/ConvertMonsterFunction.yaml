@@ -2,10 +2,13 @@ name: ConvertMonsterFunction
 description: 'Create monster details that conform to the provided schema based on the monster details provided'
 input_variables:
 - name: monster
-description: the monster details from an api that must be converted to provided schema
-default: ''
+  description: the monster details from an api that must be converted to provided schema
+  default: ''
 template: |
- Convert the monster below to the proper json format
+ Convert the monster below from the D&D format provided to the proper json schema format
 
  **Monster**
+
+ ```
  {{ $monster }}
+ ```

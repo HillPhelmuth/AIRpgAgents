@@ -1,6 +1,7 @@
 ﻿using AIRpgAgents.Components.AgentComponents;
 using AIRpgAgents.Core;
 using AIRpgAgents.Core.Services;
+using Markdig;
 using Microsoft.AspNetCore.Components;
 using Radzen;
 
@@ -20,5 +21,13 @@ public class RpgComponentBase : ComponentBase
             DialogService.Open<EditAgent>("",new Dictionary<string, object>() { ["Agent"] = agent}, new DialogOptions(){Style = "width:80vw"});
             return;
         }
+    }
+    protected string AsHtml(string? text)
+    {
+        if (text == null) return "";
+        var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
+        var result = Markdown.ToHtml(text, pipeline);
+        return result;
+
     }
 }

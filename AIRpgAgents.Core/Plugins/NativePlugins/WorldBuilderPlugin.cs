@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using AIRpgAgents.Core.Models;
 using AIRpgAgents.Core.Services;
@@ -37,6 +38,7 @@ public class WorldBuilderPlugin
     [KernelFunction, Description("Save the RPG world for the current game when you and the user finally agree")]
     public async Task<string> SaveWorld(Kernel kernel, [Description("The world state to save")] WorldState worldState)
     {
+        File.WriteAllText("TestWorld.json", JsonSerializer.Serialize(worldState, new JsonSerializerOptions() {WriteIndented = true}));
         var cosmosService = kernel.Services.GetRequiredService<CosmosService>();
         await cosmosService.SaveWorldStateAsync(worldState);
         return "World saved";

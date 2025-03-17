@@ -1,14 +1,26 @@
 ﻿@inherits AIRpgAgents.Components.Layout.RpgComponentBase
-<RadzenRow>
+@page "/buildWorld"
+<RadzenRow Gap="0px">
     <RadzenColumn SizeLG="6" Style="position:relative">
-        <RadzenCard>
-            <RadzenButton Size="ButtonSize.ExtraSmall" Icon="support_agent" Text="Edit Agent" Click="@(() => ShowAgent("WorldAgent"))"></RadzenButton>
-            <ChatView ResetOnClose="false" AllowRemove=false ViewId="world" Height="75vh" @ref=_chatView></ChatView>
-        </RadzenCard>
+        @if (_isStarted)
+        {
+            <RadzenCard Style="padding:1px" Variant="Variant.Text" >
+                <RadzenButton Size="ButtonSize.ExtraSmall" Icon="support_agent" Text="Edit Agent" Click="@(() => ShowAgent("WorldAgent"))"></RadzenButton>
+                <ChatView ResetOnClose="false" AllowRemove=false ViewId="world" Height="75vh" @ref=_chatView></ChatView>
+            </RadzenCard>
 
-        <RadzenCard Style="position:relative" Variant="Variant.Filled">
-            <UserInput IsRequired="@(false)" ButtonLabel="Send" HelperText="User Input" UserInputSubmit="HandleRequest" IsBusy="_isBusy" CancelRequest="Cancel"></UserInput>
-        </RadzenCard>
+            <RadzenCard Style="position:relative" Variant="Variant.Text">
+                <UserInput IsRequired="@(false)" ButtonLabel="Send" HelperText="User Input" UserInputSubmit="HandleRequest" IsBusy="_isBusy" CancelRequest="Cancel"></UserInput>
+            </RadzenCard>
+        }
+        else
+        {
+            <div id="start-agent-overlay">
+                <button class="rpg-button" @onclick="StartAgent">
+                    <span class="button-text">Begin World Builder Agent</span>
+                </button>
+            </div>
+        }
     </RadzenColumn>
     <RadzenColumn SizeLG="6" Style="max-height:80vh; overflow-y:auto">
         <WorldDetails World="_worldState"></WorldDetails>

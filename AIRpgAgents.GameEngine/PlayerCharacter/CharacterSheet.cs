@@ -52,7 +52,7 @@ public class CharacterSheet
         get => AttributeSet[RpgAttribute.Presence];
         set => AttributeSet[RpgAttribute.Presence] = value;
     }
-    public Dictionary<string, Skill> Skills { get; set; } = new();
+    public List<Skill> Skills { get; set; } = [];
         
     // Combat Stats
     public int CurrentHP { get; set; }
@@ -179,11 +179,6 @@ public class CharacterSheet
             markdown.AppendLine($"* **Description:** {Class.Description}");
         }
         
-        if (Class.PrimaryAttributes?.Count > 0)
-        {
-            markdown.AppendLine($"* **Primary Attributes:** {string.Join(", ", Class.PrimaryAttributes)}");
-        }
-        
         // Attributes
         markdown.AppendLine();
         markdown.AppendLine("## Attributes");
@@ -204,11 +199,11 @@ public class CharacterSheet
             
             foreach (var skill in Skills)
             {
-                markdown.AppendLine($"* **{skill.Key}:** Rank {skill.Value.Rank}");
-                markdown.AppendLine($"  * Associated Attribute: {skill.Value.AssociatedAttribute}");
-                if (skill.Value.Bonus != 0)
+                markdown.AppendLine($"* **{skill.Name}:** Rank {skill.Rank}");
+                markdown.AppendLine($"  * Associated Attribute: {skill.AssociatedAttribute}");
+                if (skill.Bonus != 0)
                 {
-                    string bonusStr = skill.Value.Bonus >= 0 ? $"+{skill.Value.Bonus}" : skill.Value.Bonus.ToString();
+                    string bonusStr = skill.Bonus >= 0 ? $"+{skill.Bonus}" : skill.Bonus.ToString();
                     markdown.AppendLine($"  * Bonus: {bonusStr}");
                 }
             }

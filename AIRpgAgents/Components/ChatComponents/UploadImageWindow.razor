@@ -1,6 +1,4 @@
-﻿
-
-<RadzenCard>
+﻿<RadzenCard>
     <RadzenTemplateForm Data="_multiFileUpload" TItem="MultiFileUpload" Submit="Submit">
         <div class="upload-grid">
             @foreach (var fileUpload in _multiFileUpload.FileUploads)
@@ -14,7 +12,7 @@
                                            @bind-FileName=fileUpload.FileName 
                                            MaxHeight="600" 
                                            MaxWidth="600" 
-                                           ChooseText="Img" />
+                                           ChooseText="Img" Change="@((string c) => Console.WriteLine("File Input Change"))" />
                         </ChildContent>
                     </RadzenFormField>
                 </div>

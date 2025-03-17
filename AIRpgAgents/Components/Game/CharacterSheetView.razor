@@ -194,12 +194,12 @@
                         @foreach (var skill in CharacterSheet.Skills)
                         {
                             <tr>
-                                <td>@skill.Value.Name</td>
-                                <td>@skill.Value.AssociatedAttribute</td>
+                                <td>@skill.Name</td>
+                                <td>@skill.AssociatedAttribute</td>
                                 <td>
-                                    <InputNumber @bind-Value="skill.Value.Rank" class="small-input" />
+                                    <InputNumber @bind-Value="skill.Rank" class="small-input" />
                                 </td>
-                                <td>@skill.Value.Bonus</td>
+                                <td>@skill.Bonus</td>
                             </tr>
                         }
                     </tbody>

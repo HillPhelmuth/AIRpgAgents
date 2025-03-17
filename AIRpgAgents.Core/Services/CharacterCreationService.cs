@@ -352,7 +352,7 @@ public class CharacterCreationService : ICharacterCreationService
                 skill.Rank = PRIMARY_SKILL_RANK;
             }
 
-            state.SelectedSkills[skillName] = skill;
+            state.SelectedSkills.Add(skill);
         }
 
         UpdateCharacterCreationStateAsync(state);
@@ -410,11 +410,18 @@ public class CharacterCreationService : ICharacterCreationService
 
         // Get available equipment options
         var equipmentOptions = EquipmentDatabase.EquipmentData;
-        var weaponsCost = selectedWeapons.Sum(x => x.Value);
-        var armorCost = selectedArmor.Sum(x => x.Value);
-        var itemsCost = selectedItems.Sum(x => x.Value);
+        // Find the selected equipment in the database
+        
+        
+        
+        var matchedWeapons = MatchedWeapons(selectedWeapons);
+        var matchedArmor = MatchedArmor(selectedArmor);
+        var matchedItems = AdventuringGears(selectedItems);
+        var weaponsCost = matchedWeapons.Sum(x => x.Value);
+        var armorCost = matchedArmor.Sum(x => x.Value);
+        var itemsCost = matchedItems.Sum(x => x.Value);
         var totalCost = weaponsCost + armorCost + itemsCost;
-        var availableCopper = state.CopperCoins + state.SilverCoins * 10 + state.GoldCoins * 100;
+        var availableCopper = state.CopperCoins + (state.SilverCoins * 10) + (state.GoldCoins * 100);
         var remaining = availableCopper - totalCost;
         
         var (gold, silver, copper) = ConvertCopper((int)remaining);
@@ -423,15 +430,93 @@ public class CharacterCreationService : ICharacterCreationService
         state.CopperCoins = copper;
         
         // Set the selected equipment
-        state.SelectedWeapons = selectedWeapons;
-        state.SelectedArmor = selectedArmor;
-        state.SelectedItems = selectedItems;
+        state.SelectedWeapons = matchedWeapons;
+        state.SelectedArmor = matchedArmor;
+        state.SelectedItems = matchedItems;
 
         UpdateCharacterCreationStateAsync(state);
         
         return (int)remaining; // Return total remaining copper for potential UI feedback
     }
-    private static (int Gold, int Silver, int Copper) ConvertCopper(int totalCopper)
+
+    public static List<AdventuringGear> AdventuringGears(List<AdventuringGear>? selectedItems)
+    {
+        var equipmentOptions = EquipmentDatabase.EquipmentData;
+        List<AdventuringGear> matchedItems = [];
+        if (selectedItems != null)
+        {
+            foreach (var item in selectedItems)
+            {
+                var dbItem = equipmentOptions.AdventuringGear.FirstOrDefault(g => g.Name.Equals(item.Name, StringComparison.OrdinalIgnoreCase));
+                if (dbItem == null)
+                {
+                    throw new ArgumentException($"Adventuring gear '{item.Name}' is not available for selection");
+                }
+                matchedItems.Add(dbItem);
+            }
+        }
+
+        return matchedItems;
+    }
+
+    public static List<Armor> MatchedArmor(List<Armor>? selectedArmor)
+    {
+        var equipmentOptions = EquipmentDatabase.EquipmentData;
+        List<Armor> matchedArmor = [];
+        if (selectedArmor != null)
+        {
+            foreach (var armor in selectedArmor)
+            {
+                var dbArmor = equipmentOptions.Armor.FirstOrDefault(a => a.Name.Equals(armor.Name, StringComparison.OrdinalIgnoreCase));
+                if (dbArmor == null)
+                {
+                    throw new ArgumentException($"Armor '{armor.Name}' is not available for selection");
+                }
+                matchedArmor.Add(dbArmor);
+            }
+        }
+
+        return matchedArmor;
+    }
+
+    public static List<Weapon> MatchedWeapons(List<Weapon>? selectedWeapons)
+    {
+        var equipmentOptions = EquipmentDatabase.EquipmentData;
+        List<Weapon> matchedWeapons = [];
+        if (selectedWeapons != null)
+        {
+            foreach (var weapon in selectedWeapons)
+            {
+                var dbWeapon = equipmentOptions.Weapons.FirstOrDefault(w => w.Name.Equals(weapon.Name, StringComparison.OrdinalIgnoreCase));
+                if (dbWeapon == null)
+                {
+                    throw new ArgumentException($"Weapon '{weapon.Name}' is not available for selection");
+                }
+                matchedWeapons.Add(dbWeapon);
+            }
+        }
+
+        return matchedWeapons;
+    }
+
+    /// <summary>
+    /// Converts a total amount of copper coins into equivalent gold, silver, and copper denominations.
+    /// </summary>
+    /// <param name="totalCopper">The total amount of copper coins to convert.</param>
+    /// <returns>A tuple containing the number of gold coins (100 copper), silver coins (10 copper), and remaining copper coins.</returns>
+    /// <remarks>
+    /// The conversion follows standard fantasy RPG currency rules:
+    /// - 1 gold = 100 copper
+    /// - 1 silver = 10 copper
+    /// Conversion prioritizes higher value coins first.
+    /// </remarks>
+    /// <example>
+    /// ConvertCopper(123) returns (1, 2, 3) representing:
+    /// - 1 gold coin (100 copper)
+    /// - 2 silver coins (20 copper)
+    /// - 3 copper coins
+    /// </example>
+    public static (int Gold, int Silver, int Copper) ConvertCopper(int totalCopper)
     {
         var gold = totalCopper / 100;
         var remainder = totalCopper % 100;

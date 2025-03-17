@@ -1,0 +1,59 @@
+﻿@inherits AIRpgAgents.Components.Layout.RpgComponentBase
+@page "/narrative"
+<RadzenRow Gap="0px">
+    <RadzenColumn SizeLG="6" Style="position:relative">
+        @if (_isStarted)
+        {
+            <RadzenCard Style="padding:1px" Variant="Variant.Text">
+                <RadzenButton Size="ButtonSize.ExtraSmall" Icon="support_agent" Text="Edit Agent" Click="@(() => ShowAgent("NarrativeAgent"))"></RadzenButton>
+                <ChatView ResetOnClose="false" AllowRemove=false ViewId="narrative" Height="75vh" @ref=_chatView></ChatView>
+            </RadzenCard>
+
+            <RadzenCard Style="position:relative" Variant="Variant.Text">
+                <UserInput IsRequired="@(false)" ButtonLabel="Send" HelperText="-->" UserInputSubmit="HandleRequest" IsBusy="_isBusy" CancelRequest="Cancel"></UserInput>
+            </RadzenCard>
+        }
+        else
+        {
+            <div id="start-agent-overlay">
+                <button class="rpg-button" @onclick="StartAgent">
+                    <span class="button-text">Begin GM/Narrative Agent</span>
+                </button>
+            </div>
+        }
+    </RadzenColumn>
+    <RadzenColumn SizeLG="6" Style="max-height:80vh; overflow-y:auto">
+        <RadzenTabs>
+            <Tabs>
+                <RadzenTabsItem Text="Global Narrative">
+                    <RadzenCard>
+                        @foreach (var update in AppState.NarrativeState?.GlobalNarrative ?? [])
+                        {
+                            <div>@((MarkupString)AsHtml(update))</div><br/>
+                        }
+                    </RadzenCard>
+                </RadzenTabsItem>
+                <RadzenTabsItem Text="GM Narrative">
+                    <RadzenCard>
+                        @foreach (var update in AppState.NarrativeState?.InternalNarrative ?? [])
+                        {
+                            <div>@((MarkupString)AsHtml(update))</div><br />
+                        }
+                    </RadzenCard>
+                </RadzenTabsItem>
+                @foreach (var item in AppState.NarrativeState?.CharacterNarratives ?? [])
+                {
+                    <RadzenTabsItem Text="@item.Key">
+                        <RadzenCard>
+                            @foreach (var update in item.Value)
+                            {
+                                <div>@((MarkupString)AsHtml(update))</div>
+                            }
+                            
+                        </RadzenCard>
+                    </RadzenTabsItem>
+                }
+            </Tabs>
+        </RadzenTabs>
+    </RadzenColumn>
+</RadzenRow>

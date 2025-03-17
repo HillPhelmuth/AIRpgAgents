@@ -1,56 +1,88 @@
 ﻿@using AIRpgAgents.ChatModels
-<RadzenRow Style="position:absolute; bottom:2px; height:max-content; width:95%; z-index:100">
-    <RadzenColumn Size="12" SizeLG="12">
-        <RadzenCard Style="padding-top:2px;padding-bottom:1px;padding-left:0;padding-right:0" Variant="Variant.Text">
-            <RadzenTemplateForm Data="_requestForm" TItem="RequestForm" Submit="SubmitRequest">
-                <RadzenRow>
-                    <RadzenColumn Size="10">
-                        @if (_requestForm.UserInputRequest.UserInputType is UserInputType.Chat or UserInputType.Both)
+<div class="rpg-input-container">
+    <div class="rpg-input-card">
+        <form @onsubmit="@(e => SubmitRequest(_requestForm))">
+            <div class="rpg-row">
+                <div class="rpg-col-main">
+                    <div class="rpg-form-field" title="@HelperText">
+                        @*  <label class="rpg-label">@HelperText</label> *@
+                        @if (_requestForm.UserInputRequest.FileUploads.Count > 0)
                         {
-                            <RadzenFormField Text="@HelperText" Style="width: 100%">
-                                <ChildContent>
-	                                @switch (UserInputFieldType)
-	                                {
-		                                case UserInputFieldType.TextBox:
-			                                <RadzenTextBox ReadOnly="_isDisabled" Name="Input" Style="width: 100%" @bind-Value="@_requestForm.UserInputRequest.ChatInput"></RadzenTextBox>
-			                                break;
-		                                case UserInputFieldType.TextArea:
-			                                <RadzenTextArea ReadOnly="_isDisabled" Name="Input" Style="width: 100%; height:5rem" @bind-Value="@_requestForm.UserInputRequest.ChatInput"></RadzenTextArea>
-			                                break;
-	                                }
 
-                                </ChildContent>
-                                <Helper>
-                                    <RadzenRequiredValidator Visible=IsRequired Component="Input" Text="@($"{HelperText} required")"></RadzenRequiredValidator>
-                                </Helper>
-                            </RadzenFormField>
-                            @if (_requestForm.ShowImageInput){
-								<RadzenFormField Text="Image Url" Style="width: 100%">
-									<ChildContent>
-										<RadzenTextBox  Name="Image" Style="width: 100%" @bind-Value="_requestForm.UserInputRequest.ImageUrlInput"></RadzenTextBox>
-									</ChildContent>
-								</RadzenFormField>
-							}
+                            <div style="">
+                                @foreach (var fileUpload in _requestForm.UserInputRequest.FileUploads)
+                                {
+                                    <div class="rpg-uploaded-image">
+                                        <img src="@($"data:image/png;base64,{fileUpload.FileBase64}")" alt="Uploaded" />
+                                    </div>
+                                }
+                                
+                            </div>
                         }
-                    </RadzenColumn>
-                    <RadzenColumn Size="2" SizeLG="2" Style="display: flex; align-items:center">
-                        @foreach (var fileUpload in _requestForm.UserInputRequest.FileUploads)
+                        <div class="rpg-input-wrapper">
+                            @if (UserInputFieldType == UserInputFieldType.TextBox)
+                            {
+                                <input type="text" 
+                                       class="rpg-input" 
+                                       readonly="@_isDisabled" 
+                                       name="Input" 
+                                       @bind="@_requestForm.UserInputRequest.ChatInput" />
+                            }
+                            else
+                            {
+                                <textarea class="rpg-textarea" 
+                                          readonly="@_isDisabled" 
+                                          name="Input" 
+                                          @bind="@_requestForm.UserInputRequest.ChatInput"></textarea>
+                            }
+                        </div>
+                        @if (IsRequired)
                         {
-                            <RadzenImage Style="width:2rem;height:2rem" Path="@($"data:image/png;base64,{fileUpload.FileBase64}")"></RadzenImage>
+                            <div class="rpg-validation-message">@($"{HelperText} required")</div>
                         }
+                    </div>
+                    
+                   
+                </div>
 
-                        <RadzenCard Variant=Variant.Text Style="display: flex; align-items: center; justify-items: center; justify-content:center; justify-items:center; padding:0">
-                            <RadzenButton ButtonStyle=ButtonStyle.Info Size="ButtonSize.ExtraSmall" Icon="@(UserInputFieldType == UserInputFieldType.TextBox ? "expand" : "unfold_less")" Click="ToggleInputType"></RadzenButton>
-                           <RadzenButton Disabled="_isDisabled" ButtonType="ButtonType.Submit" Size=ButtonSize.Small Icon="send" IsBusy="IsBusy" BusyText="..." Text="@ButtonLabel"></RadzenButton>
+                <div class="rpg-col-buttons">
+                    
 
-                            <RadzenButton Size="ButtonSize.Small" Icon="block" Click="Cancel"></RadzenButton>
-                            <RadzenButton Size="ButtonSize.Small" Icon="attach_file" Click="AddImage" ButtonStyle="ButtonStyle.Secondary"></RadzenButton>
-                            
-                        </RadzenCard>
-                    </RadzenColumn>
-                </RadzenRow>
-            </RadzenTemplateForm>
-        </RadzenCard>
-
-    </RadzenColumn>
-</RadzenRow>
+                    <div class="rpg-button-card">
+                        <button type="button" 
+                                class="rpg-button rpg-button-toggle" 
+                                @onclick="ToggleInputType">
+                            <i class="rzi">@(UserInputFieldType == UserInputFieldType.TextBox ? "expand" : "unfold_less")</i>
+                        </button>
+                        
+                        <button type="submit" 
+                                class="rpg-button rpg-button-send" 
+                                disabled="@(_isDisabled || IsBusy)">
+                            <i class="rzi">send</i>
+                            @if (IsBusy)
+                            {
+                                <span>...</span>
+                            }
+                            else
+                            {
+                                <span>@ButtonLabel</span>
+                            }
+                        </button>
+                        
+                        <button type="button" 
+                                class="rpg-button rpg-button-cancel" 
+                                @onclick="Cancel">
+                            <i class="rzi">block</i>
+                        </button>
+                        
+                        <button type="button" 
+                                class="rpg-button rpg-button-attach" 
+                                @onclick="AddImage">
+                            <i class="rzi">attach_file</i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

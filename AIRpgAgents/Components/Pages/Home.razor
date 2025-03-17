@@ -3,12 +3,12 @@
 @inherits AIRpgAgents.Components.Layout.RpgComponentBase
 <PageTitle>Home</PageTitle>
 @* 
-<RadzenRow><RadzenColumn SizeLG="4" Offset="4"><RadzenFormField Text="Select Test Component"><RadzenDropDown @bind-Value="@_selectedComponent" Data="@_componentOptions.Keys.ToList()"></RadzenDropDown></RadzenFormField></RadzenColumn></RadzenRow>
+<RadzenRow Gap="0px"><RadzenColumn SizeLG="4" Offset="4"><RadzenFormField Text="Select Test Component"><RadzenDropDown @bind-Value="@_selectedComponent" Data="@_componentOptions.Keys.ToList()"></RadzenDropDown></RadzenFormField></RadzenColumn></RadzenRow>
 @if (!string.IsNullOrEmpty(_selectedComponent))
 {
     <DynamicComponent Type="@_componentOptions[_selectedComponent]"></DynamicComponent>
 } *@
-<RadzenTabs TabPosition="TabPosition.Left">
+@* <RadzenTabs TabPosition="TabPosition.Left">
     <Tabs>
         @foreach (var item in _componentOptions)
         {
@@ -17,4 +17,7 @@
             </RadzenTabsItem>
         }
     </Tabs>
-</RadzenTabs>
+</RadzenTabs> *@
+<div style="height:100%">
+    <DicePlayground></DicePlayground>
+</div>

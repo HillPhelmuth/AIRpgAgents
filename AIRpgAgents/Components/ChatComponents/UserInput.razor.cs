@@ -21,8 +21,6 @@ public partial class UserInput : ComponentBase
     [Parameter]
     public EventCallback<string> MessageChanged { get; set; }
     [Parameter]
-    public UserInputType UserInputType { get; set; }
-    [Parameter]
     public UserInputFieldType UserInputFieldType { get; set; }
     [Parameter]
     public EventCallback<UserInputRequest> UserInputSubmit { get; set; }
@@ -32,23 +30,11 @@ public partial class UserInput : ComponentBase
     public bool IsRequired { get; set; } = true;
     [Parameter]
     public string? ImprovedPrompt { get; set; }
-    [Parameter]
-    public EventCallback<string> ImprovedPromptRequest { get; set; }
+   
     [Inject]
     public DialogService DialogService { get; set; } = default!;
 
 
-    private bool _isPromptImproveRequested;
-    protected override Task OnParametersSetAsync()
-    {
-        if (_isPromptImproveRequested && !string.IsNullOrEmpty(ImprovedPrompt))
-        {
-            _requestForm.UserInputRequest.ChatInput = ImprovedPrompt;
-        }
-        _requestForm.UserInputRequest.UserInputType = UserInputType;
-        return base.OnParametersSetAsync();
-    }
-    
     private bool _isDisabled = false;
 
     private class RequestForm
@@ -87,26 +73,14 @@ public partial class UserInput : ComponentBase
         }
         return [];
     }
-    private async Task ImprovePrompt()
-    {
-        var currentPrompt = _requestForm.UserInputRequest.ChatInput;
-        _isPromptImproveRequested = true;
-        await ImprovedPromptRequest.InvokeAsync(currentPrompt);
-
-    }
+   
     private void SubmitRequest(RequestForm form)
     {
         MessageSubmit.InvokeAsync(form.UserInputRequest.ChatInput);
         UserInputSubmit.InvokeAsync(form.UserInputRequest);
         Message = form.UserInputRequest.ChatInput;
         MessageChanged.InvokeAsync(Message);
-        _requestForm = new RequestForm
-        {
-            UserInputRequest =
-            {
-                UserInputType = UserInputType
-            }
-        };
+        _requestForm = new RequestForm();
         StateHasChanged();
     }
 }

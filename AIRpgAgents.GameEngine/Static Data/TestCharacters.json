@@ -104,38 +104,38 @@
       "Wits": 11,
       "Vitality": 15,
       "Presence": 12,
-      "Skills": {
-        "Melee Combat": {
+      "Skills": [
+        {
           "Name": "Melee Combat",
           "AssociatedAttribute": "Might",
           "Rank": 1,
           "Bonus": 0
         },
-        "Athletics": {
+        {
           "Name": "Athletics",
           "AssociatedAttribute": "Might",
           "Rank": 1,
           "Bonus": 0
         },
-        "Endurance": {
-          "Name": "Endurance",
+        {
+          "Name": "Endurance", 
           "AssociatedAttribute": "Vitality",
           "Rank": 1,
           "Bonus": 0
         },
-        "Intimidation": {
+        {
           "Name": "Intimidation",
           "AssociatedAttribute": "Presence",
           "Rank": 1,
           "Bonus": 0
         },
-        "Survival": {
+        {
           "Name": "Survival",
           "AssociatedAttribute": "Wits",
           "Rank": 1,
           "Bonus": 0
         }
-      },
+      ],
       "CurrentHP": 0,
       "MaxHP": 0,
       "CurrentMP": 0,
@@ -367,38 +367,38 @@
       "Wits": 12,
       "Vitality": 9,
       "Presence": 9,
-      "Skills": {
-        "Melee Combat": {
+      "Skills": [
+        {
           "Name": "Melee Combat",
           "AssociatedAttribute": "Might",
           "Rank": 1,
           "Bonus": 0
         },
-        "Ranged Combat": {
+        {
           "Name": "Ranged Combat",
           "AssociatedAttribute": "Agility",
           "Rank": 1,
           "Bonus": 0
         },
-        "Arcane Knowledge": {
+        {
           "Name": "Arcane Knowledge",
           "AssociatedAttribute": "Wits",
           "Rank": 1,
           "Bonus": 0
         },
-        "Perception": {
+        {
           "Name": "Perception",
           "AssociatedAttribute": "Wits",
           "Rank": 1,
           "Bonus": 0
         },
-        "Crafting": {
+        {
           "Name": "Crafting",
           "AssociatedAttribute": "Wits",
           "Rank": 1,
           "Bonus": 0
         }
-      },
+      ],
       "CurrentHP": 0,
       "MaxHP": 0,
       "CurrentMP": 0,

@@ -52,9 +52,9 @@ public partial class DiceRoller
         {
             return;
         }
-        await Task.Delay(Duration);
-        if (!IsStandalone)
-            RollDiceService.Close(new RollDiceResults(true, new RollDiceParameters() { ["Rolls"] = _rolls, ["Total"] = _rolls.Sum() }));
+        //await Task.Delay(Duration);
+        //if (!IsStandalone)
+        //    RollDiceService.Close(new RollDiceResults(true, new RollDiceParameters() { ["Rolls"] = _rolls, ["Total"] = _rolls.Sum() }));
     }
     private bool _rolling;
     private async Task RollAll()
@@ -71,6 +71,9 @@ public partial class DiceRoller
             tasks.Add(component.RollDice());
         }
         await Task.WhenAll(tasks);
+        await Task.Delay(Duration);
+        if (!IsStandalone)
+            RollDiceService.Close(new RollDiceResults(true, new RollDiceParameters() { ["Rolls"] = _rolls, ["Total"] = _rolls.Sum() }));
         _rolling = false;
     }
 }

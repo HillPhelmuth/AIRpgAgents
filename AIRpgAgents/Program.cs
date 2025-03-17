@@ -14,7 +14,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var services = builder.Services;
 services.AddRazorComponents()
-    .AddInteractiveServerComponents();
+    .AddInteractiveServerComponents().AddHubOptions(o =>
+    {
+        o.MaximumReceiveMessageSize = null;
+    }); 
 var cosmosClient = new CosmosClient(builder.Configuration["Cosmos:ConnectionString"]);
 Config.LoadConfig(builder.Configuration);
 services.AddSingleton(cosmosClient);

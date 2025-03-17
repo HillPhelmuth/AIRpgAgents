@@ -13,6 +13,8 @@ public class AlignmentValue
         MoralAlignment = moral;
         EthicalAlignment = ethical;
     }
+    [JsonConstructor]
+    public AlignmentValue(){}
         
     public override string ToString()
     {

@@ -9,7 +9,6 @@ using AIRpgAgents.Core.Models;
 using AIRpgAgents.Core.Services;
 using AIRpgAgents.GameEngine.Enums;
 using AIRpgAgents.GameEngine.Extensions;
-using AIRpgAgents.GameEngine.Helpers;
 using AIRpgAgents.GameEngine.PlayerCharacter;
 using AIRpgAgents.GameEngine.Rules;
 using Microsoft.Extensions.DependencyInjection;
@@ -103,7 +102,7 @@ public class CreateCharacterPlugin
     [KernelFunction, Description("Apply +1 bonus attribute for human characters (only if Human is the selected Race)")]
     public async Task<string> ApplyHumanBonusAttribute(Kernel kernel,
 
-        [Description("Attribute to apply the +1 bonus to (Might, Agility, etc.)")] RpgAttribute attribute)
+        [Description("User-selected attribute to apply the +1 bonus to (Might, Agility, etc.)")] RpgAttribute attribute)
     {
         var creationService = kernel.Services.GetRequiredService<ICharacterCreationService>();
         var appState = kernel.Services.GetRequiredService<AppState>();
@@ -240,75 +239,5 @@ public class CreateCharacterPlugin
 
     #endregion
 
-    #region Legacy Methods
-
-    //[KernelFunction, Description("Create a complete character in one step (legacy method)")]
-    //public async Task<CharacterSheet> CreateCharacter(
-    //    [Description("Character name")] string characterName,
-    //    [Description("Player name")] string playerName,
-    //    [Description("Character race (e.g. Human, Elf, Dwarf)")] Race race,
-    //    [Description("Character class (e.g. Fighter, Wizard, Rogue)")] CharacterClass characterClass,
-    //    [Description("Moral alignment (Good, Neutral, Evil)")] MoralAxis moralAlignment = MoralAxis.Neutral,
-    //    [Description("Ethical alignment (Passionate, Neutral, Reasonable)")] EthicalAxis ethicalAlignment = EthicalAxis.Neutral,
-    //    [Description("Character deity or higher power")] string deity = "")
-    //{
-    //    var alignment = new AlignmentValue(moralAlignment, ethicalAlignment);
-
-    //    return await _characterService.CreateCharacterAsync(
-    //        characterName, 
-    //        playerName, 
-    //        race, 
-    //        characterClass,
-    //        alignment,
-    //        deity);
-    //}
-
-    //[KernelFunction, Description("Get an existing character sheet")]
-    //public async Task<CharacterSheet> GetCharacter(
-    //    [Description("Character ID")] string characterId)
-    //{
-    //    return await _characterService.GetCharacterAsync(characterId);
-    //}
-
-    //[KernelFunction, Description("Level up a character")]
-    //public async Task<CharacterSheet> LevelUpCharacter(
-    //    [Description("Character ID")] string characterId)
-    //{
-    //    var character = await _characterService.GetCharacterAsync(characterId);
-    //    character.Level += 1;
-
-    //    // Update derived stats based on level
-    //    int vitalityMod = character.GetAttributeModifier("vitality");
-    //    int hpGain = Math.Max(1, DieType.D8.RollDie() + vitalityMod);
-    //    character.MaxHP += hpGain;
-    //    character.CurrentHP = character.MaxHP;
-
-    //    return await _characterService.UpdateCharacterAsync(character);
-    //}
-
-    //[KernelFunction, Description("Add currency to character")]
-    //public async Task<CharacterSheet> AddCurrency(
-    //    [Description("Character ID")] string characterId,
-    //    [Description("Gold coins")] int gold = 0,
-    //    [Description("Silver coins")] int silver = 0,
-    //    [Description("Copper coins")] int copper = 0)
-    //{
-    //    var character = await _characterService.GetCharacterAsync(characterId);
-    //    character.GoldCoins += gold;
-    //    character.SilverCoins += silver;
-    //    character.CopperCoins += copper;
-
-    //    // Handle currency conversion (e.g., 100 copper = 1 silver, 100 silver = 1 gold)
-    //    int copperOverflow = character.CopperCoins / 100;
-    //    character.CopperCoins %= 100;
-    //    character.SilverCoins += copperOverflow;
-
-    //    int silverOverflow = character.SilverCoins / 100;
-    //    character.SilverCoins %= 100;
-    //    character.GoldCoins += silverOverflow;
-
-    //    return await _characterService.UpdateCharacterAsync(character);
-    //}
-
-    #endregion
+   
 }

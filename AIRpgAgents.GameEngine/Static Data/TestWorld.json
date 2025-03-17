@@ -1,172 +1,156 @@
 {
-  "id": "Cock \u0026 Gore: Bloodfuck Chronicles",
-  "Name": "Cock \u0026 Gore: Bloodfuck Chronicles",
-  "BriefDescription": "A hellscape where debauchery and death flourish under the brutal rule of Lord Vulgarius the Cocksmiter.",
-  "FullDescription": "Cock \u0026 Gore is a dark, grotesque kingdom ruled by Lord Vulgarius, where every corner pulsates with hedonistic desires and violence. Towns serve as endless playgrounds of vice, forests are slaughterhouses masked beneath verdant canopies, and rivers sweep away the remnants of countless disputes. Vulgarius, a tyrant as depraved as feared, keeps his regime alive through pleasure and bloodshed, wielding his infamous spiked dildo-scepter as he dictates over gladiatorial arenas, where only the ruthless survive.",
+  "id": "Realm of Butt-Faces",
+  "Name": "Realm of Butt-Faces",
+  "BriefDescription": "In the Realm of Butt-Faces, everyone embraces absurdity with a face where their rear should be and vice-versa. It\u0027s a land where the unexpected is always just around the corner.",
+  "FullDescription": "The Realm of Butt-Faces is a whimsical land where everything takes on a humorously absurd twist. Here, inhabitants have faces located on their posteriors and distinctive derrieres where their heads should be. Despite what seems illogical, life flourishes in all its quirky glory. Ducklings trumpet battle cries, signaling surprise to all who dare challenge their piscine grace. This land is a testament to reveling in the preposterous.",
   "NPCs": [
     {
-      "Id": "Lord Vulgarius the Cocksmiter",
-      "Name": "Lord Vulgarius the Cocksmiter",
-      "Description": "A towering figure clad in lavish fur cloaks, with an ever-present wicked grin and bejeweled crown. Sadistic and cunning, his grip on the realm is unyielding, fortified by both fear and indulgence.",
-      "CurrentLocationId": "LOC001",
-      "State": "Idle",
-      "Disposition": "Hostile"
-    },
-    {
-      "Id": "Lady Whiplash",
-      "Name": "Lady Whiplash",
-      "Description": "Once a loyal servant of Vulgarius, now a fallen courtesan seeking redemption. Known for her striking beauty and prowess with a cat o\u0027 nine tails, she suffers under the wrath of her former master.",
-      "CurrentLocationId": "LOC002",
-      "State": "Walking",
-      "Disposition": "Neutral"
-    },
-    {
-      "Id": "Thorian Bonegrinder",
-      "Name": "Thorian Bonegrinder",
-      "Description": "An ogre gladiator with brawn matched only by his kindness. Thorian bears the scars of countless arena victories, fighting not for pleasure but survival.",
-      "CurrentLocationId": "LOC003",
-      "State": "Combat",
+      "Id": "Sir Tootblaster",
+      "Name": "Sir Tootblaster",
+      "Description": "An honorable human knight, dedicated to protecting the realm. Emits trumpeting sounds when delivering justice with his rear face clad in shining armor.",
+      "CurrentLocationId": "location_001",
+      "State": "Working",
       "Disposition": "Friendly"
     },
     {
-      "Id": "Balthazar the Alchemist",
-      "Name": "Balthazar the Alchemist",
-      "Description": "A wiry, bespectacled goblin with the knowledge to concoct both panaceas and poisons. His loyalty is fickle, as he values gold above kin.",
-      "CurrentLocationId": "LOC004",
-      "State": "Working",
+      "Id": "Lady Fumumption",
+      "Name": "Lady Fumumption",
+      "Description": "An elegant elf sage long known for her flair in colloquial \u0027face-lifting\u0027 magic, turning facial cheeks into literal works of art.",
+      "CurrentLocationId": "location_002",
+      "State": "Walking",
+      "Disposition": "Friendly"
+    },
+    {
+      "Id": "Bluster Beakfart",
+      "Name": "Bluster Beakfart",
+      "Description": "A majestic dragon whose colossal rear-face roars echo throughout the skies, causing storms known for their dramatic entrances.",
+      "CurrentLocationId": "location_003",
+      "State": "Idle",
       "Disposition": "Neutral"
     },
     {
-      "Id": "Sibil Serrathake",
-      "Name": "Sibil Serrathake",
-      "Description": "A mysterious oracle with snake-like features. She dances between the realms of vision and madness, her prophecies sought by the desperate.",
-      "CurrentLocationId": "LOC002",
+      "Id": "Skippy Flip-Phee",
+      "Name": "Skippy Flip-Phee",
+      "Description": "A squirrel jester known for his charismatic cheek-flips. He entertains fabled tales of oldee silly lands.",
+      "CurrentLocationId": "location_004",
       "State": "Talking",
+      "Disposition": "Friendly"
+    },
+    {
+      "Id": "Guffaw Gastronome",
+      "Name": "Guffaw Gastronome",
+      "Description": "A culinary critic duckling who uses her resounding quacks to appreciate the behind-gone-culinary arts.",
+      "CurrentLocationId": "location_003",
+      "State": "Idle",
       "Disposition": "Neutral"
     }
   ],
   "Quests": [
     {
-      "Id": "QST001",
-      "Name": "The Succubus\u0027 Redemption",
-      "Description": "Help Lady Whiplash retrieve a stolen amulet to break free from Vulgarius\u0027 curse.",
-      "LocationName": "Velvet Maze Courtesan\u0027s House",
-      "QuestGiver": "Lady Whiplash",
+      "Id": "quest_001",
+      "Name": "The Great Gaslight Parade",
+      "Description": "Join Lady Fumumption to light the enchanted sky bracelets along the hills of Snortland at dusk.",
+      "LocationName": "location_002",
+      "QuestGiver": "Lady Fumumption",
       "PotentialRewardItems": [
-        "Whiplash\u0027s Loyalty",
-        "Heirloom Amulet"
+        "Golden Gaggle Feather",
+        "Butt-face Mask of the Sage"
       ],
       "PotentialRewardCoinsInGold": 100
     },
     {
-      "Id": "QST002",
-      "Name": "Recipe for Destruction",
-      "Description": "Gather rare ingredients for Balthazar\u0027s latest elixir, which promises unimaginable power.",
-      "LocationName": "The Alchemist\u0027s Lair",
-      "QuestGiver": "Balthazar the Alchemist",
+      "Id": "quest_002",
+      "Name": "Toot\u0027s Bounty",
+      "Description": "Help Sir Tootblaster quell a brigand group spreading discord across Pffpht Valley with rotten pelerik nuts.",
+      "LocationName": "location_001",
+      "QuestGiver": "Sir Tootblaster",
       "PotentialRewardItems": [
-        "Vault of Enigmas",
-        "Vial of Unending Fury"
-      ],
-      "PotentialRewardCoinsInGold": 250
-    },
-    {
-      "Id": "QST003",
-      "Name": "Gladiator\u0027s Respite",
-      "Description": "Deliver a secret weapon to Thorian Bonegrinder during his next arena bout. Time is critical.",
-      "LocationName": "Arena of Red Sands",
-      "QuestGiver": "Mysterious Benefactor",
-      "PotentialRewardItems": [
-        "Gladiator\u0027s Shield",
-        "Goblet of Immortality"
+        "Knight\u0027s Mug of Alertness"
       ],
       "PotentialRewardCoinsInGold": 150
     }
   ],
   "Locations": [
     {
-      "Id": "LOC001",
-      "Name": "Palace of Sins",
-      "Description": "A gilt-laden fortress pulsing with orgiastic revelry and screams of gladiator tournaments. The walls tell tales of conquest and tyranny.",
+      "Id": "location_001",
+      "Name": "Pffpht Valley",
+      "Description": "Rolling hills where face-tourneys are held. Known for its autumn symphonic echoes.",
       "Tags": [
-        "Fortress",
-        "Pleasure",
-        "Blood Sport"
+        "Valley",
+        "Battleground",
+        "Tournament"
       ],
       "IsDiscovered": true
     },
     {
-      "Id": "LOC002",
-      "Name": "Velvet Maze",
-      "Description": "An endless labyrinth of make-shift brothels and hidden seductions where Lady Whiplash rules her imbricated domain.",
+      "Id": "location_002",
+      "Name": "Fartastic Meadows",
+      "Description": "Vast fields blooming with flora that imitate ancient eyebrows known for their mysterious tickles.",
       "Tags": [
-        "Pleasure",
-        "Secrets"
-      ],
-      "IsDiscovered": true
-    },
-    {
-      "Id": "LOC003",
-      "Name": "Arena of Red Sands",
-      "Description": "The blood-soaked grounds echo with the roar of spectators and the clang of steel. Only the mightiest survive here.",
-      "Tags": [
-        "Combat",
-        "Arena"
-      ],
-      "IsDiscovered": true
-    },
-    {
-      "Id": "LOC004",
-      "Name": "The Alchemist\u0027s Lair",
-      "Description": "A chaotic den filled with bubbling brews and cryptic tomes, where Balthazar experiments with both toxins and cures.",
-      "Tags": [
-        "Alchemy",
+        "Meadow",
+        "Enchantment",
         "Mystery"
       ],
       "IsDiscovered": true
     },
     {
-      "Id": "LOC005",
-      "Name": "Whispering Woods",
-      "Description": "A dark forest that sings with the cries of both wildlife and the fallen. It\u0027s said that one\u0027s sins are louder here.",
+      "Id": "location_003",
+      "Name": "Guffawl Skywatch",
+      "Description": "High cliffs where dragons launch skyward. Observatory to witness the grandit\u00E9 of dragon breeches erupting celestial displays.",
+      "Tags": [
+        "Cliffside",
+        "Dragons",
+        "Sky"
+      ],
+      "IsDiscovered": true
+    },
+    {
+      "Id": "location_004",
+      "Name": "Snicker Groves",
+      "Description": "Enchanted orchards famous for their antic and melodious vibes. Nightly prank concerts frequent here.",
       "Tags": [
         "Forest",
-        "Danger"
+        "Orchard",
+        "Music"
       ],
       "IsDiscovered": true
     }
   ],
   "Events": [
     {
-      "Name": "The Ascension of Vulgarius",
-      "Description": "Through blackmail and bloodshed, Lord Vulgarius ascended to power, outlawing dissent beneath ruthlessness and revelry.",
-      "LocationId": "LOC001",
+      "Name": "The Cheek Rebellion",
+      "Description": "A historical turn against the traditionalist Cheekorites who sought to reposition facial aspects for \u0027efficiency\u0027.",
+      "LocationId": "location_001",
       "RelatedEntityIds": [
-        "NPC001"
+        "npc_001",
+        "npc_002"
       ],
       "IsResolved": true,
-      "StartTime": "2020-01-01",
+      "StartTime": "Several Centuries Ago",
       "Tags": [
-        "Tyranny",
-        "Conquest"
+        "History",
+        "Rebellion",
+        "Transformative"
       ],
-      "Notes": "A shift that veiled the entire realm in darkness."
+      "Notes": "This event led to increased artistic expression with faces and cheeks."
     },
     {
-      "Name": "The Feast of Gore",
-      "Description": "An annual tradition where gladiators battle for survival, offering blood to sate the wolverines and the appetite of spectators.",
-      "LocationId": "LOC003",
+      "Name": "Echo of Valoors",
+      "Description": "A wondrous geodes transplant has accidentally opened a portal revealing unknown lands with unimagined assthetics.",
+      "LocationId": "location_003",
       "RelatedEntityIds": [
-        "NPC003"
+        "npc_003",
+        "npc_005"
       ],
       "IsResolved": false,
-      "StartTime": "2024-10-01",
+      "StartTime": "Ongoing",
       "Tags": [
-        "Celebration",
-        "Bloodshed"
+        "Portal",
+        "Mystery",
+        "Adventure"
       ],
-      "Notes": "Continues to strengthen Vulgarius\u0027 hold on the kingdom."
+      "Notes": "This event has awakened curiosity or trepidation among the inhabitants."
     }
   ],
-  "OtherNotes": "A world of extremes, where ecstasy and cruelty dance to the same rhythm, bound by the lustful chains of its ruler, Vulgarius."
+  "OtherNotes": "Every alternate Pride Week in the Realm of Butt-Faces is celebrated with a grand festival focused on face and cheek artistry competitions and rib-tickling humor galas."
 }

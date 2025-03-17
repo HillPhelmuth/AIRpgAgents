@@ -110,7 +110,7 @@ public class CharacterCreationState(string id)
         set => DraftCharacter.AttributeSet = value; 
     }
     
-    public Dictionary<string, Skill> SelectedSkills 
+    public List<Skill> SelectedSkills 
     { 
         get => DraftCharacter.Skills; 
         set => DraftCharacter.Skills = value; 

@@ -1,64 +1,61 @@
-using System.Text.Json;
-using AIRpgAgents.Components.ChatComponents;
-using AIRpgAgents.Core.Services;
-using AIRpgAgents.Core;
-using Microsoft.AspNetCore.Components;
-using SkPluginComponents.Models;
 using AIRpgAgents.ChatModels;
-using Microsoft.SemanticKernel;
-using Microsoft.SemanticKernel.ChatCompletion;
-using AIRpgAgents.GameEngine.World;
+using AIRpgAgents.Components.ChatComponents;
 using AIRpgAgents.Core.Agents;
 using AIRpgAgents.Core.Models;
+using AIRpgAgents.Core.Services;
+using AIRpgAgents.GameEngine.World;
+using Microsoft.AspNetCore.Components;
+using Microsoft.SemanticKernel;
+using Microsoft.SemanticKernel.ChatCompletion;
+using SkPluginComponents.Models;
 
 namespace AIRpgAgents.Components.AgentComponents;
-public partial class BuildWorld
+public partial class BuildNarrative : IDisposable
 {
     private ChatView _chatView;
 
     [Inject]
     private CosmosService CosmosService { get; set; } = default!;
-    [Inject]
-    private ICharacterCreationService CharacterCreationService { get; set; } = default!;
-    [Inject]
-    private RollDiceService RollDiceService { get; set; } = default!;
-    private CreateWorldAgent? CreateWorldAgent { get; set; }
+    private NarrativeAgent? GameMasterAgent { get; set; }
     private bool _isBusy;
     private bool _isStarted;
+
     private CancellationTokenSource _cts = new();
-    private WorldState? _worldState;
 
-    private void HandleWorldCreated(WorldState obj)
+    protected override Task OnInitializedAsync()
     {
-        _worldState = obj;
-        Console.WriteLine($"\n\nWorld: {JsonSerializer.Serialize(obj)}\n\n");
-        InvokeAsync(StateHasChanged);
+        AppState.PropertyChanged += HandlePropertyChanged;
+        return base.OnInitializedAsync();
     }
-
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-           
-            var worldAgent = await CosmosService.GetAgent("WorldAgent");
+
+            var worldAgent = await CosmosService.GetAgent("NarrativeAgent");
             if (worldAgent == null)
             {
-                CreateWorldAgent = new CreateWorldAgent(CosmosService);
-                await CosmosService.SaveAgent(CreateWorldAgent.ToAgentData());
+                GameMasterAgent = new NarrativeAgent(AppState);
+                await CosmosService.SaveAgent(GameMasterAgent.ToAgentData());
             }
             else
             {
-                PromptHelper.PromptDictionary["WorldBuilderPrompt.md"] = worldAgent.PromptTemplate!;
-                CreateWorldAgent = new CreateWorldAgent(CosmosService, worldAgent.PromptTemplate!);
+                PromptHelper.PromptDictionary["NarrativeAgent.md"] = worldAgent.PromptTemplate!;
+                GameMasterAgent = new NarrativeAgent(appState:AppState,promptTemplate: worldAgent.PromptTemplate!);
             }
-            CreateWorldAgent.WorldCreated += HandleWorldCreated;
             StateHasChanged();
         }
 
 
         await base.OnAfterRenderAsync(firstRender);
     }
-
+    private void HandlePropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(AppState.NarrativeState))
+        {
+            StateHasChanged();
+        }
+    }
     private async Task StartAgent()
     {
         _isStarted = true;
@@ -67,7 +64,7 @@ public partial class BuildWorld
         await Task.Delay(1);
         var history = new ChatHistory();
         history.AddUserMessage("Go on. Ask me for my damn ideas.");
-        await foreach (var response in CreateWorldAgent!.InvokeStreamingAsync(history))
+        await foreach (var response in GameMasterAgent!.InvokeStreamingAsync(history))
         {
             _chatView.ChatState.UpsertAssistantMessage(response);
             StateHasChanged();
@@ -75,7 +72,6 @@ public partial class BuildWorld
         _isBusy = false;
         StateHasChanged();
     }
-
     private void Cancel()
     {
         _isBusy = false;
@@ -113,12 +109,17 @@ public partial class BuildWorld
     private async Task SubmitRequest()
     {
         var histpry = _chatView.ChatState.ChatHistory;
-        await foreach (var response in CreateWorldAgent.InvokeStreamingAsync(histpry))
+        await foreach (var response in GameMasterAgent.InvokeStreamingAsync(histpry))
         {
             _chatView.ChatState.UpsertAssistantMessage(response);
             StateHasChanged();
         }
         _isBusy = false;
         StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        AppState.PropertyChanged -= HandlePropertyChanged;
     }
 }

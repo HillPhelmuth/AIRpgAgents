@@ -20,7 +20,7 @@ public partial class Home
     [Inject]
     private CosmosService CosmosService { get; set; } = default!;
     private Dictionary<string, Type> _componentOptions => new()
-        { ["Dice Playground"] = typeof(DicePlayground), ["Create Character Agent"] = typeof(CharacterCreate), ["World Builder Agent"] = typeof(BuildWorld) }; 
+        { ["Dice Playground"] = typeof(DicePlayground), ["Create Character Agent"] = typeof(CharacterCreate), ["World Builder Agent"] = typeof(BuildWorld), ["GM/Narrative Agent"] = typeof(BuildNarrative) }; 
     private string _selectedComponent = "Dice Playground";
 
     private void SelectComponent(string name)

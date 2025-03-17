@@ -1,11 +1,8 @@
 ﻿using System.Text.Json;
 using AIRpgAgents.Core.Models;
 using AIRpgAgents.Core.Plugins.NativePlugins;
-using AIRpgAgents.GameEngine.PlayerCharacter;
-using AIRpgAgents.GameEngine.World;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
-using Microsoft.SemanticKernel.Connectors.OpenAI;
 using Newtonsoft.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
@@ -39,6 +36,7 @@ public class RpgAgent(string name, string description, string promptTemplate, Pr
         var templateConfig = new PromptTemplateConfig(PromptTemplate);
         var promptTemplateFactory = new KernelPromptTemplateFactory();
         var systemPrompt = await promptTemplateFactory.Create(templateConfig).RenderAsync(Kernel, RequiredArguments);
+        Console.WriteLine($"System Prompt {Name}:\n\n{systemPrompt}\n\n");
         chatHistory.AddSystemMessage(systemPrompt);
         await foreach (var response in chatCompletion.GetStreamingChatMessageContentsAsync(chatHistory, ExecutionSettings, Kernel))
         {
