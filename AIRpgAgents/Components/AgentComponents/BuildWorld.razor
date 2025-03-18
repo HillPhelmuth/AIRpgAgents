@@ -6,7 +6,7 @@
         {
             <RadzenCard Style="padding:1px" Variant="Variant.Text" >
                 <RadzenButton Size="ButtonSize.ExtraSmall" Icon="support_agent" Text="Edit Agent" Click="@(() => ShowAgent("WorldAgent"))"></RadzenButton>
-                <ChatView ResetOnClose="false" AllowRemove=false ViewId="world" Height="75vh" @ref=_chatView></ChatView>
+                <ChatView ResetOnClose="false" AllowRemove=false ViewId="world" Height="80vh" @ref=_chatView></ChatView>
             </RadzenCard>
 
             <RadzenCard Style="position:relative" Variant="Variant.Text">
@@ -22,7 +22,7 @@
             </div>
         }
     </RadzenColumn>
-    <RadzenColumn SizeLG="6" Style="max-height:80vh; overflow-y:auto">
+    <RadzenColumn SizeLG="6" Style="max-height:100%; overflow-y:auto">
         <WorldDetails World="_worldState"></WorldDetails>
     </RadzenColumn>
 </RadzenRow>

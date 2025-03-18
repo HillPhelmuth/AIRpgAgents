@@ -1,9 +1,11 @@
 ﻿
 <AuthorizeView>
 	<Authorized>
-		<a href="Account/Logout">Log out</a>
+       @*  <a href="Account/Logout">Log out</a> *@
+        <RadzenLink Icon="logout" Path="Account/Logout">Log out @UserName</RadzenLink>
 	</Authorized>
 	<NotAuthorized>
-		<a href="Account/Login?redirectUri=/">Log in</a>
+        @* <a href="Account/Login?redirectUri=/">Log in</a> *@
+        <RadzenLink Icon="login" Path="Account/Login?redirectUri=/">Log in</RadzenLink>
 	</NotAuthorized>
 </AuthorizeView>

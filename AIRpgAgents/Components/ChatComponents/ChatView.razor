@@ -3,12 +3,18 @@
 <CascadingValue Value="Timestamps" Name="Timestamps" TValue="bool">
     <CascadingValue Value="AllowRemove" Name="AllowRemove" TValue="bool">
         <div class="rpg-chat-container" style="@($"height:{Height};")">
-            <div @ref=_chatColumn class="">
+            <div @ref=_chatColumn class="chat-column">
                 @foreach (var message in ChatState?.ChatMessages ?? [])
                 {
                     <MessageView Message="message" OnRemove="HandleRemoveMessage" OnContentUpdate="HandleUpdateMessage"></MessageView>
                 }
             </div>
+            @if (_requiresScroll)
+            {
+                <button class="scroll-button" @onclick="HandleScrollDown">
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+            }
         </div>
     </CascadingValue>
 </CascadingValue>

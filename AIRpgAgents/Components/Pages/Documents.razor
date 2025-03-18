@@ -1,0 +1,15 @@
+﻿@inherits RpgComponentBase
+@page "/documents"
+<RadzenText TextAlign="TextAlign.Center" Text="Generated Game Rules Documents" TextStyle="TextStyle.DisplayH5" />
+<RadzenAccordion>
+    <Items>
+        @foreach (var doc in _documents)
+        {
+            <RadzenAccordionItem Text="@doc.Title" ExpandTitle="@doc.ExpandTitle" CollapseTitle="@doc.CollapseTitle">
+                <RadzenCard Style="height:30rem;overflow:auto">
+                    @((MarkupString)AsHtml(GetMarkdownDocument(doc.FileName)))
+                </RadzenCard>
+            </RadzenAccordionItem>
+        }
+    </Items>
+</RadzenAccordion>

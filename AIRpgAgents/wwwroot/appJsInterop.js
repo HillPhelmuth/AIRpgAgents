@@ -5,6 +5,12 @@ export function scrollDown(element) {
 	if (!element) return;
 	element.scrollTop = element.scrollHeight;
 }
+
+export function requiresScroll(element) {
+	if (!element) return false;
+	return element.scrollHeight > element.clientHeight;
+}
+
 export function addCodeStyle(element) {
 	if (!element) {
 		console.log("No element in addCodeStyle");

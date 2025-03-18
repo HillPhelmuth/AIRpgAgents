@@ -6,7 +6,7 @@
         {
             <RadzenCard Style="padding:1px" Variant="Variant.Text">
                 <RadzenButton Size="ButtonSize.ExtraSmall" Icon="support_agent" Text="Edit Agent" Click="@(() => ShowAgent("NarrativeAgent"))"></RadzenButton>
-                <ChatView ResetOnClose="false" AllowRemove=false ViewId="narrative" Height="75vh" @ref=_chatView></ChatView>
+                <ChatView ResetOnClose="false" AllowRemove=false ViewId="narrative" Height="80vh" @ref=_chatView></ChatView>
             </RadzenCard>
 
             <RadzenCard Style="position:relative" Variant="Variant.Text">
@@ -17,12 +17,12 @@
         {
             <div id="start-agent-overlay">
                 <button class="rpg-button" @onclick="StartAgent">
-                    <span class="button-text">Begin GM/Narrative Agent</span>
+                    <span class="button-text">Begin Narrative Agent</span>
                 </button>
             </div>
         }
     </RadzenColumn>
-    <RadzenColumn SizeLG="6" Style="max-height:80vh; overflow-y:auto">
+    <RadzenColumn SizeLG="6" Style="max-height:100%; overflow-y:auto">
         <RadzenTabs>
             <Tabs>
                 <RadzenTabsItem Text="Global Narrative">

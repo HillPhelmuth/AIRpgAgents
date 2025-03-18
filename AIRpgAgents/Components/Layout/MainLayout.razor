@@ -1,12 +1,13 @@
-﻿@inherits LayoutComponentBase
+﻿@using AIRpgAgents.Core
+@inherits LayoutComponentBase
 
 <RadzenLayout style="height: 99vh">
     <RadzenHeader>
         <RadzenRow AlignItems="AlignItems.Center">
-            <RadzenColumn Size="1"><RadzenSidebarToggle Click="@(() => _sidebar1Expanded = !_sidebar1Expanded)" /></RadzenColumn>
+            <RadzenColumn Size="1"><RadzenSidebarToggle title="Navigation menu" Click="@(() => _sidebar1Expanded = !_sidebar1Expanded)" /></RadzenColumn>
             <RadzenColumn Size="9"><RadzenText TextStyle="TextStyle.DisplayH6" TextAlign="TextAlign.Center" Style="color:white" Text="@Title" /></RadzenColumn>
             <RadzenColumn Size="1">
-                <Login/>
+                <Login UserName="@AppState.Player.Name" />
             </RadzenColumn>
             <RadzenColumn Size="1">
                 <RadzenLink Style="width:32px; height:32px; margin-left:auto; margin-right:auto; display:block" Path="https://github.com/HillPhelmuth/AIRpgAgents" Target="_blank">
@@ -21,7 +22,7 @@
         <RadzenLink Path="buildWorld" Text="Build World Agent"></RadzenLink>
         <RadzenLink Path="narrative" Text="Narrative Log Agent"></RadzenLink>
         <div style="position:absolute; bottom:5rem">
-           
+            <RadzenLink Path="documents" Text="Game Rules Documents"></RadzenLink>
             <RadzenLink Path="player" Text="Saved Characters"></RadzenLink>
             <RadzenLink Path="worlds" Text="Saved Worlds"></RadzenLink>
         </div>

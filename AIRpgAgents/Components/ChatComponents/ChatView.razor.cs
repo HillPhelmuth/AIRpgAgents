@@ -68,18 +68,40 @@ public partial class ChatView : IDisposable, IAsyncDisposable
 	{
 		return ChatState.ChatHistory;
 	}
+
+    private bool _requiresScroll;
 	private async void ChatState_OnChatStateChanged(object? sender, PropertyChangedEventArgs args)
 	{
 		if (args.PropertyName == nameof(ChatState.ChatMessages))
 		{
 			ChatStateCollection.ChatStates[ViewId] = ChatState;
 			await InvokeAsync(StateHasChanged);
-			//AppJsInterop = new AppJsInterop(JsRuntime);
-			await AppJsInterop.ScrollDown(_chatColumn);
-		}
+            _requiresScroll = await AppJsInterop.RequiresScroll(_chatColumn);
+            // Only auto-scroll if we're already at the bottom or it's a new message
+            if (!_requiresScroll)
+            {
+                await AppJsInterop.ScrollDown(_chatColumn);
+            }
+        }
 	}
+	public async Task HandleScrollDown()
+    {
+        await AppJsInterop.ScrollDown(_chatColumn);
+        _requiresScroll = false;
+        await InvokeAsync(StateHasChanged);
+    }
 
-	public void Dispose(bool disposing)
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _requiresScroll = await AppJsInterop.RequiresScroll(_chatColumn);
+            StateHasChanged();
+        }
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    public void Dispose(bool disposing)
 	{
 		if (disposing)
 		{
