@@ -18,7 +18,7 @@ public class RpgMonster
     // Challenge information
     public int ChallengeRating { get; set; } = 1;
     public string Type { get; set; } = "Humanoid";
-
+    
     // Core attributes as simple properties
     public int Might { get; set; }
     public int Agility { get; set; }

@@ -1,4 +1,4 @@
-﻿@inherits AIRpgAgents.Components.Layout.RpgComponentBase
+﻿@inherits RpgComponentBase
 @page "/createCharacter"
 <RadzenRow Gap="0px">
     <RadzenColumn SizeLG="6" Style="position:relative">
@@ -23,6 +23,6 @@
         }
     </RadzenColumn>
     <RadzenColumn SizeLG="6" Style="max-height:100%; overflow-y:auto">
-        <CharacterSheetView></CharacterSheetView>
+        <CharacterSheetView CharacterSheetChanged="SaveCharacterSheet"></CharacterSheetView>
     </RadzenColumn>
 </RadzenRow>

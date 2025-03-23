@@ -56,8 +56,8 @@
       }
     ],
     "HitDie": 8,
+    "MpDie": 6,
     "HasSpellcasting": true,
-    "StartingHP": 8,
     "ClassSkills": [ "Persuasion", "Medicine", "Melee Combat" ]
   },
   {
@@ -109,8 +109,8 @@
       }
     ],
     "HitDie": 6,
+    "MpDie": 8,
     "HasSpellcasting": true,
-    "StartingHP": 6,
     "ClassSkills": [ "Arcane Knowledge", "Crafting", "Perception" ]
   },
   {
@@ -163,7 +163,6 @@
     "HitDie": 10,
     "HasSpellcasting": false,
     "SpellcastingTradition": 0,
-    "StartingHP": 10,
     "ClassSkills": ["Melee Combat", "Endurance", "Athletics"]
   },
   {
@@ -216,7 +215,6 @@
     "HitDie": 8,
     "HasSpellcasting": false,
     "SpellcastingTradition": 0,
-    "StartingHP": 8,
     "ClassSkills": ["Stealth", "Acrobatics", "Deception"]
   },
   {
@@ -268,8 +266,8 @@
       }
     ],
     "HitDie": 10,
+    "MpDie": 4,
     "HasSpellcasting": true,
-    "StartingHP": 10,
     "ClassSkills": [ "Leadership", "Melee Combat", "Survival" ]
   },
   {
@@ -321,8 +319,8 @@
       }
     ],
     "HitDie": 8,
+    "MpDie": 4,
     "HasSpellcasting": true,
-    "StartingHP": 8,
     "ClassSkills": [ "Melee Combat", "Arcane Knowledge", "Athletics" ]
   }
 ]

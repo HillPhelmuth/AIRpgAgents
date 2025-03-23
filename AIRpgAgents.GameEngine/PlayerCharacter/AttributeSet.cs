@@ -1,3 +1,4 @@
+using System.Collections;
 using AIRpgAgents.GameEngine.Rules;
 
 namespace AIRpgAgents.GameEngine.PlayerCharacter;
@@ -5,9 +6,9 @@ namespace AIRpgAgents.GameEngine.PlayerCharacter;
 /// <summary>
 /// Represents a complete set of character attributes.
 /// </summary>
-public class AttributeSet
+public class AttributeSet : IEnumerable<KeyValuePair<RpgAttribute, int>>
 {
-    private readonly Dictionary<RpgAttribute, int> _attributeValues;
+    private Dictionary<RpgAttribute, int> _attributeValues;
         
     public AttributeSet()
     {
@@ -16,10 +17,21 @@ public class AttributeSet
         // Initialize all attributes with the default value
         foreach (RpgAttribute attribute in Enum.GetValues(typeof(RpgAttribute)))
         {
-            _attributeValues[attribute] = AttributeSystem.BaseAttributeValue;
+            _attributeValues[attribute] = AttributeSystem.MinAttributeValue;
         }
     }
-    public AttributeSet(Dictionary<RpgAttribute, int> attributeValues)
+    //public AttributeSet(Dictionary<RpgAttribute, int> attributeValues)
+    //{
+    //    SetAttributeValues(attributeValues);
+
+    //    //// Assign values from the dictionary
+    //    //foreach (var kvp in attributeValues)
+    //    //{
+    //    //    _attributeValues[kvp.Key] = kvp.Value;
+    //    //}
+    //}
+
+    public void SetAttributeValues(Dictionary<RpgAttribute, int> attributeValues)
     {
         _attributeValues = new Dictionary<RpgAttribute, int>();
 
@@ -28,12 +40,6 @@ public class AttributeSet
         {
             _attributeValues[attribute] = attributeValues[attribute];
         }
-
-        //// Assign values from the dictionary
-        //foreach (var kvp in attributeValues)
-        //{
-        //    _attributeValues[kvp.Key] = kvp.Value;
-        //}
     }
 
     /// <summary>
@@ -101,5 +107,19 @@ public class AttributeSet
             _attributeValues[attribute] = rolls[index++];
             if (index >= rolls.Count) break;
         }
+    }
+
+    public IEnumerator<KeyValuePair<RpgAttribute, int>> GetEnumerator()
+    {
+        // Implement the enumerator
+        foreach (var kvp in _attributeValues)
+        {
+            yield return kvp;
+        }
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
     }
 }

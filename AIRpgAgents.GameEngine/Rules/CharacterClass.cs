@@ -9,16 +9,17 @@ namespace AIRpgAgents.GameEngine.Rules;
 public class CharacterClass
 {
     public ClassType Type { get; set; }
-    public string Name { get; set; }
+    public string Name => Type.ToString();
     public string Description { get; set; }
     public List<string> PrimaryAttributes { get; set; } = [];
     public List<ClassAbility> Abilities { get; set; } = [];
     public int HitDie { get; set; }
+    public int? MpDie { get; set; }
     public bool HasSpellcasting { get; set; }
     public MagicTradition SpellcastingTradition { get; set; }
         
-    // Hit points at first level
-    public int StartingHP { get; set; }
+    //// Hit points at first level
+    //public int StartingHP { get; set; }
         
     // Skills that are available to this class
     public List<string> ClassSkills { get; set; } = [];
@@ -31,6 +32,7 @@ public class CharacterClass
 [CosmosConverter(typeof(StringEnumConverter))]
 public enum ClassType
 {
+    None,
     Cleric,
     Wizard,
     Warrior,
@@ -87,28 +89,28 @@ public static class CharacterClasses
     }
 
     // Define getter properties for backward compatibility
-    public static CharacterClass Cleric => GetClassByName("Cleric");
-    public static CharacterClass Wizard => GetClassByName("Wizard");
-    public static CharacterClass Warrior => GetClassByName("Warrior");
-    public static CharacterClass Rogue => GetClassByName("Rogue");
-    public static CharacterClass Paladin => GetClassByName("Paladin");
-    public static CharacterClass WarMage => GetClassByName("War Mage");
+    public static CharacterClass Cleric => GetClassByType(ClassType.Cleric);
+    public static CharacterClass Wizard => GetClassByType(ClassType.Wizard);
+    public static CharacterClass Warrior => GetClassByType(ClassType.Warrior);
+    public static CharacterClass Rogue => GetClassByType(ClassType.Rogue);
+    public static CharacterClass Paladin => GetClassByType(ClassType.Paladin);
+    public static CharacterClass WarMage => GetClassByType(ClassType.WarMage);
 
-    private static CharacterClass GetClassByName(string name)
+    public static CharacterClass GetClassByType(ClassType classType)
     {
         EnsureInitialized();
         
-        var characterClass = _classes.FirstOrDefault(c => c.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+        var characterClass = _classes.FirstOrDefault(c => c.Type == classType);
         
         if (characterClass == null)
         {
             // Return a default class if not found
             return new CharacterClass
             {
-                Name = name,
-                Description = $"Default description for {name}",
+                Type = classType,
+                Description = $"Default description for {classType}",
                 HitDie = 8,
-                StartingHP = 8
+                
             };
         }
         

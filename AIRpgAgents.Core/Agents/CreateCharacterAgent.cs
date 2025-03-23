@@ -19,16 +19,16 @@ public class CreateCharacterAgent : RpgAgent
     private readonly RollDiceService _rollDiceService;
     private readonly AutoInvokeFilter _autoInvokeFilter = new();
     
-    public CreateCharacterAgent(AppState appState, CosmosService cosmosService, ICharacterCreationService charCreateService, RollDiceService rollDiceService) : base("CharacterAgent", "Create a new character", PromptHelper.ExtractPromptFromFile("CreateCharacterPrompt.md"), new OpenAIPromptExecutionSettings() { Temperature = 0.9, FunctionChoiceBehavior = FunctionChoiceBehavior.Auto() })
+    public CreateCharacterAgent(AppState appState, CosmosService cosmosService, ICharacterCreationService charCreateService, RollDiceService rollDiceService) : base("CharacterAgent", "Bad Ass Character Creator", PromptHelper.ExtractPromptFromFile("CreateCharacterPrompt.md"), new OpenAIPromptExecutionSettings() { Temperature = 0.9, FunctionChoiceBehavior = FunctionChoiceBehavior.Auto() })
     {
-        RequiredArguments = new KernelArguments() { ["name"] = Name };
+        RequiredArguments = new KernelArguments() { ["name"] = $"{Name} a {Description}" };
         _appState = appState;
         _cosmosService = cosmosService;
         _characterCreationState = new CharacterCreationState(appState.Player.Name ?? Guid.NewGuid().ToString());
         _charCreateService = charCreateService;
         _rollDiceService = rollDiceService;
     }
-    public CreateCharacterAgent(AppState appState, CosmosService cosmosService, ICharacterCreationService charCreateService, RollDiceService rollDiceService, string promptTemplate) : base("CharacterAgent", "Create a new character", promptTemplate, new OpenAIPromptExecutionSettings() { Temperature = 0.9, FunctionChoiceBehavior = FunctionChoiceBehavior.Auto() })
+    public CreateCharacterAgent(AppState appState, CosmosService cosmosService, ICharacterCreationService charCreateService, RollDiceService rollDiceService, string promptTemplate) : base("CharacterAgent", "Bad Ass Character Creator", promptTemplate, new OpenAIPromptExecutionSettings() { Temperature = 0.9, FunctionChoiceBehavior = FunctionChoiceBehavior.Auto() })
     {
         RequiredArguments = new KernelArguments() { ["name"] = Name };
         _appState = appState;
@@ -64,6 +64,7 @@ public class CreateCharacterAgent : RpgAgent
         var templateConfig = new PromptTemplateConfig(PromptTemplate);
         var promptTemplateFactory = new KernelPromptTemplateFactory();
         var systemPrompt = await promptTemplateFactory.Create(templateConfig).RenderAsync(Kernel, RequiredArguments);
+        Console.WriteLine($"Hydrated System Prompt\n----------------------------------------------------------------------------\n{systemPrompt}\n----------------------------------------------------------------------------\n");
         chatHistory.AddSystemMessage(systemPrompt);
         await foreach (var response in chatCompletion.GetStreamingChatMessageContentsAsync(chatHistory, ExecutionSettings, Kernel))
         {

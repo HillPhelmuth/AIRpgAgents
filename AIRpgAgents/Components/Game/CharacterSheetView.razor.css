@@ -328,3 +328,27 @@ tbody tr:hover {
         font-style: italic;
         color: #666;
     }
+.rpg-button {
+    font-family: 'Cinzel', serif;
+    color: #f5e9d0;
+    background: linear-gradient(to bottom, #5e0000, #3a291b);
+    border: 2px solid #8b6b42;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+    transition: all 0.2s ease;
+    position: relative;
+    margin: 0 2px;
+    font-weight: bold;
+    border-radius: 4px;
+    height: 32px;
+    padding: 0 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+    .rpg-button:hover {
+        background: linear-gradient(to bottom, #7e0000, #4a392b);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+    }

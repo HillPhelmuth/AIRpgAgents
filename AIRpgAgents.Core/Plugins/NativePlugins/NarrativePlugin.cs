@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AIRpgAgents.Core.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.SemanticKernel;
 using AIRpgAgents.Core.Services;
@@ -183,9 +184,3 @@ public class NarrativePlugin
 }
 
 // Define a class to hold narrative state for serialization
-public class NarrativeState
-{
-    public List<string> GlobalNarrative { get; set; } = new List<string>();
-    public List<string> InternalNarrative { get; set; } = new List<string>();
-    public Dictionary<string, List<string>> CharacterNarratives { get; set; } = new();
-}

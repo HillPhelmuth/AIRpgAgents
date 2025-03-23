@@ -7,6 +7,16 @@ public partial class Routes
 
     private void HandleNavigation(NavigationContext navigationContext)
     {
-
+        _title = navigationContext.Path switch
+        {
+            "narrative" => "Narrative Builder Agent",
+            "createCharacter" => "Character Builder Agent",
+            "buildWorld" => "World Builder Agent",
+            "documents" => "Relevant Documents",
+            "player" => "Player Dashboard",
+            "worlds" => "Worlds Dashboard",
+            _ => "AI Rpg Agents Home"
+        };
+        StateHasChanged();
     }
 }

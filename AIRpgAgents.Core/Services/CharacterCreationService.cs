@@ -7,6 +7,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using AIRpgAgents.Core.Models;
 using AIRpgAgents.Core.Models.Events;
+using AIRpgAgents.Core.Models.Helpers;
 using AIRpgAgents.GameEngine.Enums;
 using AIRpgAgents.GameEngine.PlayerCharacter;
 using AIRpgAgents.GameEngine.Rules;
@@ -21,13 +22,13 @@ public interface ICharacterCreationService
     /// </summary>
     /// <param name="creationStateId">The unique identifier for the character creation state.</param>
     /// <returns>The current character creation state.</returns>
-    Task<CharacterCreationState> GetCharacterCreationStateAsync(string creationStateId);
+    Task<CharacterCreationState?> GetCharacterCreationStateAsync(string creationStateId);
 
     /// <summary>
     /// Updates the current character creation state.
     /// </summary>
     /// <param name="creationState">The updated character creation state.</param>
-    void UpdateCharacterCreationStateAsync(CharacterCreationState creationState);
+    void UpdateCharacterCreationState(CharacterCreationState creationState);
 
     /// <summary>
     /// Selects the method for generating attribute scores and returns the generated scores.
@@ -120,6 +121,9 @@ public interface ICharacterCreationService
     /// <param name="alignment">The character's alignment.</param>
     /// <param name="deity">Optional deity selection.</param>
     Task InitializeCharacterCreationAsync(string characterName, string playerName, Race race, CharacterClass characterClass, AlignmentValue alignment, string? deity = null);
+
+    Task UpdateDraftCharacterSheet(CharacterSheet characterSheet, string playerId);
+    Task UpdateMaxHpMpAsync(string creationStateId, int maxHp, int? maxMp = null);
 }
 
 /// <summary>
@@ -182,9 +186,17 @@ public class CharacterCreationService : ICharacterCreationService
         }
         // Store the creation state
         _creationStates[creationState.Id] = creationState;
-        UpdateCharacterCreationStateAsync(creationState);
+        UpdateCharacterCreationState(creationState);
         // Advance to attribute scores step
         await AdvanceToNextStepAsync(creationState.Id);
+    }
+
+    public async Task UpdateDraftCharacterSheet(CharacterSheet characterSheet, string playerId)
+    {
+        var state = await GetCharacterCreationStateAsync(playerId);
+        if (state == null) return;
+        state.DraftCharacter = characterSheet;
+        UpdateCharacterCreationState(state);
     }
     public void InitializeCharacterCreation(string playerName, CharacterCreationState creationState)
     {
@@ -197,17 +209,17 @@ public class CharacterCreationService : ICharacterCreationService
         CharacterCreationStateChanged?.Invoke(this, new CharacterCreationEventArgs(id, creationState));
     }
 
-    public async Task<CharacterCreationState> GetCharacterCreationStateAsync(string creationStateId)
+    public async Task<CharacterCreationState?> GetCharacterCreationStateAsync(string creationStateId)
     {
         if (_creationStates.TryGetValue(creationStateId, out var state))
         {
             return state;
         }
 
-        throw new KeyNotFoundException($"Character creation state with ID '{creationStateId}' not found");
+        return null;
     }
 
-    public void UpdateCharacterCreationStateAsync(CharacterCreationState creationState)
+    public void UpdateCharacterCreationState(CharacterCreationState creationState)
     {
         _creationStates[creationState.Id] = creationState;
         OnCreationStateChanged(creationState, creationState.Id);
@@ -249,16 +261,16 @@ public class CharacterCreationService : ICharacterCreationService
         // Apply racial modifiers again to maintain them
 
 
-        UpdateCharacterCreationStateAsync(state);
+        UpdateCharacterCreationState(state);
         return state.RolledScores;
     }
 
     public async Task AssignAttributeScores(string creationStateId, Dictionary<RpgAttribute, int> attributeAssignments)
     {
         var state = await GetCharacterCreationStateAsync(creationStateId);
-        state.AttributeSet = new AttributeSet(attributeAssignments);
+        state.AttributeSet.SetAttributeValues(attributeAssignments);
         ApplyRacialModifiers(state);
-        UpdateCharacterCreationStateAsync(state);
+        UpdateCharacterCreationState(state);
     }
     private void ApplyRacialModifiers(CharacterCreationState state)
     {
@@ -315,7 +327,7 @@ public class CharacterCreationService : ICharacterCreationService
             state.AttributeSet[attribute] += 1;
         }
 
-        UpdateCharacterCreationStateAsync(state);
+        UpdateCharacterCreationState(state);
     }
 
     public async Task SelectSkillsAsync(string creationStateId, List<string> selectedSkills)
@@ -355,7 +367,7 @@ public class CharacterCreationService : ICharacterCreationService
             state.SelectedSkills.Add(skill);
         }
 
-        UpdateCharacterCreationStateAsync(state);
+        UpdateCharacterCreationState(state);
     }
 
     public async Task SelectSpellsAsync(string creationStateId, List<Spell> selectedSpells)
@@ -398,7 +410,7 @@ public class CharacterCreationService : ICharacterCreationService
         state.SelectedSpells = selectedSpells;
         state.SpellcastingInfo.Spells = selectedSpells;
 
-        UpdateCharacterCreationStateAsync(state);
+        UpdateCharacterCreationState(state);
     }
 
     public async Task<int> SelectEquipmentAsync(string creationStateId,
@@ -434,7 +446,7 @@ public class CharacterCreationService : ICharacterCreationService
         state.SelectedArmor = matchedArmor;
         state.SelectedItems = matchedItems;
 
-        UpdateCharacterCreationStateAsync(state);
+        UpdateCharacterCreationState(state);
         
         return (int)remaining; // Return total remaining copper for potential UI feedback
     }
@@ -539,9 +551,18 @@ public class CharacterCreationService : ICharacterCreationService
         state.Bonds = bonds;
         state.Flaws = flaws;
 
-        UpdateCharacterCreationStateAsync(state);
+        UpdateCharacterCreationState(state);
     }
 
+    public async Task UpdateMaxHpMpAsync(string creationStateId, int maxHp, int? maxMp = null)
+    {
+        var state = await GetCharacterCreationStateAsync(creationStateId);
+        state.DraftCharacter.MaxHP = maxHp;
+        if (maxMp.HasValue)
+        {
+            state.DraftCharacter.MaxMP = maxMp.Value;
+        }
+    }
     public async Task<CharacterSheet> CompleteCharacterCreationAsync(string creationStateId)
     {
         var state = await GetCharacterCreationStateAsync(creationStateId);
@@ -559,13 +580,25 @@ public class CharacterCreationService : ICharacterCreationService
        var characterSheet = state.DraftCharacter;
 
         // Validate basic character info
+        ValidateCharacterSheet(characterSheet);
+
+        // All validations passed, mark as completed
+        state.CompletedCharacter = characterSheet;
+        state.CurrentStep = CharacterCreationStep.Completed;
+        UpdateCharacterCreationState(state);
+
+        return characterSheet;
+    }
+
+    private static void ValidateCharacterSheet(CharacterSheet characterSheet)
+    {
         if (string.IsNullOrWhiteSpace(characterSheet.CharacterName))
             throw new ValidationException("Character name is required");
         if (string.IsNullOrWhiteSpace(characterSheet.PlayerName))
             throw new ValidationException("Player name is required");
-        if (characterSheet.Race == null || string.IsNullOrEmpty(characterSheet.Race.Type.ToString()))
+        if (characterSheet.Race == null || characterSheet.Race.Type == RaceType.None)
             throw new ValidationException("Character race is required");
-        if (characterSheet.Class == null || string.IsNullOrEmpty(characterSheet.Class.Name))
+        if (characterSheet.Class == null || characterSheet.Class.Type == ClassType.None)
             throw new ValidationException("Character class is required");
         if (characterSheet.Alignment == null)
             throw new ValidationException("Character alignment is required");
@@ -573,10 +606,13 @@ public class CharacterCreationService : ICharacterCreationService
         // Validate attributes
         if (characterSheet.AttributeSet == null)
             throw new ValidationException("Attribute scores are required");
+        var attributeMinCount = 0;
         foreach (var attribute in Enum.GetValues<RpgAttribute>())
         {
-            if (characterSheet.AttributeSet[attribute] == 0)
+            if (characterSheet.AttributeSet[attribute] == AttributeSystem.MinAttributeValue && attributeMinCount >= 1)
+            {
                 throw new ValidationException($"Attribute score for {attribute} is required");
+            }
         }
 
         // Validate skills
@@ -610,13 +646,6 @@ public class CharacterCreationService : ICharacterCreationService
             throw new ValidationException("Character bonds are required");
         if (string.IsNullOrWhiteSpace(characterSheet.Flaws))
             throw new ValidationException("Character flaws are required");
-
-        // All validations passed, mark as completed
-        state.CompletedCharacter = characterSheet;
-        state.CurrentStep = CharacterCreationStep.Completed;
-        UpdateCharacterCreationStateAsync(state);
-
-        return characterSheet;
     }
 
     // Add ValidationException class if not already defined elsewhere in the project
@@ -628,20 +657,12 @@ public class CharacterCreationService : ICharacterCreationService
     public async Task AdvanceToNextStepAsync(string creationStateId)
     {
         var state = await GetCharacterCreationStateAsync(creationStateId);
-
-        state.CurrentStep = state.CurrentStep switch
-        {
-            CharacterCreationStep.BasicInfo => CharacterCreationStep.AttributeScores,
-            CharacterCreationStep.AttributeScores => CharacterCreationStep.Skills,
-            CharacterCreationStep.Skills => state.Class.HasSpellcasting ? CharacterCreationStep.Spells : CharacterCreationStep.Equipment,
-            CharacterCreationStep.Spells => CharacterCreationStep.Equipment,
-            CharacterCreationStep.Equipment => CharacterCreationStep.Background,
-            CharacterCreationStep.Background => CharacterCreationStep.Review,
-            _ => state.CurrentStep
-        };
+        if (state == null)
+            return;
+        state.CurrentStep = state.CurrentStep.NextStep();
 
         // Advance to the next step based on the current step
 
-        UpdateCharacterCreationStateAsync(state);
+        UpdateCharacterCreationState(state);
     }
 }

@@ -104,12 +104,8 @@ public class CharacterCreationState(string id)
         set => DraftCharacter.Deity = value; 
     }
     
-    public AttributeSet AttributeSet 
-    { 
-        get => DraftCharacter.AttributeSet; 
-        set => DraftCharacter.AttributeSet = value; 
-    }
-    
+    public AttributeSet AttributeSet => DraftCharacter.AttributeSet;
+
     public List<Skill> SelectedSkills 
     { 
         get => DraftCharacter.Skills; 

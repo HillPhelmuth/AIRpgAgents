@@ -20,22 +20,7 @@ public static class EnumExtensions
         DieType.D20 => 20,
         _ => throw new ArgumentOutOfRangeException(nameof(dieType), "Unsupported die type")
     };
-    //public static int RollDie(this DieType dieType, int modifier = 0)
-    //{
-    //    var random = new Random();
-    //    var result = dieType switch
-    //    {
-    //        DieType.D4 => random.Next(1, 5),
-    //        DieType.D6 => random.Next(1, 7),
-    //        DieType.D8 => random.Next(1, 9),
-    //        DieType.D10 => random.Next(1, 11),
-    //        DieType.D12 => random.Next(1, 13),
-    //        DieType.D20 => random.Next(1, 21),
-    //        DieType.D100 => random.Next(1, 101),
-    //        _ => throw new ArgumentOutOfRangeException(nameof(dieType), "Unsupported die type")
-    //    };
-    //    return result + modifier;
-    //}
+    
 
     /// <summary>
     /// Gets the primary attribute associated with an attack type.

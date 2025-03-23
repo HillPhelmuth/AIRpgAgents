@@ -6,7 +6,7 @@ namespace AIRpgAgents.GameEngine.Rules;
 public static class AttributeSystem
 {
     // Minimum and maximum attribute values
-    public const int MinAttributeValue = 3;
+    public const int MinAttributeValue = 2;
     public const int MaxAttributeValueAtCreation = 18;
     public const int AbsoluteMaxAttributeValue = 20;
     public const int BaseAttributeValue = 10; // Average human attribute value
@@ -50,5 +50,5 @@ public static class AttributeSystem
     }
         
     // Get the standard array of attribute values
-    public static int[] GetStandardArray() => [15, 14, 13, 12, 10];
+    public static int[] GetStandardArray() => [15, 13, 13, 12, 9];
 }

@@ -13,6 +13,7 @@ using AIRpgAgents.GameEngine.PlayerCharacter;
 using AIRpgAgents.GameEngine.Rules;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.SemanticKernel;
+using SkPluginComponents.Models;
 
 namespace AIRpgAgents.Core.Plugins.NativePlugins;
 
@@ -34,7 +35,7 @@ public class CreateCharacterPlugin
     public async Task<string> StartCharacterCreation(Kernel kernel,
         [Description("Character name")] string characterName,
         [Description("Player name")] string playerName,
-        [Description("Character race (e.g. Human, Elf, Dwarf)")] RaceType race,
+        [Description("Character fantasy race")] RaceType race,
         [Description("Character class (e.g. Fighter, Wizard, Rogue)")] ClassType characterClass,
         [Description("Moral alignment (Good, Neutral, Evil)")] MoralAxis moralAlignment = MoralAxis.Neutral,
         [Description("Ethical alignment (Passionate, Neutral, Reasonable)")] EthicalAxis ethicalAlignment = EthicalAxis.Neutral,
@@ -49,6 +50,7 @@ public class CreateCharacterPlugin
         await creationService.InitializeCharacterCreationAsync(characterName, appState.Player.Name, race.GetDetails(), charClass, alignment, deity);
         _characterCreationState ??= await creationService.GetCharacterCreationStateAsync(appState.Player.Name!);
         var createdState = _characterCreationState;
+        await _characterCreationService.AdvanceToNextStepAsync(createdState.Id);
         return $"Character creation step {createdState.CurrentStep} completed for {createdState.Id}.";
     }
 
@@ -96,6 +98,7 @@ public class CreateCharacterPlugin
             {RpgAttribute.Presence, presence}
         };
         await _characterCreationService.AssignAttributeScores(createdState.Id, attributeScores);
+        await _characterCreationService.AdvanceToNextStepAsync(createdState.Id);
         return $"Character creation step SetAttributeScores completed for {createdState.Id}.";
     }
 
@@ -126,6 +129,7 @@ public class CreateCharacterPlugin
         _characterCreationState ??= await creationService.GetCharacterCreationStateAsync(appState.Player.Name!);
         var createdState = _characterCreationState;
         await _characterCreationService.SelectSkillsAsync(createdState.Id, selectedSkills);
+        await _characterCreationService.AdvanceToNextStepAsync(createdState.Id);
         return $"Character creation step {createdState.CurrentStep} completed for {createdState.Id}.";
     }
 
@@ -207,16 +211,16 @@ public class CreateCharacterPlugin
         return $"Character creation step {createdState.CurrentStep} completed for {createdState.Id}.";
     }
 
-    [KernelFunction, Description("Advance to the next step of character creation")]
-    public async Task<string> AdvanceToNextStep(Kernel kernel)
-    {
-        var creationService = kernel.Services.GetRequiredService<ICharacterCreationService>();
-        var appState = kernel.Services.GetRequiredService<AppState>();
-        _characterCreationState ??= await creationService.GetCharacterCreationStateAsync(appState.Player.Name!);
-        var createdState = _characterCreationState;
-        await _characterCreationService.AdvanceToNextStepAsync(createdState.Id);
-        return $"Character creation step {createdState.CurrentStep} completed for {createdState.Id}.";
-    }
+    //[KernelFunction, Description("Advance to the next step of character creation")]
+    //public async Task<string> AdvanceToNextStep(Kernel kernel)
+    //{
+    //    var creationService = kernel.Services.GetRequiredService<ICharacterCreationService>();
+    //    var appState = kernel.Services.GetRequiredService<AppState>();
+    //    _characterCreationState ??= await creationService.GetCharacterCreationStateAsync(appState.Player.Name!);
+    //    var createdState = _characterCreationState;
+    //    await _characterCreationService.AdvanceToNextStepAsync(createdState.Id);
+    //    return $"Character creation step {createdState.CurrentStep} completed for {createdState.Id}.";
+    //}
 
     [KernelFunction, Description("Complete the character creation process and generate final character sheet")]
     public async Task<string> CompleteCharacterCreation(Kernel kernel)
@@ -229,12 +233,49 @@ public class CreateCharacterPlugin
         await _cosmosService.SaveCharacterAsync(appState.Player.Id, new CharacterState(sheet));
         return $"Character creation completed for {createdState.Id}. Character sheet saved. Tell the player they're ready for an adventure! Fuck yeah!";
     }
-    [KernelFunction]
-    public string CurrentStep(Kernel kernel)
+
+    [KernelFunction,
+     Description("Roll for Starting Hit Points (HP) and Magic Points (if applicable) for the character. Class selection and attribute selection are prerequisites.")]
+    public async Task<string> AddHitPointsAndMagicPoints(Kernel kernel,[Description("The character's Class")] ClassType characterClass,[Description("Character's Vitality attribute value")] int vitality, [Description("Character's Wits attribute value")] int wits, [Description("Character's Presence attribute value")] int presence)
     {
-        var createdState = _characterCreationState;
+        var creationService = kernel.Services.GetRequiredService<ICharacterCreationService>();
+        
+        var appState = kernel.Services.GetRequiredService<AppState>();
+        var createdState = await creationService.GetCharacterCreationStateAsync(appState.Player.Name!);
+        var hasdieRollerPlugin = kernel.Plugins.TryGetPlugin("DieRollerPlugin", out var dieRollerPlugin);
+        if (!hasdieRollerPlugin)
+            return "Something has gone terribly awry! Tell the player that the developer is a fucking moron!";
+        var rollDie = dieRollerPlugin["RollDie"];
+        var classInfo = CharacterClasses.GetClassByType(characterClass);
+        var die = (DieType)classInfo.HitDie;
+        var args = new KernelArguments() { ["reasonForRolling"] = "for starting HP", ["dieType"] = die };
+        var result = await rollDie.InvokeAsync<int>(kernel, args);
+        var maxHp = vitality + result;
+        int? maxMp = null;
+        if (classInfo.HasSpellcasting)
+        {
+            var baseMp = classInfo.SpellcastingTradition == MagicTradition.Arcane ? wits : presence;
+            if (characterClass is ClassType.WarMage or ClassType.Paladin)
+            {
+                baseMp /= 2;
+            }
+            var mpDie = (DieType)classInfo.MpDie!;
+            var mpArgs = new KernelArguments() { ["reasonForRolling"] = "for starting MP", ["dieType"] = mpDie };
+            var mpResult = await rollDie.InvokeAsync<int>(kernel, mpArgs);
+            maxMp = baseMp + mpResult;
+        }
+        await _characterCreationService.UpdateMaxHpMpAsync(createdState.Id, maxHp, maxMp);
+        return $"Character {createdState.Id} (HP:{maxHp} MP: {maxMp}) updated. Move it along!";
+    }
+    [KernelFunction]
+    public async Task<string> CurrentState(Kernel kernel)
+    {
+        var creationService = kernel.Services.GetRequiredService<ICharacterCreationService>();
+        var appState = kernel.Services.GetRequiredService<AppState>();
+        //_characterCreationState ??= await creationService.GetCharacterCreationStateAsync(appState.Player.Name!);
+        var createdState = await creationService.GetCharacterCreationStateAsync(appState.Player.Name!); ;
         var currentStep = createdState?.CurrentStep ?? CharacterCreationStep.BasicInfo;
-        return $"**{currentStep}**: {currentStep.GetDescription()}";
+        return createdState?.DraftCharacter.PrimaryDetailsMarkdown() ?? "No character creation information available. Begin the process.";
     }
 
     #endregion

@@ -253,11 +253,11 @@
                         </tbody>
                     </table>
 
-                    <!-- Replace the current Known Spells section with this improved table layout -->
+                    
                     <h4>Known Spells</h4>
                     <div class="spells-by-band">
                         <!-- Cantrips section -->
-                        <h5>Cantrips</h5>
+                       @*  <h5>Cantrips</h5>
                         <table class="spells-table">
                             <thead>
                                 <tr>
@@ -293,7 +293,7 @@
                                 }
                             </tbody>
                         </table>
-
+ *@
                         <!-- Spells by Band -->
                         @foreach (var band in Enum.GetValues<Band>())
                         {
@@ -339,6 +339,7 @@
                     </div>
                 </div>
             }
+            <button class="rpg-button" type="submit">Update Character</button>
         </div>
 
         <div class="character-sheet-page">
@@ -348,44 +349,44 @@
                 <h3>Class Abilities</h3>
                 <table>
                     <thead>
-                        <tr>
-                            <th>Ability</th>
-                            <th>Description</th>
-                        </tr>
+                    <tr>
+                        <th>Ability</th>
+                        <th>Description</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        @if (CharacterSheet.Class?.Abilities != null)
+                    @if (CharacterSheet.Class?.Abilities != null)
+                    {
+                        @foreach (var ability in CharacterSheet.Class.Abilities)
                         {
-                            @foreach (var ability in CharacterSheet.Class.Abilities)
-                            {
-                                <tr>
-                                    <td>@ability.Name</td>
-                                    <td>@ability.Description</td>
-                                </tr>
-                            }
+                            <tr>
+                                <td>@ability.Name</td>
+                                <td>@ability.Description</td>
+                            </tr>
                         }
+                    }
                     </tbody>
                 </table>
 
                 <h3>Racial Traits</h3>
                 <table>
                     <thead>
-                        <tr>
-                            <th>Trait</th>
-                            <th>Description</th>
-                        </tr>
+                    <tr>
+                        <th>Trait</th>
+                        <th>Description</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        @if (CharacterSheet.Race?.Traits != null)
+                    @if (CharacterSheet.Race?.Traits != null)
+                    {
+                        @foreach (var trait in CharacterSheet.Race.Traits)
                         {
-                            @foreach (var trait in CharacterSheet.Race.Traits)
-                            {
-                                <tr>
-                                    <td>@trait.Name</td>
-                                    <td>@trait.Description</td>
-                                </tr>
-                            }
+                            <tr>
+                                <td>@trait.Name</td>
+                                <td>@trait.Description</td>
+                            </tr>
                         }
+                    }
                     </tbody>
                 </table>
             </div>
@@ -410,21 +411,21 @@
                 <h4>Inventory</h4>
                 <table class="inventory-table">
                     <thead>
-                        <tr>
-                            <th>Item</th>
-                            <th>Quantity</th>
-                            <th>Notes</th>
-                        </tr>
+                    <tr>
+                        <th>Item</th>
+                        <th>Quantity</th>
+                        <th>Notes</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in CharacterSheet.Inventory)
-                        {
-                            <tr>
-                                <td><InputText @bind-Value="item.Name" /></td>
-                                <td><InputNumber @bind-Value="item.Quantity" class="small-input" /></td>
-                                <td><InputText @bind-Value="item.Description" /></td>
-                            </tr>
-                        }
+                    @foreach (var item in CharacterSheet.Inventory)
+                    {
+                        <tr>
+                            <td><InputText @bind-Value="item.Name" /></td>
+                            <td><InputNumber @bind-Value="item.Quantity" class="small-input" /></td>
+                            <td><InputText @bind-Value="item.Description" /></td>
+                        </tr>
+                    }
                     </tbody>
                 </table>
 
@@ -466,6 +467,7 @@
                 </div>
             </div>
         </div>
+        <button class="rpg-button" type="submit">Update Character</button>
     </div>
 </EditForm>
 

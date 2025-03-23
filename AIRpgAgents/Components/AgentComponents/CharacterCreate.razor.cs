@@ -8,15 +8,13 @@ using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel;
 using SkPluginComponents.Models;
 using AIRpgAgents.Core.Agents;
+using AIRpgAgents.GameEngine.PlayerCharacter;
 
 namespace AIRpgAgents.Components.AgentComponents;
 public partial class CharacterCreate
 {
     private ChatView _chatView;
-    [Inject]
-    private AppState AppState { get; set; } = default!;
-    [Inject]
-    private CosmosService CosmosService { get; set; } = default!;
+    
     [Inject]
     private ICharacterCreationService CharacterCreationService { get; set; } = default!;
     [Inject]
@@ -74,7 +72,17 @@ public partial class CharacterCreate
         _isBusy = false;
         StateHasChanged();
     }
+    private async Task SaveCharacterSheet(CharacterSheet characterSheet)
+    {
+        _isBusy = true;
+        StateHasChanged();
+        await Task.Delay(1);
+        await CharacterCreationService.UpdateDraftCharacterSheet(characterSheet, AppState.Player.Id);
 
+
+        _isBusy = false;
+        StateHasChanged();
+    }
     private void Cancel()
     {
         _isBusy = false;

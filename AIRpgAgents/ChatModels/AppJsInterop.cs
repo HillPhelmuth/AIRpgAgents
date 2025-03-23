@@ -14,7 +14,6 @@ namespace AIRpgAgents.ChatModels
             {
                 var module = await _moduleTask.Value;
                 await module.InvokeVoidAsync("scrollDown", elementReference);
-                Console.WriteLine("Scrolled Down");
             }
             catch (Exception ex)
             {
@@ -28,8 +27,6 @@ namespace AIRpgAgents.ChatModels
             {
                 var module = await _moduleTask.Value;
                 var requiresScroll = await module.InvokeAsync<bool>("requiresScroll", elementReference);
-                if (requiresScroll)
-                    Console.WriteLine("Requires Scroll");
                 return requiresScroll;
                 
             }

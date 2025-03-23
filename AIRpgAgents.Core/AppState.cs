@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using AIRpgAgents.Core.Agents;
 using AIRpgAgents.Core.Models;
 using AIRpgAgents.Core.Plugins.NativePlugins;
+using AIRpgAgents.GameEngine.Game;
 using AIRpgAgents.GameEngine.World;
 
 namespace AIRpgAgents.Core;

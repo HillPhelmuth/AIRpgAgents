@@ -1,30 +1,40 @@
 using System.Text;
-using System.Text.Json.Serialization;
 using AIRpgAgents.GameEngine.Rules;
 using CosmosName = Newtonsoft.Json.JsonPropertyAttribute;
 using CosmosIgnore = Newtonsoft.Json.JsonIgnoreAttribute;
+using System;
 
 namespace AIRpgAgents.GameEngine.PlayerCharacter;
 
 public class CharacterSheet
 {
     // Basic Info
-    [CosmosName("id")] 
+    [CosmosName("id")]
     public string Id => $"{PlayerName}-{CharacterName}";
 
     public string PartitionKey => Id;
     public string PlayerName { get; set; } = "";
 
     public string CharacterName { get; set; } = "";
-    
+
     public Race Race { get; set; } = new();
     public CharacterClass Class { get; set; } = new();
+    public List<ClassAbility> ActiveClassAbilities
+    {
+        get
+        {
+           return Class.Abilities.Where(x => x.LevelGained <= Level).ToList();
+        }
+        
+    }
+
     public int Level { get; set; } = 1;
     public AlignmentValue Alignment { get; set; } = new();
     public string Deity { get; set; } = "";
-        
+
     // Stats
-    public AttributeSet AttributeSet { get; set; } = new();
+    [CosmosIgnore]
+    public AttributeSet AttributeSet { get; } = new();
 
     public int Might
     {
@@ -53,7 +63,7 @@ public class CharacterSheet
         set => AttributeSet[RpgAttribute.Presence] = value;
     }
     public List<Skill> Skills { get; set; } = [];
-        
+
     // Combat Stats
     public int CurrentHP { get; set; }
     public int MaxHP { get; set; }
@@ -62,10 +72,10 @@ public class CharacterSheet
     public int ArmorClass { get; set; }
     public int Initiative { get; set; }
     public int Speed { get; set; } = 30;
-        
+
     // Equipment
     public List<Weapon> Weapons { get; set; } = [];
-    [JsonIgnore]
+    [System.Text.Json.Serialization.JsonIgnore]
     [CosmosIgnore]
     public List<InventoryItem> Inventory
     {
@@ -84,19 +94,19 @@ public class CharacterSheet
 
     // Spellcasting
     public SpellcastingInfo? Spellcasting { get; set; }
-        
+
     // Currency
     public int GoldCoins { get; set; }
     public int SilverCoins { get; set; } = 100;
     public int CopperCoins { get; set; }
-        
+
     // Background Info
     public string PersonalityTraits { get; set; } = "";
     public string Ideals { get; set; } = "";
     public string Bonds { get; set; } = "";
     public string Flaws { get; set; } = "";
     public string Notes { get; set; } = "";
-            
+
     // Calculate attribute modifiers
     public int GetAttributeModifier(RpgAttribute attributeName)
     {
@@ -104,13 +114,13 @@ public class CharacterSheet
         //int score = GetAttributeScore(attributeName);
         //return (int)Math.Floor((score - 10) / 2.0);
     }
-        
+
     public int GetAttributeScore(RpgAttribute attributeName)
     {
         return AttributeSet[attributeName];
-        
+
     }
-        
+
     // Calculate saving throws
     public int GetSavingThrow(RpgAttribute attributeName)
     {
@@ -125,90 +135,120 @@ public class CharacterSheet
     public string PrimaryDetailsMarkdown()
     {
         var markdown = new StringBuilder();
-
+        var missingDetail = false;
         // Character name and basic info
-        markdown.AppendLine($"# {CharacterName}");
-        markdown.AppendLine($"**Level {Level} {Race.Type} {Class.Type}**");
-        
+        if (!string.IsNullOrEmpty(CharacterName))
+        {
+            markdown.AppendLine($"# {CharacterName}");
+        }
+        else
+        {
+            markdown.AppendLine("# Character Name");
+            markdown.AppendLine("No character name selected.");
+            markdown.AppendLine("**Begin the character creation process.**");
+            missingDetail = true;
+        }
+        markdown.AppendLine($"**Level {Level}**");
+
         if (!string.IsNullOrEmpty(Deity))
         {
             markdown.AppendLine($"**Deity:** {Deity}");
         }
-        
+
         // Alignment
         markdown.AppendLine();
         markdown.AppendLine("## Alignment");
         markdown.AppendLine($"* **Moral Axis:** {Alignment.MoralAlignment}");
         markdown.AppendLine($"* **Ethical Axis:** {Alignment.EthicalAlignment}");
-        
+
         // Race details
         markdown.AppendLine();
         markdown.AppendLine("## Race");
         markdown.AppendLine($"* **Type:** {Race.Type}");
-        
-        if (!string.IsNullOrEmpty(Race.Description))
+        if (Race.Type == RaceType.None)
         {
-            markdown.AppendLine($"* **Description:** {Race.Description}");
+            markdown.AppendLine("No character race selected");
+            markdown.AppendLine("**Please ask the player to provide Race selection.**");
         }
-        
-        if (Race.AttributeModifiers?.Count > 0)
-        {
-            markdown.AppendLine("* **Attribute Modifiers:**");
-            foreach (var modifier in Race.AttributeModifiers)
-            {
-                markdown.AppendLine($"  * {modifier.Key}: {(modifier.Value >= 0 ? "+" : "")}{modifier.Value}");
-            }
-        }
-        
-        if (Race.Traits?.Count > 0)
-        {
-            markdown.AppendLine("* **Racial Traits:**");
-            foreach (var trait in Race.Traits)
-            {
-                markdown.AppendLine($"  * {trait.Name}");
-            }
-        }
-        
+
         // Class details
         markdown.AppendLine();
         markdown.AppendLine("## Class");
         markdown.AppendLine($"* **Type:** {Class.Type}");
-        
-        if (!string.IsNullOrEmpty(Class.Description))
+        if (Class.Type == ClassType.None)
         {
-            markdown.AppendLine($"* **Description:** {Class.Description}");
+            markdown.AppendLine("No character class selected");
+            markdown.AppendLine("**Please ask the player to provide Class selection.**");
         }
-        
         // Attributes
         markdown.AppendLine();
         markdown.AppendLine("## Attributes");
-        foreach (RpgAttribute attribute in Enum.GetValues(typeof(RpgAttribute)))
+        if (AttributeSet.All(x => x.Value == AttributeSystem.MinAttributeValue))
         {
-            int value = AttributeSet[attribute];
-            int modifier = GetAttributeModifier(attribute);
-            string modifierStr = modifier >= 0 ? $"+{modifier}" : modifier.ToString();
-            
-            markdown.AppendLine($"* **{attribute}:** {value} ({modifierStr})");
+            markdown.AppendLine("No attributes selected.");
+            if (!missingDetail)
+            {
+                markdown.AppendLine("**Please proceed to select attributes before finalizing the character.**");
+            }
+            missingDetail = true;
         }
-        
+        else
+        {
+            foreach (var item in AttributeSet)
+            {
+                var value = item.Value;
+                int modifier = GetAttributeModifier(item.Key);
+                string modifierStr = modifier >= 0 ? $"+{modifier}" : modifier.ToString();
+                markdown.AppendLine($"* **{item.Key}:** {value} ({modifierStr})");
+            }
+        }
+
         // Skills
         if (Skills?.Count > 0)
         {
             markdown.AppendLine();
             markdown.AppendLine("## Skills");
-            
+
             foreach (var skill in Skills)
             {
                 markdown.AppendLine($"* **{skill.Name}:** Rank {skill.Rank}");
                 markdown.AppendLine($"  * Associated Attribute: {skill.AssociatedAttribute}");
-                if (skill.Bonus != 0)
-                {
-                    string bonusStr = skill.Bonus >= 0 ? $"+{skill.Bonus}" : skill.Bonus.ToString();
-                    markdown.AppendLine($"  * Bonus: {bonusStr}");
-                }
+
             }
         }
-        
+        else
+        {
+            markdown.AppendLine();
+            markdown.AppendLine("## Skills");
+            markdown.AppendLine("No skills selected.");
+            if (!missingDetail)
+            {
+                markdown.AppendLine("**Please proceed select skills before finalizing the character.**");
+            }
+            missingDetail = true;
+        }
+
+        if (Inventory?.Count > 0)
+        {
+            markdown.AppendLine();
+            markdown.AppendLine("## Inventory");
+            foreach (var item in Inventory)
+            {
+                markdown.AppendLine($"* **{item.Name}**");
+                markdown.AppendLine($"  * **Description:** {item.Description}");
+            }
+        }
+        else
+        {
+            markdown.AppendLine();
+            markdown.AppendLine("## Inventory");
+            markdown.AppendLine("No items in inventory.");
+            if (!missingDetail)
+            {
+                markdown.AppendLine("**Please proceed to select starting equipment before finalizing the character.**");
+            }
+            missingDetail = true;
+        }
         return markdown.ToString();
     }
 }

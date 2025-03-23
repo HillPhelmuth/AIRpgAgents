@@ -30,6 +30,7 @@ public class RacialTrait
 [CosmosConverter(typeof(StringEnumConverter))]
 public enum RaceType
 {
+    None,
     Human,
     Duskborn,
     Ironforged,

@@ -152,7 +152,7 @@ public class CharacterCreationServiceTests
         // Update available skills in state
         var state = await _service.GetCharacterCreationStateAsync(_testCreationStateId);
         state.AvailableSkills = skills;
-        _service.UpdateCharacterCreationStateAsync(state);
+        _service.UpdateCharacterCreationState(state);
 
         // Act
         await _service.SelectSkillsAsync(_testCreationStateId, skills);
@@ -185,7 +185,7 @@ public class CharacterCreationServiceTests
         await SetupTestCharacter();
         var state = await _service.GetCharacterCreationStateAsync(_testCreationStateId);
         state.CurrentStep = CharacterCreationStep.AttributeScores;
-        _service.UpdateCharacterCreationStateAsync(state);
+        _service.UpdateCharacterCreationState(state);
 
         // Act
         await _service.AdvanceToNextStepAsync(_testCreationStateId);
@@ -209,7 +209,7 @@ public class CharacterCreationServiceTests
         await SetupTestCharacter();
         var state = await _service.GetCharacterCreationStateAsync(_testCreationStateId);
         state.SilverCoins = 100; // 1000 copper
-        _service.UpdateCharacterCreationStateAsync(state);
+        _service.UpdateCharacterCreationState(state);
 
         var weapons = new List<Weapon> { new Weapon { Value = 150, Name = "Longsword" } };  // 150 copper
         var armor = new List<Armor> { new Armor { Value = 100, Name = "Leather Armor" } };      // 100 copper
@@ -300,7 +300,7 @@ public class CharacterCreationServiceTests
         state.DraftCharacter.Bonds = state.Bonds;
         state.DraftCharacter.Flaws = state.Flaws;
             
-        _service.UpdateCharacterCreationStateAsync(state);
+        _service.UpdateCharacterCreationState(state);
 
         // Act
         var characterSheet = await _service.CompleteCharacterCreationAsync(_testCreationStateId);

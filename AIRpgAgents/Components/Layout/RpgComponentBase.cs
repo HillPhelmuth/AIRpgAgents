@@ -12,6 +12,7 @@ public class RpgComponentBase : ComponentBase
     [Inject] protected AppState AppState { get; set; } = default!;
     [Inject] protected CosmosService CosmosService { get; set; } = default!;
     [Inject] protected DialogService DialogService { get; set; } = default!;
+    [Inject] protected RpgState RpgState { get; set; } = default!;
 
     protected virtual async Task ShowAgent(string agentId)
     {

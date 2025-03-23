@@ -17,4 +17,5 @@ public class RpgCampaign
     public string? Description { get; set; }
     public RpgParty Party { get; set; } = new();
     public WorldState WorldState { get; set; } = new();
+    public NarrativeState GameMasterLogs { get; set; } = new();
 }
