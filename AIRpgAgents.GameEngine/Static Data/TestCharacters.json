@@ -109,38 +109,38 @@
           "Name": "Melee Combat",
           "AssociatedAttribute": "Might",
           "Rank": 1,
-          "Bonus": 0
+          "Bonus": 1
         },
         {
           "Name": "Athletics",
           "AssociatedAttribute": "Might",
           "Rank": 1,
-          "Bonus": 0
+          "Bonus": 1
         },
         {
           "Name": "Endurance", 
           "AssociatedAttribute": "Vitality",
           "Rank": 1,
-          "Bonus": 0
+          "Bonus": 1
         },
         {
           "Name": "Intimidation",
           "AssociatedAttribute": "Presence",
           "Rank": 1,
-          "Bonus": 0
+          "Bonus": 1
         },
         {
           "Name": "Survival",
           "AssociatedAttribute": "Wits",
           "Rank": 1,
-          "Bonus": 0
+          "Bonus": 1
         }
       ],
-      "CurrentHP": 0,
-      "MaxHP": 0,
+      "CurrentHP": 30,
+      "MaxHP": 30,
       "CurrentMP": 0,
       "MaxMP": 0,
-      "ArmorClass": 0,
+      "ArmorClass": 10,
       "Initiative": 0,
       "Speed": 30,
       "Weapons": [
@@ -260,8 +260,8 @@
     "DeathSavesFailures": 0,
     "CharacterId": "hughblows@yahoo.com-Monty",
     "CharacterName": "Monty",
-    "CurrentHitPoints": 0,
-    "MaxHitPoints": 0
+    "CurrentHitPoints": 30,
+    "MaxHitPoints": 30
   },
   {
     "CharacterSheet": {
@@ -372,39 +372,39 @@
           "Name": "Melee Combat",
           "AssociatedAttribute": "Might",
           "Rank": 1,
-          "Bonus": 0
+          "Bonus": 1
         },
         {
           "Name": "Ranged Combat",
           "AssociatedAttribute": "Agility",
           "Rank": 1,
-          "Bonus": 0
+          "Bonus": 1
         },
         {
           "Name": "Arcane Knowledge",
           "AssociatedAttribute": "Wits",
           "Rank": 1,
-          "Bonus": 0
+          "Bonus": 1
         },
         {
           "Name": "Perception",
           "AssociatedAttribute": "Wits",
           "Rank": 1,
-          "Bonus": 0
+          "Bonus": 1
         },
         {
           "Name": "Crafting",
           "AssociatedAttribute": "Wits",
           "Rank": 1,
-          "Bonus": 0
+          "Bonus": 1
         }
       ],
-      "CurrentHP": 0,
-      "MaxHP": 0,
-      "CurrentMP": 0,
-      "MaxMP": 0,
-      "ArmorClass": 0,
-      "Initiative": 0,
+      "CurrentHP": 25,
+      "MaxHP": 25,
+      "CurrentMP": 12,
+      "MaxMP": 12,
+      "ArmorClass": 14,
+      "Initiative": 4,
       "Speed": 30,
       "Weapons": [
         {
@@ -445,7 +445,7 @@
       ],
       "Armor": [
         {
-          "ArmorBonus": 1,
+          "ArmorBonus": 2,
           "IsShield": false,
           "StrengthRequirement": null,
           "Properties": [
@@ -457,6 +457,7 @@
           "Weight": 10,
           "Value": 100,
           "IsEquippable": true,
+          "IsEquipped": true,
           "IsConsumable": false
         }
       ],
@@ -556,16 +557,23 @@
           {
             "Name": "Magic Missile",
             "Level": 1,
-            "Description": "Fire 3 magical bolts, each dealing 1d4 \u002B caster level damage. Gain an additional bolt at levels 3, 6, 9, 12, and 15.",
+            "Description": "Fire 3 magical bolts, each dealing 1d4+ caster level damage. Gain an additional bolt at levels 3, 6, 9, 12, and 15.",
             "ManaCost": 3,
             "CastTime": "Action",
-            "Range": "120 feet",
-            "Duration": "Instantaneous",
-            "DamageType": "Force",
-            "DamageFormula": "1d4 \u002B caster level per bolt",
-            "AreaOfEffect": "Multiple targets possible",
             "SaveType": "None",
-            "Band": "Lower"
+            "Band": "Lower",
+            "Effects": [
+              {
+                "SpellEffectType": "Damage",
+                "Target": "Enemy",
+                "Range": "120 feet",
+                "Duration": "Instantaneous",
+                "DamageType": "Force",
+                "DiceFormula": "1d4",
+                "DamageCount": 3,
+                "AreaOfEffect": "Single Target"
+              }
+            ]
           },
           {
             "Name": "Arcane Sight",
@@ -573,13 +581,17 @@
             "Description": "Detect magical auras and enchantments within 60 ft for 10 minutes.",
             "ManaCost": 4,
             "CastTime": "Action",
-            "Range": "Self",
-            "Duration": "10 minutes",
-            "DamageType": "None",
-            "DamageFormula": "",
-            "AreaOfEffect": "60-foot radius",
             "SaveType": "None",
-            "Band": "Lower"
+            "Band": "Lower",
+            "Effects": [
+              {
+                "SpellEffectType": "Detect",
+                "Target": "Self",
+                "Range": "Self",
+                "Duration": "10 minutes",
+                "AreaOfEffect": "60-foot radius"
+              }
+            ]
           }
         ],
         "MagicTradition": "Arcane"
@@ -612,7 +624,7 @@
     "DeathSavesFailures": 0,
     "CharacterId": "hughblows@yahoo.com-Gorlf",
     "CharacterName": "Gorlf",
-    "CurrentHitPoints": 0,
-    "MaxHitPoints": 0
+    "CurrentHitPoints": 25,
+    "MaxHitPoints":25
   }
 ]

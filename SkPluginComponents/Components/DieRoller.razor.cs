@@ -12,14 +12,18 @@ public partial class DieRoller
     public int CurrentValue { get; set; } = 1;
     [Parameter]
     public EventCallback<int> CurrentValueChanged { get; set; }
+
+    [Parameter] 
+    public bool IsManual { get; set; } = true;
     [Parameter]
-    public bool IsManual { get; set; }
+    public bool IsStandalone { get; set; }
 
     private string _diceClass = "stopped";
     private string _rollingCss = "";
     private int _currentFace = 1;
     private Timer _rollTimer;
-    protected override void OnParametersSet()
+    public bool HasRolled { get; private set; }
+    protected override async Task OnParametersSetAsync()
     {
         DieVal = DieType switch
         {
@@ -30,30 +34,19 @@ public partial class DieRoller
             DieType.D20 => 20,
             _ => DieVal
         };
-        base.OnParametersSet();
+        if (!IsManual && !HasRolled)
+        {
+            await RollDice();
+            HasRolled = true;
+        }
+        await base.OnParametersSetAsync();
     }
     protected override void OnInitialized()
     {
 
     }
     private bool _rollStarted;
-    private async Task RollMany()
-    {
-        if (_rollStarted)
-            return;
-        _rollStarted = true;
-        var random = new Random();
-        for (var i = 0; i < 10; i++)
-        {
-            _currentFace = random.Next(1, DieVal + 1);
-            StateHasChanged();
-            await Task.Delay(300);
-        }
-        CurrentValue = _currentFace;
-        await CurrentValueChanged.InvokeAsync(_currentFace);
-        _rollStarted = false;
-    }
-
+    
     public async Task ManualRoll()
     {
         if (!IsManual) return;
@@ -61,6 +54,7 @@ public partial class DieRoller
     }
     public async Task RollDice()
     {
+        if (HasRolled) return;
         Console.WriteLine($"Roll {DieType} Initiated");
         if (_rollingCss == "rolling")
             return;
@@ -76,6 +70,7 @@ public partial class DieRoller
         CurrentValue = _currentFace;
         await CurrentValueChanged.InvokeAsync(_currentFace);
         _diceClass = "stopped";
+        HasRolled = !IsStandalone;
         StateHasChanged();
     }
 }

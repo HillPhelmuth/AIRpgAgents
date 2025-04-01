@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Components;
+using SkPluginComponents.Components;
 
 namespace SkPluginComponents.Models;
 
 public class RollDiceService
 {
     private readonly List<object> _modals = [];
-    private readonly List<AskUserReference> _askUserReferences = [];
+    private readonly List<DieRoleModalReference> _dieRollReferences = [];
     public bool IsOpen { get; set; }
     public RollDiceParameters? Parameters { get; set; }
     public event Action<RollDiceResults?>? OnModalClose;
@@ -20,7 +21,7 @@ public class RollDiceService
     }   
     public void Open<T>(RollDiceParameters? parameters = null, RollDiceWindowOptions? options = null) where T : ComponentBase
     {
-        _askUserReferences.Add(new AskUserReference());
+        _dieRollReferences.Add(new DieRoleModalReference());
         OnOpenComponent?.Invoke(typeof(T), parameters, options);
     }
 
@@ -32,11 +33,19 @@ public class RollDiceService
     public Task<RollDiceResults?> OpenAsync<T>(RollDiceParameters? parameters = null, RollDiceWindowOptions? options = null) where T : ComponentBase
     {
         TaskCompletionSource<RollDiceResults?> taskCompletionSource = new(TaskCreationOptions.RunContinuationsAsynchronously);
-        AskUserReference modalRef = new() { TaskCompletionSource = taskCompletionSource };
-        _askUserReferences.Add(modalRef);
+        DieRoleModalReference modalRef = new() { TaskCompletionSource = taskCompletionSource };
+        _dieRollReferences.Add(modalRef);
         OnOpenComponent?.Invoke(typeof(T), parameters, options);
         return modalRef.TaskCompletionSource.Task;
 
+    }
+    public Task<RollDiceResults?> OpenDiceWindow(RollDiceParameters? parameters = null, RollDiceWindowOptions? options = null)
+    {
+        TaskCompletionSource<RollDiceResults?> taskCompletionSource = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        DieRoleModalReference modalRef = new() { TaskCompletionSource = taskCompletionSource };
+        _dieRollReferences.Add(modalRef);
+        OnOpenComponent?.Invoke(typeof(DiceRoller), parameters, options);
+        return modalRef.TaskCompletionSource.Task;
     }
 
     public void Close(bool success)
@@ -50,14 +59,14 @@ public class RollDiceService
    
     public void Close(RollDiceResults? result)
     {
-        var modalRef = _askUserReferences.LastOrDefault();
+        var modalRef = _dieRollReferences.LastOrDefault();
         if (modalRef != null)
         {
             IsOpen = false;
-            _askUserReferences.Remove(modalRef);
+            _dieRollReferences.Remove(modalRef);
             OnClose(result);
         }
-        var taskCompletion = modalRef.TaskCompletionSource;
+        var taskCompletion = modalRef?.TaskCompletionSource;
         if (taskCompletion == null || taskCompletion.Task.IsCompleted) return;
         taskCompletion.SetResult(result);
     }
@@ -66,7 +75,7 @@ public class RollDiceService
         OnModalClose?.Invoke(results);
     }   
 }
-internal class AskUserReference
+internal class DieRoleModalReference
 {
     internal Guid Id { get; set; } = Guid.NewGuid();
     internal TaskCompletionSource<RollDiceResults?> TaskCompletionSource = new(TaskCreationOptions.RunContinuationsAsynchronously);

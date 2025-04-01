@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AIRpgAgents.GameEngine.Game;
+using AIRpgAgents.GameEngine.Monsters;
 using AIRpgAgents.GameEngine.PlayerCharacter;
 using AIRpgAgents.GameEngine.World;
 using CosmosName = Newtonsoft.Json.JsonPropertyAttribute;
 
-namespace AIRpgAgents.GameEngine.Game;
+namespace AIRpgAgents.Core.Models;
 
 public class RpgCampaign
 {
@@ -17,5 +14,8 @@ public class RpgCampaign
     public string? Description { get; set; }
     public RpgParty Party { get; set; } = new();
     public WorldState WorldState { get; set; } = new();
-    public NarrativeState GameMasterLogs { get; set; } = new();
+    public NarrativeState NarrativeState { get; set; } = new();
+    public List<CombatEncounter> CombatEncounters { get; set; } = [];
+    public MonsterEncounter? PendingMonsterEncounter { get; set; }
+
 }

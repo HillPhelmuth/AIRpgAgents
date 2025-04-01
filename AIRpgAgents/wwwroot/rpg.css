@@ -1,5 +1,4 @@
-﻿
-.rpgui-content {
+﻿.rpgui-content {
   padding: 0 0 0 0;
   margin: 0 0 0 0;
   width: 100%;
@@ -302,5 +301,168 @@
   image-rendering: pixelated;
   /* default font */
   font-family: "Press Start 2P", cursive;
+}
+
+/**
+* RPG-styled Tables
+*/
+/* Basic table styling */
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+  margin: 10px 0;
+  font-family: "Press Start 2P", cursive;
+  font-size: 0.8em;
+  border-style: solid;
+  border-width: 5px;
+  border-image: url("img/border-image.png") 6 6 6 6/3px repeat;
+  box-sizing: border-box;
+  background: linear-gradient(to bottom, #f5e9d0, #e8d9b9);
+}
+
+/* Table header styling */
+th {
+  padding: 8px;
+  text-align: left;
+  background-color: rgba(165, 142, 105, 0.7);
+  color: #332511;
+  font-weight: normal;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 2px solid #8e7951;
+}
+
+/* Table rows and cells */
+tr {
+  background-color: transparent;
+}
+
+tr:nth-child(even) {
+  background-color: rgba(245, 233, 208, 0.5);
+}
+
+tr:nth-child(odd) {
+  background-color: rgba(232, 217, 185, 0.5);
+}
+
+tr:hover {
+  background-color: rgba(192, 172, 142, 0.3);
+}
+
+td {
+  padding: 6px 8px;
+  border-bottom: 1px solid #d5c7a3;
+}
+
+/* Golden table variation */
+table.golden {
+  border-image: url("img/border-image.png") 4 4 4 4/3px repeat;
+  background: url("img/background-image-golden.png") repeat repeat border-box border-box center;
+}
+
+table.golden th {
+  background-color: rgba(184, 134, 11, 0.7);
+  color: #f5e9d0;
+  border-bottom: 2px solid #c7922f;
+}
+
+/* Grey table variation */
+table.grey {
+  border-image: url("img/border-image.png") 3 3 3 3/4px repeat;
+  border-width: 7px;
+  background: url("img/background-image-grey.png") repeat repeat border-box border-box center;
+}
+
+table.grey th {
+  background-color: rgba(90, 90, 90, 0.7);
+  color: #e0e0e0;
+  border-bottom: 2px solid #777777;
+}
+
+/**
+* RPG-styled Lists
+*/
+/* Unordered lists */
+ul {
+  list-style: none;
+  padding-left: 20px;
+  margin: 10px 0;
+  font-family: "Press Start 2P", cursive;
+  font-size: 0.85em;
+}
+
+ul li {
+  position: relative;
+  padding: 4px 0 4px 24px;
+  margin-bottom: 5px;
+  line-height: 1.4em;
+}
+
+ul li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 12px;
+  height: 12px;
+  background-image: url("img/border-image.png");
+  background-size: 48px 48px;
+  background-position: -6px -6px;
+  image-rendering: pixelated;
+}
+
+/* Ordered lists */
+ol {
+  padding-left: 20px;
+  margin: 10px 0;
+  list-style: none;
+  counter-reset: rpg-counter;
+  font-family: "Press Start 2P", cursive;
+  font-size: 0.85em;
+}
+
+ol li {
+  position: relative;
+  padding: 4px 0 4px 32px;
+  margin-bottom: 8px;
+  counter-increment: rpg-counter;
+  line-height: 1.4em;
+}
+
+ol li::before {
+  content: counter(rpg-counter);
+  position: absolute;
+  left: 0;
+  top: 2px;
+  width: 22px;
+  height: 22px;
+  text-align: center;
+  border-style: solid;
+  border-width: 2px;
+  border-image: url("img/border-image.png") 6 6 6 6/2px repeat;
+  background-color: #e8d9b9;
+  font-size: 0.8em;
+  line-height: 22px;
+}
+
+/* List variations */
+ul.golden li::before, ol.golden li::before {
+  background-image: url("img/background-image-golden.png");
+  background-size: 24px 24px;
+}
+
+ul.grey li::before, ol.grey li::before {
+  background-image: url("img/background-image-grey.png");
+  background-size: 24px 24px;
+}
+
+/* Nested lists */
+ul ul, ol ul {
+  margin: 5px 0;
+}
+
+ul ol, ol ol {
+  margin: 5px 0;
 }
 

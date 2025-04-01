@@ -12,7 +12,7 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddAIRpgAgentsCore(this IServiceCollection services)
     {
-        services.AddScoped<AppState>()./*AddScoped<CharacterCreationState>().*/AddSingleton<CosmosService>().AddSingleton<RpgState>();
+        services.AddScoped<AppState>()./*AddScoped<CharacterCreationState>().*/AddSingleton<CosmosService>().AddSingleton<RpgState>().AddSingleton<CombatService>();
         return services;
     }
 }

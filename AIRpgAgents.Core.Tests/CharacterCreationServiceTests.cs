@@ -262,7 +262,7 @@ public class CharacterCreationServiceTests
             
         // Set up a complete character
         var state = await _service.GetCharacterCreationStateAsync(_testCreationStateId);
-        state.AttributeSet = new AttributeSet(new Dictionary<RpgAttribute, int>
+        state.AttributeSet.SetAttributeValues(new Dictionary<RpgAttribute, int>
         {
             { RpgAttribute.Might, 15 },
             { RpgAttribute.Agility, 14 },
@@ -290,7 +290,7 @@ public class CharacterCreationServiceTests
         state.Flaws = "Too trusting";
             
         // Update the draft character to reflect these selections
-        state.DraftCharacter.AttributeSet = state.AttributeSet;
+        state.DraftCharacter.AttributeSet.SetAttributeValues(state.AttributeSet);
         state.DraftCharacter.Skills = state.SelectedSkills;
         state.DraftCharacter.Weapons = state.SelectedWeapons;
         state.DraftCharacter.Armor = state.SelectedArmor;

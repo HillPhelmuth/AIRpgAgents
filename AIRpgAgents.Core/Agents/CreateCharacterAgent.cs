@@ -17,8 +17,7 @@ public class CreateCharacterAgent : RpgAgent
     private readonly CharacterCreationState _characterCreationState;
     private readonly ICharacterCreationService _charCreateService;
     private readonly RollDiceService _rollDiceService;
-    private readonly AutoInvokeFilter _autoInvokeFilter = new();
-    
+
     public CreateCharacterAgent(AppState appState, CosmosService cosmosService, ICharacterCreationService charCreateService, RollDiceService rollDiceService) : base("CharacterAgent", "Bad Ass Character Creator", PromptHelper.ExtractPromptFromFile("CreateCharacterPrompt.md"), new OpenAIPromptExecutionSettings() { Temperature = 0.9, FunctionChoiceBehavior = FunctionChoiceBehavior.Auto() })
     {
         RequiredArguments = new KernelArguments() { ["name"] = $"{Name} a {Description}" };
@@ -30,7 +29,7 @@ public class CreateCharacterAgent : RpgAgent
     }
     public CreateCharacterAgent(AppState appState, CosmosService cosmosService, ICharacterCreationService charCreateService, RollDiceService rollDiceService, string promptTemplate) : base("CharacterAgent", "Bad Ass Character Creator", promptTemplate, new OpenAIPromptExecutionSettings() { Temperature = 0.9, FunctionChoiceBehavior = FunctionChoiceBehavior.Auto() })
     {
-        RequiredArguments = new KernelArguments() { ["name"] = Name };
+        RequiredArguments = new KernelArguments() { ["name"] = $"{Name} a {Description}" };
         _appState = appState;
         _cosmosService = cosmosService;
         _characterCreationState = new CharacterCreationState(appState.Player.Name ?? Guid.NewGuid().ToString()); ;
@@ -50,7 +49,7 @@ public class CreateCharacterAgent : RpgAgent
         //kernelBuilder.Services.AddScoped<ICharacterService, CharacterService>();
         var kernel = kernelBuilder.Build();
         kernel.ImportPluginFromType<DieRollerPlugin>();
-        kernel.AutoFunctionInvocationFilters.Add(_autoInvokeFilter);
+        kernel.AutoFunctionInvocationFilters.Add(AutoInvokeFilter);
         var createCharacterPlugin =
             new CreateCharacterPlugin(kernel.Services.GetService<ICharacterCreationService>()!, _cosmosService, _appState);
         kernel.ImportPluginFromObject(createCharacterPlugin, nameof(CreateCharacterPlugin));

@@ -1,0 +1,30 @@
+name: CreateMonsterFunction
+description: 'Create monster details that conform to the provided schema based on the monster details provided'
+input_variables:
+- name: monsterName
+  description: the name of the unique monster
+  default: ''
+- name: monsterDescription
+  description: the description of the monster
+  default: ''
+- name: monsterAdditionalDetails
+  description: additional details of the monster
+  default: ''
+- name: difficultyLevel
+  description: the difficulty level of the monster
+  default: 5
+template: |
+ Use the details provided to create a monster that conforms to the schema provided. The details of the monster should reflect the difficulty level of the monster, which is on a scale of 1 - 15.
+
+ **Difficulty Level:** {{ $difficultyLevel }}
+
+ ## Monster Details
+
+ **Name:**
+ {{ $monsterName }}
+ 
+ **Description:**
+ {{ $monsterDescription }}
+
+ **Addtional Details:**
+ {{ $monsterAdditionalDetails }}

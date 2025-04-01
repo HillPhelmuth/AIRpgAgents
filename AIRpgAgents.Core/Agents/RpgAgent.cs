@@ -11,6 +11,7 @@ namespace AIRpgAgents.Core.Agents;
 public class RpgAgent(string name, string description, string promptTemplate, PromptExecutionSettings executionSettings)
 {
     private Kernel? _kernel;
+    
     public string Name { get; set; } = name;
     public string Description { get; set; } = description;
     public string PromptTemplate { get; set; } = promptTemplate;
@@ -27,6 +28,7 @@ public class RpgAgent(string name, string description, string promptTemplate, Pr
     {
         var kernelBuilder = Kernel.CreateBuilder().AddOpenAIChatCompletion("gpt-4o", Config.OpenAIApiKey!);
         var kernel = kernelBuilder.Build();
+        kernel.AutoFunctionInvocationFilters.Add(AutoInvokeFilter);
         kernel.ImportPluginFromType<GameSystemPlugin>();
         return kernel;
     }

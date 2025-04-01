@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AIRpgAgents.GameEngine.Rules;
 using AIRpgAgents.GameEngine.World;
 
 namespace AIRpgAgents.GameEngine.PlayerCharacter;
 
 public class CharacterState(CharacterSheet characterSheet)
 {
+    private Weapon? _equippedWeapon;
+    private Armor? _equippedArmor;
+
     // Character sheet containing basic information and stats
     public CharacterSheet CharacterSheet { get; set; } = characterSheet;
-    
+    public string Id => CharacterSheet.Id;
 
     // Campaign tracking
     public List<string> ActiveCampaignIds { get; set; } = [];
@@ -36,11 +40,34 @@ public class CharacterState(CharacterSheet characterSheet)
     // Temporary hit points are managed separately from CharacterSheet
     public int TemporaryHitPoints { get; set; }
     
+    // Temporary effects
+    public List<TemporaryEffect> TemporaryEffects { get; set; } = [];
+    
     // Death save tracking
     public bool IsUnconscious { get; set; }
     public bool IsStabilized { get; set; }
     public int DeathSavesSuccesses { get; set; }
     public int DeathSavesFailures { get; set; }
+
+    public Weapon EquippedWeapon
+    {
+        get
+        {
+            return _equippedWeapon ??= CharacterSheet.Weapons.FirstOrDefault(x => x.IsEquipped) 
+                                       ?? CharacterSheet.Weapons.FirstOrDefault() 
+                                       ?? new Weapon() { DamageFormula = "1D4", Name = "Fisticuffs", DamageType = DamageType.Bludgeoning };
+        }
+        set => _equippedWeapon = value;
+    }
+
+    public Armor? EquippedArmor
+    {
+        get
+        {
+            return _equippedArmor ?? CharacterSheet.Armor.Find(x => x.IsEquipped);
+        }
+        set => _equippedArmor = value;
+    }
 
     // Constructors
     public CharacterState() : this(new CharacterSheet())

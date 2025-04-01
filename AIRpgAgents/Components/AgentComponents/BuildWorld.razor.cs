@@ -17,8 +17,6 @@ public partial class BuildWorld
     private ChatView _chatView;
 
     [Inject]
-    private CosmosService CosmosService { get; set; } = default!;
-    [Inject]
     private ICharacterCreationService CharacterCreationService { get; set; } = default!;
     [Inject]
     private RollDiceService RollDiceService { get; set; } = default!;

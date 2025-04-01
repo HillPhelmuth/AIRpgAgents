@@ -37,7 +37,7 @@ public class NarrativePlugin
 
         if (!_narrativeState.CharacterNarratives.ContainsKey(characterName))
         {
-            _narrativeState.CharacterNarratives[characterName] = new List<string>();
+            _narrativeState.CharacterNarratives[characterName] = [];
         }
             
         _narrativeState.CharacterNarratives[characterName].Add(narrativeText);

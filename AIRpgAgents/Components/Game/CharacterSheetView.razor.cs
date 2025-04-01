@@ -58,28 +58,7 @@ public partial class CharacterSheetView
     }
 
     private int _savingThrow;
-    protected int GetSavingThrow(RpgAttribute attributeName)
-    {
-        _savingThrow = GetAttributeModifier(attributeName);
-        return _savingThrow; // Add proficiency if applicable
-    }
-
-    protected string GetWeaponProperties(int index)
-    {
-        if (CharacterSheet.Weapons == null || index >= CharacterSheet.Weapons.Count)
-            return string.Empty;
-        
-        return string.Join(", ", CharacterSheet.Weapons[index].Properties);
-    }
-
-    protected void SetWeaponProperties(int index, string value)
-    {
-        if (CharacterSheet.Weapons != null && index < CharacterSheet.Weapons.Count)
-        {
-            CharacterSheet.Weapons[index].Properties = value.Split(',', StringSplitOptions.TrimEntries).ToList();
-            CharacterSheetChanged.InvokeAsync(CharacterSheet);
-        }
-    }
+    
 
     protected RpgAttribute SpellcastingAbility
     {

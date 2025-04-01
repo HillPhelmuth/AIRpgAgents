@@ -11,7 +11,7 @@ namespace SkPluginComponents.Models
     {
         public static IServiceCollection AddRollDisplayService(this IServiceCollection services)
         {
-            return services.AddScoped<RollDiceService>();
+            return services.AddSingleton<RollDiceService>();
         }
     }
 }

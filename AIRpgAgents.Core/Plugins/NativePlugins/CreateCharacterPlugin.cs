@@ -75,7 +75,7 @@ public class CreateCharacterPlugin
         if (method == AttributeGenerationMethod.StandardArray)
             return $"User can assign the following values to the attribute of their choice:{string.Join(", ", values)}";
         return
-            "Invoke the `RollDice` for 4 6-sided dice. Then drop the lowest roll. Do this 5 times. Provide the 5 totals for the user to attribute to the character attributes";
+            "Invoke the `RollPlayerDice` for 4 6-sided dice. Then drop the lowest roll. Do this 5 times. Provide the 5 totals for the user to attribute to the character attributes";
 
     }
     [KernelFunction, Description("Set character attribute scores for each attribute")]

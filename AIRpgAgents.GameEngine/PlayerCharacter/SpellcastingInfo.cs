@@ -95,12 +95,8 @@ public class SpellcastingInfo
     }
 }
 
-public class SpellSlot
+public class SpellSlot(Band level)
 {
-    public SpellSlot(Band level)
-    {
-        Level = level;
-    }
-    public Band Level { get; set; }
+    public Band Level { get; set; } = level;
     public int Count { get; set; }
 }

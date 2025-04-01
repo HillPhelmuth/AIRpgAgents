@@ -49,12 +49,12 @@ public static class EnumExtensions
     /// <summary>
     /// Gets the standard resistance multiplier for a damage type.
     /// </summary>
-    public static double GetResistanceMultiplier(this CombatSystem.DamageType damageType, string resistance) => 
+    public static double GetResistanceMultiplier(this DamageType damageType, string resistance) => 
         resistance.Equals($"Resist{damageType}", StringComparison.OrdinalIgnoreCase) ? 0.5 : 1.0;
         
     /// <summary>
     /// Gets the standard vulnerability multiplier for a damage type.
     /// </summary>
-    public static double GetVulnerabilityMultiplier(this CombatSystem.DamageType damageType, string vulnerability) =>
+    public static double GetVulnerabilityMultiplier(this DamageType damageType, string vulnerability) =>
         vulnerability.Equals($"Vulnerable{damageType}", StringComparison.OrdinalIgnoreCase) ? 2.0 : 1.0;
 }

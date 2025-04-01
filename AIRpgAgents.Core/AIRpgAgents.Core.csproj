@@ -30,6 +30,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Plugins\OpenApiPlugins\DnDApi.json" />
     <EmbeddedResource Include="Plugins\PromptPlugins\BuildWorldFunction.yaml" />
+    <EmbeddedResource Include="Plugins\PromptPlugins\CreateMonsterFunction.yaml" />
     <EmbeddedResource Include="Plugins\PromptPlugins\ConvertMonsterFunction.yaml" />
     <EmbeddedResource Include="Prompts\*.md" />
   </ItemGroup>

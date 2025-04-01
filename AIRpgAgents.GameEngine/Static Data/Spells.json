@@ -10,13 +10,18 @@
           "Description": "Restore (1d6 + caster level) health to an ally.",
           "ManaCost": 3,
           "CastTime": "Action",
-          "Range": "Touch",
-          "Duration": "Instantaneous",
-          "DamageType": "Healing",
-          "DamageFormula": "1d6 + caster level",
-          "AreaOfEffect": "Single Target",
           "SaveType": "None",
-          "Band": "Lower"
+          "Band": "Lower",
+          "Effects": [
+            {
+              "SpellEffectType": "Heal",
+              "Target": "Ally",
+              "Range": "Touch",
+              "Duration": "Instantaneous",
+              "DiceFormula": "1d6",
+              "AreaOfEffect": "Single Target"
+            }
+          ]
         },
         {
           "Name": "Divine Shield",
@@ -24,13 +29,18 @@
           "Description": "Create a radiant barrier around an ally, reducing incoming damage by 1d4 for 3 rounds.",
           "ManaCost": 4,
           "CastTime": "Action",
-          "Range": "30 feet",
-          "Duration": "3 rounds",
-          "DamageType": "None",
-          "DamageFormula": "",
-          "AreaOfEffect": "Single Target",
           "SaveType": "None",
-          "Band": "Lower"
+          "Band": "Lower",
+          "Effects": [
+            {
+              "SpellEffectType": "Protect",
+              "Target": "Ally",
+              "Range": "30 feet",
+              "Duration": "3 rounds",
+              "DiceFormula": "1d4",
+              "AreaOfEffect": "Single Target"
+            }
+          ]
         },
         {
           "Name": "Bless",
@@ -38,13 +48,18 @@
           "Description": "Bolster the combat abilities of up to 3 allies, granting +1 to attack and defense rolls for 1 minute.",
           "ManaCost": 3,
           "CastTime": "Action",
-          "Range": "30 feet",
-          "Duration": "1 minute",
-          "DamageType": "None",
-          "DamageFormula": "",
-          "AreaOfEffect": "Up to 3 targets",
           "SaveType": "None",
-          "Band": "Lower"
+          "Band": "Lower",
+          "Effects": [
+            {
+              "SpellEffectType": "ArmorClass",
+              "Value": 1,
+              "Target": "Ally",
+              "Range": "30 feet",
+              "Duration": "1 minute",
+              "AreaOfEffect": "Up to 3 targets"
+            }
+          ]
         },
         {
           "Name": "Turn Undead",
@@ -52,13 +67,17 @@
           "Description": "Repel undead within 30 feet; affected undead must pass a Will save (DC 10 + caster level) or flee for 2 rounds.",
           "ManaCost": 4,
           "CastTime": "Action",
-          "Range": "30 feet",
-          "Duration": "2 rounds",
-          "DamageType": "None",
-          "DamageFormula": "",
-          "AreaOfEffect": "30-foot radius",
           "SaveType": "Will",
-          "Band": "Lower"
+          "Band": "Lower",
+          "Effects": [
+            {
+              "SpellEffectType": "Fear",
+              "Target": "Enemy",
+              "Range": "30 feet",
+              "Duration": "2 rounds",
+              "AreaOfEffect": "30-foot radius"
+            }
+          ]
         },
         {
           "Name": "Sacred Flame",
@@ -66,13 +85,19 @@
           "Description": "Call down holy fire, dealing 1d8 radiant damage. The damage increases by 1d8 for every 2 levels above 1.",
           "ManaCost": 2,
           "CastTime": "Action",
-          "Range": "60 feet",
-          "Duration": "Instantaneous",
-          "DamageType": "Radiant",
-          "DamageFormula": "1d8 + (1d8 per 2 levels above 1)",
-          "AreaOfEffect": "Single Target",
           "SaveType": "Reflex",
-          "Band": "Lower"
+          "Band": "Lower",
+          "Effects": [
+            {
+              "SpellEffectType": "Damage",
+              "Target": "Enemy",
+              "Range": "60 feet",
+              "Duration": "Instantaneous",
+              "DamageType": "Radiant",
+              "DiceFormula": "1d8",
+              "AreaOfEffect": "Single Target"
+            }
+          ]
         },
         {
           "Name": "Cure Affliction",
@@ -80,13 +105,18 @@
           "Description": "Remove one disease or poison effect. On a successful roll (DC 12 + affliction severity), heal for an additional 1d4.",
           "ManaCost": 5,
           "CastTime": "Action",
-          "Range": "Touch",
-          "Duration": "Instantaneous",
-          "DamageType": "Healing",
-          "DamageFormula": "1d4 (conditional)",
-          "AreaOfEffect": "Single Target",
           "SaveType": "None",
-          "Band": "Lower"
+          "Band": "Lower",
+          "Effects": [
+            {
+              "SpellEffectType": "Heal",
+              "Target": "Ally",
+              "Range": "Touch",
+              "Duration": "Instantaneous",
+              "DiceFormula": "1d4 (conditional)",
+              "AreaOfEffect": "Single Target"
+            }
+          ]
         },
         {
           "Name": "Sanctuary",
@@ -94,13 +124,17 @@
           "Description": "Prevent enemies from targeting an ally for 3 rounds. Targets may attempt a Will save (DC 12 + caster level) to bypass the effect.",
           "ManaCost": 3,
           "CastTime": "Action",
-          "Range": "30 feet",
-          "Duration": "3 rounds",
-          "DamageType": "None",
-          "DamageFormula": "",
-          "AreaOfEffect": "Single Target",
           "SaveType": "Will",
-          "Band": "Lower"
+          "Band": "Lower",
+          "Effects": [
+            {
+              "SpellEffectType": "Protect",
+              "Target": "Ally",
+              "Range": "30 feet",
+              "Duration": "3 rounds",
+              "AreaOfEffect": "Single Target"
+            }
+          ]
         },
         {
           "Name": "Divine Wrath",
@@ -108,13 +142,19 @@
           "Description": "Deal 3d8 radiant damage in a 20-ft radius. Enemies may save for half damage (DC 14 + caster level).",
           "ManaCost": 8,
           "CastTime": "Action",
-          "Range": "60 feet",
-          "Duration": "Instantaneous",
-          "DamageType": "Radiant",
-          "DamageFormula": "3d8",
-          "AreaOfEffect": "20-foot radius",
           "SaveType": "Reflex",
-          "Band": "Mid"
+          "Band": "Mid",
+          "Effects": [
+            {
+              "SpellEffectType": "Damage",
+              "Target": "Enemy",
+              "Range": "60 feet",
+              "Duration": "Instantaneous",
+              "DamageType": "Radiant",
+              "DiceFormula": "3d8",
+              "AreaOfEffect": "20-foot radius"
+            }
+          ]
         },
         {
           "Name": "Greater Restoration",
@@ -122,13 +162,18 @@
           "Description": "Fully restore health and remove all negative conditions from an ally. Heal for 4d6 + caster level.",
           "ManaCost": 9,
           "CastTime": "Action",
-          "Range": "Touch",
-          "Duration": "Instantaneous",
-          "DamageType": "Healing",
-          "DamageFormula": "4d6 + caster level",
-          "AreaOfEffect": "Single Target",
           "SaveType": "None",
-          "Band": "Mid"
+          "Band": "Mid",
+          "Effects": [
+            {
+              "SpellEffectType": "Heal",
+              "Target": "Ally",
+              "Range": "Touch",
+              "Duration": "Instantaneous",
+              "DiceFormula": "4d6 + caster level",
+              "AreaOfEffect": "Single Target"
+            }
+          ]
         },
         {
           "Name": "Shield of Faith",
@@ -136,13 +181,18 @@
           "Description": "Grant an ally +2 to AC for 5 rounds. The effect increases by +1 every 3 levels.",
           "ManaCost": 7,
           "CastTime": "Action",
-          "Range": "30 feet",
-          "Duration": "5 rounds",
-          "DamageType": "None",
-          "DamageFormula": "",
-          "AreaOfEffect": "Single Target",
           "SaveType": "None",
-          "Band": "Mid"
+          "Band": "Mid",
+          "Effects": [
+            {
+              "SpellEffectType": "ArmorClass",
+              "Value": 2,
+              "Target": "Ally",
+              "Range": "30 feet",
+              "Duration": "5 rounds",
+              "AreaOfEffect": "Single Target"
+            }
+          ]
         },
         {
           "Name": "Command Undead",
@@ -150,13 +200,17 @@
           "Description": "Dominate up to 3 lesser undead (CR equal to or lower than caster level) for 5 rounds.",
           "ManaCost": 10,
           "CastTime": "Action",
-          "Range": "30 feet",
-          "Duration": "5 rounds",
-          "DamageType": "None",
-          "DamageFormula": "",
-          "AreaOfEffect": "Up to 3 targets",
           "SaveType": "Will",
-          "Band": "Mid"
+          "Band": "Mid",
+          "Effects": [
+            {
+              "SpellEffectType": "Dominate",
+              "Target": "Enemy",
+              "Range": "30 feet",
+              "Duration": "5 rounds",
+              "AreaOfEffect": "Up to 3 targets"
+            }
+          ]
         },
         {
           "Name": "Holy Nova",
@@ -164,13 +218,27 @@
           "Description": "Release a 30-ft wave, healing allies for 2d8 and dealing 2d8 radiant damage to undead.",
           "ManaCost": 8,
           "CastTime": "Action",
-          "Range": "Self",
-          "Duration": "Instantaneous",
-          "DamageType": "Radiant/Healing",
-          "DamageFormula": "2d8",
-          "AreaOfEffect": "30-foot radius",
           "SaveType": "None",
-          "Band": "Mid"
+          "Band": "Mid",
+          "Effects": [
+            {
+              "SpellEffectType": "Heal",
+              "Target": "Ally",
+              "Range": "Self",
+              "Duration": "Instantaneous",
+              "DiceFormula": "2d8",
+              "AreaOfEffect": "30-foot radius"
+            },
+            {
+              "SpellEffectType": "Damage",
+              "Target": "Enemy",
+              "Range": "Self",
+              "Duration": "Instantaneous",
+              "DamageType": "Radiant",
+              "DiceFormula": "2d8",
+              "AreaOfEffect": "30-foot radius"
+            }
+          ]
         },
         {
           "Name": "Divine Intervention",
@@ -178,13 +246,17 @@
           "Description": "On a successful prayer (DC 15 + caster level), invoke direct aid from a deity, granting advantage on all rolls for 1 minute.",
           "ManaCost": 15,
           "CastTime": "FullRound",
-          "Range": "Self",
-          "Duration": "1 minute",
-          "DamageType": "None",
-          "DamageFormula": "",
-          "AreaOfEffect": "Self",
           "SaveType": "Special",
-          "Band": "Mid"
+          "Band": "Mid",
+          "Effects": [
+            {
+              "SpellEffectType": "Buff",
+              "Target": "Self",
+              "Range": "Self",
+              "Duration": "1 minute",
+              "AreaOfEffect": "Self"
+            }
+          ]
         },
         {
           "Name": "Resurrection",
@@ -192,13 +264,18 @@
           "Description": "Return a fallen ally to life with 50% health. Healing increases to full if cast within 1 hour of death.",
           "ManaCost": 20,
           "CastTime": "The1Minute",
-          "Range": "Touch",
-          "Duration": "Instantaneous",
-          "DamageType": "Healing",
-          "DamageFormula": "50% or 100% of max HP",
-          "AreaOfEffect": "Single Target",
           "SaveType": "None",
-          "Band": "High"
+          "Band": "High",
+          "Effects": [
+            {
+              "SpellEffectType": "Heal",
+              "Target": "Ally",
+              "Range": "Touch",
+              "Duration": "Instantaneous",
+              "DiceFormula": "50% or 100% of max HP",
+              "AreaOfEffect": "Single Target"
+            }
+          ]
         },
         {
           "Name": "Celestial Guardian",
@@ -206,13 +283,18 @@
           "Description": "Summon an angelic warrior for 5 rounds. The guardian attacks twice (2d10 radiant damage per attack) and can shield one ally.",
           "ManaCost": 18,
           "CastTime": "Action",
-          "Range": "30 feet",
-          "Duration": "5 rounds",
-          "DamageType": "Radiant",
-          "DamageFormula": "2d10 per attack",
-          "AreaOfEffect": "Summoned Creature",
           "SaveType": "None",
-          "Band": "High"
+          "Band": "High",
+          "Effects": [
+            {
+              "SpellEffectType": "Summon",
+              "Target": "Ally",
+              "Range": "30 feet",
+              "Duration": "5 rounds",
+              "DiceFormula": "2d10 per attack",
+              "AreaOfEffect": "Summoned Creature"
+            }
+          ]
         },
         {
           "Name": "Searing Light",
@@ -220,13 +302,19 @@
           "Description": "Fire a beam of sunlight, dealing 6d8 radiant damage and dispelling magical darkness within 60 ft.",
           "ManaCost": 15,
           "CastTime": "Action",
-          "Range": "60 feet",
-          "Duration": "Instantaneous",
-          "DamageType": "Radiant",
-          "DamageFormula": "6d8",
-          "AreaOfEffect": "Line, 5 feet wide, 60 feet long",
           "SaveType": "Reflex",
-          "Band": "High"
+          "Band": "High",
+          "Effects": [
+            {
+              "SpellEffectType": "Damage",
+              "Target": "Enemy",
+              "Range": "60 feet",
+              "Duration": "Instantaneous",
+              "DamageType": "Radiant",
+              "DiceFormula": "6d8",
+              "AreaOfEffect": "Line, 5 feet wide, 60 feet long"
+            }
+          ]
         },
         {
           "Name": "Wrath of the Heavens",
@@ -234,13 +322,19 @@
           "Description": "Call down 3 bolts of divine lightning (4d10 damage each). Each bolt may target different enemies.",
           "ManaCost": 18,
           "CastTime": "Action",
-          "Range": "120 feet",
-          "Duration": "Instantaneous",
-          "DamageType": "Lightning",
-          "DamageFormula": "4d10 per bolt",
-          "AreaOfEffect": "Up to 3 targets",
           "SaveType": "Reflex",
-          "Band": "High"
+          "Band": "High",
+          "Effects": [
+            {
+              "SpellEffectType": "Damage",
+              "Target": "Enemy",
+              "Range": "120 feet",
+              "Duration": "Instantaneous",
+              "DamageType": "Lightning",
+              "DiceFormula": "4d10 per bolt",
+              "AreaOfEffect": "Up to 3 targets"
+            }
+          ]
         },
         {
           "Name": "Divine Fortress",
@@ -248,13 +342,26 @@
           "Description": "Create a 20-ft radius holy ground, granting +3 AC and 2d6 healing per round for 1 minute.",
           "ManaCost": 20,
           "CastTime": "Action",
-          "Range": "Self",
-          "Duration": "1 minute",
-          "DamageType": "Healing",
-          "DamageFormula": "2d6 per round",
-          "AreaOfEffect": "20-foot radius",
           "SaveType": "None",
-          "Band": "High"
+          "Band": "High",
+          "Effects": [
+            {
+              "SpellEffectType": "ArmorClass",
+              "Value": 3,
+              "Target": "Ally",
+              "Range": "Self",
+              "Duration": "1 minute",
+              "AreaOfEffect": "20-foot radius"
+            },
+            {
+              "SpellEffectType": "Heal",
+              "Target": "Ally",
+              "Range": "Self",
+              "Duration": "1 minute",
+              "DiceFormula": "2d6 per round",
+              "AreaOfEffect": "20-foot radius"
+            }
+          ]
         },
         {
           "Name": "Judgment",
@@ -262,13 +369,19 @@
           "Description": "Channel divine energy to deal 8d10 radiant damage to a single target. The target may attempt a save (DC 18 + caster level) for half damage.",
           "ManaCost": 25,
           "CastTime": "Action",
-          "Range": "60 feet",
-          "Duration": "Instantaneous",
-          "DamageType": "Radiant",
-          "DamageFormula": "8d10",
-          "AreaOfEffect": "Single Target",
           "SaveType": "Will",
-          "Band": "High"
+          "Band": "High",
+          "Effects": [
+            {
+              "SpellEffectType": "Damage",
+              "Target": "Enemy",
+              "Range": "60 feet",
+              "Duration": "Instantaneous",
+              "DamageType": "Radiant",
+              "DiceFormula": "8d10",
+              "AreaOfEffect": "Single Target"
+            }
+          ]
         }
       ]
     },
@@ -282,13 +395,20 @@
           "Description": "Fire 3 magical bolts, each dealing 1d4+ caster level damage. Gain an additional bolt at levels 3, 6, 9, 12, and 15.",
           "ManaCost": 3,
           "CastTime": "Action",
-          "Range": "120 feet",
-          "Duration": "Instantaneous",
-          "DamageType": "Force",
-          "DamageFormula": "1d4 + caster level per bolt",
-          "AreaOfEffect": "Multiple targets possible",
           "SaveType": "None",
-          "Band": "Lower"
+          "Band": "Lower",
+          "Effects": [
+            {
+              "SpellEffectType": "Damage",
+              "Target": "Enemy",
+              "Range": "120 feet",
+              "Duration": "Instantaneous",
+              "DamageType": "Force",
+              "DiceFormula": "1d4",
+              "DamageCount": 3,
+              "AreaOfEffect": "Single Target"
+            }
+          ]
         },
         {
           "Name": "Shield",
@@ -296,13 +416,18 @@
           "Description": "Absorb 1d6 damage per caster level until depleted.",
           "ManaCost": 2,
           "CastTime": "Reaction",
-          "Range": "Self",
-          "Duration": "1 minute",
-          "DamageType": "None",
-          "DamageFormula": "",
-          "AreaOfEffect": "Self",
           "SaveType": "None",
-          "Band": "Lower"
+          "Band": "Lower",
+          "Effects": [
+            {
+              "SpellEffectType": "Protect",
+              "Target": "Self",
+              "Range": "Self",
+              "Duration": "1 minute",
+              "DiceFormula": "1d6",
+              "AreaOfEffect": "Self"
+            }
+          ]
         },
         {
           "Name": "Burning Hands",
@@ -310,13 +435,19 @@
           "Description": "Project a 15-ft cone of fire, dealing 3d6 fire damage. Targets may save (DC 12 + caster level) for half damage.",
           "ManaCost": 4,
           "CastTime": "Action",
-          "Range": "15 feet",
-          "Duration": "Instantaneous",
-          "DamageType": "Fire",
-          "DamageFormula": "3d6",
-          "AreaOfEffect": "15-foot cone",
           "SaveType": "Reflex",
-          "Band": "Lower"
+          "Band": "Lower",
+          "Effects": [
+            {
+              "SpellEffectType": "Damage",
+              "Target": "Enemy",
+              "Range": "15 feet",
+              "Duration": "Instantaneous",
+              "DamageType": "Fire",
+              "DiceFormula": "3d6",
+              "AreaOfEffect": "15-foot cone"
+            }
+          ]
         },
         {
           "Name": "Mage Armor",
@@ -324,13 +455,18 @@
           "Description": "Increase target's AC by +3 for 1 hour.",
           "ManaCost": 3,
           "CastTime": "Action",
-          "Range": "Touch",
-          "Duration": "1 hour",
-          "DamageType": "None",
-          "DamageFormula": "",
-          "AreaOfEffect": "Single Target",
           "SaveType": "None",
-          "Band": "Lower"
+          "Band": "Lower",
+          "Effects": [
+            {
+              "SpellEffectType": "ArmorClass",
+              "Value": 3,
+              "Target": "Ally",
+              "Range": "Touch",
+              "Duration": "1 hour",
+              "AreaOfEffect": "Single Target"
+            }
+          ]
         },
         {
           "Name": "Arcane Sight",
@@ -338,13 +474,17 @@
           "Description": "Detect magical auras and enchantments within 60 ft for 10 minutes.",
           "ManaCost": 4,
           "CastTime": "Action",
-          "Range": "Self",
-          "Duration": "10 minutes",
-          "DamageType": "None",
-          "DamageFormula": "",
-          "AreaOfEffect": "60-foot radius",
           "SaveType": "None",
-          "Band": "Lower"
+          "Band": "Lower",
+          "Effects": [
+            {
+              "SpellEffectType": "Detect",
+              "Target": "Self",
+              "Range": "Self",
+              "Duration": "10 minutes",
+              "AreaOfEffect": "60-foot radius"
+            }
+          ]
         },
         {
           "Name": "Illusory Disguise",
@@ -352,13 +492,17 @@
           "Description": "Create a minor illusion for 1 hour, disguising the caster or an ally.",
           "ManaCost": 3,
           "CastTime": "Action",
-          "Range": "Touch",
-          "Duration": "1 hour",
-          "DamageType": "None",
-          "DamageFormula": "",
-          "AreaOfEffect": "Single Target",
           "SaveType": "None",
-          "Band": "Lower"
+          "Band": "Lower",
+          "Effects": [
+            {
+              "SpellEffectType": "Illusion",
+              "Target": "Self/Ally",
+              "Range": "Touch",
+              "Duration": "1 hour",
+              "AreaOfEffect": "Single Target"
+            }
+          ]
         },
         {
           "Name": "Feather Fall",
@@ -366,27 +510,37 @@
           "Description": "Slow falling speed to prevent all fall damage for up to 5 creatures.",
           "ManaCost": 2,
           "CastTime": "Reaction",
-          "Range": "60 feet",
-          "Duration": "1 minute",
-          "DamageType": "None",
-          "DamageFormula": "",
-          "AreaOfEffect": "Up to 5 targets",
           "SaveType": "None",
-          "Band": "Lower"
+          "Band": "Lower",
+          "Effects": [
+            {
+              "SpellEffectType": "Protect",
+              "Target": "Ally",
+              "Range": "60 feet",
+              "Duration": "1 minute",
+              "AreaOfEffect": "Up to 5 targets"
+            }
+          ]
         },
         {
           "Name": "Fireball",
           "Level": 6,
-          "Description": "Deal 6d6 fire damage in a 20-ft radius. Targets may save (DC 14 + caster level) for half damage.",
+          "Description": "Deal 6D6 fire damage in a 20-ft radius. Targets may save (DC 14 + caster level) for half damage.",
           "ManaCost": 8,
           "CastTime": "Action",
-          "Range": "150 feet",
-          "Duration": "Instantaneous",
-          "DamageType": "Fire",
-          "DamageFormula": "6d6",
-          "AreaOfEffect": "20-foot radius",
           "SaveType": "Reflex",
-          "Band": "Mid"
+          "Band": "Mid",
+          "Effects": [
+            {
+              "SpellEffectType": "Damage",
+              "Target": "Enemy",
+              "Range": "150 feet",
+              "Duration": "Instantaneous",
+              "DamageType": "Fire",
+              "DiceFormula": "6d6",
+              "AreaOfEffect": "20-foot radius"
+            }
+          ]
         },
         {
           "Name": "Counterspell",
@@ -394,13 +548,17 @@
           "Description": "On a reaction, negate a spell being cast (DC equals the spell's level + 10).",
           "ManaCost": 7,
           "CastTime": "Reaction",
-          "Range": "60 feet",
-          "Duration": "Instantaneous",
-          "DamageType": "None",
-          "DamageFormula": "",
-          "AreaOfEffect": "Single Target",
           "SaveType": "Special",
-          "Band": "Mid"
+          "Band": "Mid",
+          "Effects": [
+            {
+              "SpellEffectType": "Negate",
+              "Target": "Enemy",
+              "Range": "60 feet",
+              "Duration": "Instantaneous",
+              "AreaOfEffect": "Single Target"
+            }
+          ]
         },
         {
           "Name": "Blink",
@@ -408,13 +566,17 @@
           "Description": "Teleport randomly up to 30 ft each round for 5 rounds.",
           "ManaCost": 6,
           "CastTime": "Action",
-          "Range": "Self",
-          "Duration": "5 rounds",
-          "DamageType": "None",
-          "DamageFormula": "",
-          "AreaOfEffect": "Self",
           "SaveType": "None",
-          "Band": "Mid"
+          "Band": "Mid",
+          "Effects": [
+            {
+              "SpellEffectType": "Teleport",
+              "Target": "Self",
+              "Range": "Self",
+              "Duration": "5 rounds",
+              "AreaOfEffect": "Self"
+            }
+          ]
         },
         {
           "Name": "Wall of Ice",
@@ -422,13 +584,17 @@
           "Description": "Create a 30-ft long, 10-ft high wall that lasts for 10 minutes or until destroyed (HP 50).",
           "ManaCost": 9,
           "CastTime": "Action",
-          "Range": "60 feet",
-          "Duration": "10 minutes",
-          "DamageType": "Cold",
-          "DamageFormula": "",
-          "AreaOfEffect": "30-foot long, 10-foot high wall",
           "SaveType": "None",
-          "Band": "Mid"
+          "Band": "Mid",
+          "Effects": [
+            {
+              "SpellEffectType": "Barrier",
+              "Target": "Enemy",
+              "Range": "60 feet",
+              "Duration": "10 minutes",
+              "AreaOfEffect": "30-foot long, 10-foot high wall"
+            }
+          ]
         },
         {
           "Name": "Invisibility",
@@ -436,13 +602,17 @@
           "Description": "Turn a creature invisible for 1 minute or until they attack/cast a spell.",
           "ManaCost": 7,
           "CastTime": "Action",
-          "Range": "Touch",
-          "Duration": "1 minute",
-          "DamageType": "None",
-          "DamageFormula": "",
-          "AreaOfEffect": "Single Target",
           "SaveType": "None",
-          "Band": "Mid"
+          "Band": "Mid",
+          "Effects": [
+            {
+              "SpellEffectType": "Illusion",
+              "Target": "Ally",
+              "Range": "Touch",
+              "Duration": "1 minute",
+              "AreaOfEffect": "Single Target"
+            }
+          ]
         },
         {
           "Name": "Lightning Bolt",
@@ -450,27 +620,40 @@
           "Description": "Strike enemies in a 30-ft line, dealing 5d8 lightning damage. Save for half (DC 13 + caster level).",
           "ManaCost": 8,
           "CastTime": "Action",
-          "Range": "Self",
-          "Duration": "Instantaneous",
-          "DamageType": "Lightning",
-          "DamageFormula": "5d8",
-          "AreaOfEffect": "Line, 5 feet wide, 30 feet long",
           "SaveType": "Reflex",
-          "Band": "Mid"
+          "Band": "Mid",
+          "Effects": [
+            {
+              "SpellEffectType": "Damage",
+              "Target": "Enemy",
+              "Range": "Self",
+              "Duration": "Instantaneous",
+              "DamageType": "Lightning",
+              "DiceFormula": "5d8",
+              "AreaOfEffect": "Line, 5 feet wide, 30 feet long"
+            }
+          ]
         },
         {
           "Name": "Meteor Swarm",
           "Level": 15,
-          "Description": "Summon 4 meteors, each dealing 8d6 fire damage in a 20-ft radius. Targets may save (DC 18 + caster level) for half.",
+          "Description": "Summon 4 meteors, each dealing 8D6 fire damage in a 20-ft radius. Targets may save (DC 18 + caster level) for half.",
           "ManaCost": 25,
           "CastTime": "Action",
-          "Range": "300 feet",
-          "Duration": "Instantaneous",
-          "DamageType": "Fire",
-          "DamageFormula": "8d6 per meteor",
-          "AreaOfEffect": "Four 20-foot radius spheres",
           "SaveType": "Reflex",
-          "Band": "High"
+          "Band": "High",
+          "Effects": [
+            {
+              "SpellEffectType": "Damage",
+              "Target": "Enemy",
+              "Range": "300 feet",
+              "Duration": "Instantaneous",
+              "DamageType": "Fire",
+              "DiceFormula": "8d6 per meteor",
+              "DamageCount": 4,
+              "AreaOfEffect": "Four 20-foot radius spheres"
+            }
+          ]
         },
         {
           "Name": "Teleportation",
@@ -478,13 +661,17 @@
           "Description": "Instantly transport up to 6 allies to a known location.",
           "ManaCost": 18,
           "CastTime": "Action",
-          "Range": "Touch",
-          "Duration": "Instantaneous",
-          "DamageType": "None",
-          "DamageFormula": "",
-          "AreaOfEffect": "Up to 6 targets",
           "SaveType": "None",
-          "Band": "High"
+          "Band": "High",
+          "Effects": [
+            {
+              "SpellEffectType": "Teleport",
+              "Target": "Ally",
+              "Range": "Touch",
+              "Duration": "Instantaneous",
+              "AreaOfEffect": "Up to 6 targets"
+            }
+          ]
         },
         {
           "Name": "Arcane Storm",
@@ -492,13 +679,19 @@
           "Description": "Deal 5d10 arcane damage over a 40-ft radius. Effects persist for 3 rounds.",
           "ManaCost": 20,
           "CastTime": "Action",
-          "Range": "150 feet",
-          "Duration": "3 rounds",
-          "DamageType": "Force",
-          "DamageFormula": "5d10",
-          "AreaOfEffect": "40-foot radius",
           "SaveType": "Reflex",
-          "Band": "High"
+          "Band": "High",
+          "Effects": [
+            {
+              "SpellEffectType": "Damage",
+              "Target": "Enemy",
+              "Range": "150 feet",
+              "Duration": "3 rounds",
+              "DamageType": "Force",
+              "DiceFormula": "5d10",
+              "AreaOfEffect": "40-foot radius"
+            }
+          ]
         },
         {
           "Name": "Time Stop",
@@ -506,13 +699,17 @@
           "Description": "Gain 2 extra turns during which time is frozen.",
           "ManaCost": 30,
           "CastTime": "Action",
-          "Range": "Self",
-          "Duration": "Special",
-          "DamageType": "None",
-          "DamageFormula": "",
-          "AreaOfEffect": "Self",
           "SaveType": "None",
-          "Band": "High"
+          "Band": "High",
+          "Effects": [
+            {
+              "SpellEffectType": "Buff",
+              "Target": "Self",
+              "Range": "Self",
+              "Duration": "Special",
+              "AreaOfEffect": "Self"
+            }
+          ]
         },
         {
           "Name": "Summon Elemental",
@@ -520,13 +717,17 @@
           "Description": "Summon a large elemental (CR 10) for 10 rounds.",
           "ManaCost": 18,
           "CastTime": "FullRound",
-          "Range": "30 feet",
-          "Duration": "10 rounds",
-          "DamageType": "Varies",
-          "DamageFormula": "",
-          "AreaOfEffect": "Summoned Creature",
           "SaveType": "None",
-          "Band": "High"
+          "Band": "High",
+          "Effects": [
+            {
+              "SpellEffectType": "Summon",
+              "Target": "Ally",
+              "Range": "30 feet",
+              "Duration": "10 rounds",
+              "AreaOfEffect": "Summoned Creature"
+            }
+          ]
         },
         {
           "Name": "Disintegrate",
@@ -534,13 +735,19 @@
           "Description": "Deal 10d6 damage to a single target. On a failed save (DC 18 + caster level), the target is reduced to ash.",
           "ManaCost": 22,
           "CastTime": "Action",
-          "Range": "60 feet",
-          "Duration": "Instantaneous",
-          "DamageType": "Force",
-          "DamageFormula": "10d6",
-          "AreaOfEffect": "Single Target",
           "SaveType": "Fortitude",
-          "Band": "High"
+          "Band": "High",
+          "Effects": [
+            {
+              "SpellEffectType": "Damage",
+              "Target": "Enemy",
+              "Range": "60 feet",
+              "Duration": "Instantaneous",
+              "DamageType": "Force",
+              "DiceFormula": "10d6",
+              "AreaOfEffect": "Single Target"
+            }
+          ]
         }
       ]
     }

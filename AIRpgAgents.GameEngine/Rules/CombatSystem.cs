@@ -17,23 +17,7 @@ public static class CombatSystem
     }
 
     // Damage types
-    [JsonConverter(typeof(JsonStringEnumConverter))]
-    [CosmosConverter(typeof(StringEnumConverter))]
-    public enum DamageType
-    {
-        Slashing,
-        Piercing,
-        Bludgeoning,
-        Fire,
-        Cold,
-        Lightning,
-        Acid,
-        Poison,
-        Necrotic,
-        Radiant,
-        Force,
-        Psychic
-    }
+    
         
     // Attack modifiers based on circumstances
     public static readonly Dictionary<string, int> AttackCircumstanceModifiers = new Dictionary<string, int>
@@ -78,4 +62,24 @@ public static class CombatSystem
         "Shield Spell",
         "Parry"
     ];
+
+    
+}
+
+[JsonConverter(typeof(JsonStringEnumConverter))]
+[CosmosConverter(typeof(StringEnumConverter))]
+public enum DamageType
+{
+    Slashing,
+    Piercing,
+    Bludgeoning,
+    Fire,
+    Cold,
+    Lightning,
+    Acid,
+    Poison,
+    Necrotic,
+    Radiant,
+    Force,
+    Psychic
 }

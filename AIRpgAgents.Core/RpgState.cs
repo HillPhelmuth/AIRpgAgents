@@ -5,12 +5,21 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using AIRpgAgents.Core.Models;
+using AIRpgAgents.GameEngine.Game;
 
 namespace AIRpgAgents.Core;
 
 public class RpgState : INotifyPropertyChanged
 {
+    private RpgCampaign _activeCampaign = new();
     public event PropertyChangedEventHandler? PropertyChanged;
+
+    public RpgCampaign ActiveCampaign
+    {
+        get => _activeCampaign;
+        set => SetField(ref _activeCampaign, value);
+    }
 
     protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {

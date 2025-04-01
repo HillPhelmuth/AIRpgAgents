@@ -23,7 +23,7 @@ public class WorldState
     public List<WorldEvent> Events { get; set; } = [];
     [Description("Any other noteworthy information on the state of the world")]
     public string? OtherNotes { get; set; }
-
+    
     public string ToMarkdown()
     {
         var markdown = new StringBuilder();

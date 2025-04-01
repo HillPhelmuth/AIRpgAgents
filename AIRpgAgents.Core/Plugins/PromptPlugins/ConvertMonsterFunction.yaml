@@ -5,7 +5,7 @@ input_variables:
   description: the monster details from an api that must be converted to provided schema
   default: ''
 template: |
- Convert the monster below from the D&D format provided to the proper json schema format
+ Convert the monster below from the D&D format provided to the proper json schema format. Find the json fields that most closely match the D&D fields and map them accordingly.
 
  **Monster**
 

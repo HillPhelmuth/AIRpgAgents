@@ -1,11 +1,9 @@
-﻿@using AIRpgAgents.GameEngine.World
-@using Microsoft.AspNetCore.Components.Web
-
+﻿
 <div class="world-details-container scroll-parchment" style="@CustomStyle">
     @if (World == null)
     {
         <div class="loading-container">
-            <div class="loading-text">Loading world...</div>
+            <div class="loading-text">Waiting for world...</div>
             <div class="spinner"></div>
         </div>
     }

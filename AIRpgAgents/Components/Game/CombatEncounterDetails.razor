@@ -1,0 +1,159 @@
+﻿@using AIRpgAgents.GameEngine.Extensions
+@using AIRpgAgents.GameEngine.Monsters
+@using AIRpgAgents.GameEngine.PlayerCharacter
+@inherits RpgComponentBase
+
+<div class="combat-details-container scroll-parchment">
+    @if (CombatEncounter == null)
+    {
+        <div class="loading-container">
+            <div class="loading-text">Waiting for combat...</div>
+            <div class="spinner"></div>
+        </div>
+    }
+    else
+    {
+        <div class="combat-header">
+            <div class="combat-status @CombatEncounter.Status.ToString().ToLower()">
+                <span class="status-indicator"></span>
+                Round @CombatEncounter.CurrentRound - @CombatEncounter.Status
+            </div>
+            @if (!string.IsNullOrEmpty(CombatEncounter.EnvironmentDescription))
+            {
+                <div class="environment-description">
+                    @CombatEncounter.EnvironmentDescription
+                </div>
+            }
+        </div>
+
+        @if (selectedEntity != null)
+        {
+            <div class="details-modal" @onclick="CloseDetails">
+                <div class="modal-content" @onclick:stopPropagation>
+                    <div class="modal-close" @onclick="CloseDetails">&times;</div>
+                    <div class="markdown-content">
+                        @if (selectedEntity is CharacterSheet character)
+                        {
+                            @((MarkupString)AsHtml(character.PrimaryDetailsMarkdown()))
+                        }
+                        else if (selectedEntity is RpgMonster monster)
+                        {
+                            @((MarkupString)AsHtml(monster.ToMarkdown()))
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div class="section-container">
+            <div class="section-header" @onclick="ToggleInitiativeOrder">
+                <h3>Initiative Order</h3>
+                <span class="toggle-icon">@(ShowInitiativeOrder ? "▼" : "►")</span>
+            </div>
+            @if (ShowInitiativeOrder)
+            {
+                <div class="section-content initiative-list">
+                    @foreach (var combatant in CombatEncounter.InitiativeOrder)
+                    {
+                        <div class="initiative-item @(combatant == CombatEncounter.ActiveCombatant ? "current-turn" : "") @(combatant.HasTakenTurn ? "taken-turn" : "")">
+                            <span class="initiative-roll">@combatant.Initiative</span>
+                            <span class="combatant-name @(combatant.IsPlayerCharacter ? "player" : "monster")">
+                                @combatant.Name
+                            </span>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+
+        <div class="section-container">
+            <div class="section-header" @onclick="ToggleCombatants">
+                <h3>Combatants</h3>
+                <span class="toggle-icon">@(ShowCombatants ? "▼" : "►")</span>
+            </div>
+            @if (ShowCombatants)
+            {
+                <div class="section-content">
+                    <div class="party-section">
+                        <h3>Party Members</h3>
+                        <div class="combatants-grid">
+                            @foreach (var member in CombatEncounter.PlayerParty.PartyMembers)
+                            {
+                                <div class="combatant-card player" @onclick="() => ShowDetails(member.CharacterSheet)">
+                                    <h4>@member.CharacterName</h4>
+                                    <div class="health-bar">
+                                        <div class="health-fill" style="width: @(((float)member.CurrentHitPoints / member.MaxHitPoints) * 100)%"></div>
+                                        <span class="health-text">@member.CurrentHitPoints / @member.MaxHitPoints HP</span>
+                                    </div>
+                                    @if (member.IsUnconscious)
+                                    {
+                                        <div class="unconscious-status">
+                                            <span class="status-text">Unconscious</span>
+                                            <div class="death-saves">
+                                                <span>Successes: @member.DeathSavesSuccesses</span>
+                                                <span>Failures: @member.DeathSavesFailures</span>
+                                            </div>
+                                        </div>
+                                    }
+                                    @if (member.TemporaryHitPoints > 0)
+                                    {
+                                        <div class="temp-hp">+@member.TemporaryHitPoints temp HP</div>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="monsters-section">
+                        <h3>Monsters</h3>
+                        <div class="combatants-grid">
+                            @foreach (var monster in CombatEncounter.MonsterEncounter.Monsters)
+                            {
+                                <div class="combatant-card monster" @onclick="() => ShowDetails(monster)">
+                                    <h4>@monster.Name</h4>
+                                    <div class="monster-type">@monster.Type (CR @monster.ChallengeRating)</div>
+                                    <div class="health-bar">
+                                        <div class="health-fill" style="width: @(((float)monster.CurrentHP / monster.MaxHP) * 100)%"></div>
+                                        <span class="health-text">@monster.CurrentHP / @monster.MaxHP HP</span>
+                                    </div>
+                                    @if (monster.SpecialAttacks.Any())
+                                    {
+                                        <div class="monster-attacks">
+                                            @foreach (var attack in monster.SpecialAttacks)
+                                            {
+                                                <span class="attack-badge">@attack.Name</span>
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="section-container">
+            <div class="section-header" @onclick="ToggleCombatLog">
+                <h3>Combat Log</h3>
+                <span class="toggle-icon">@(ShowCombatLog ? "▼" : "►")</span>
+            </div>
+            @if (ShowCombatLog)
+            {
+                <div class="section-content combat-log">
+                    @if (CombatEncounter.CombatLog.Any())
+                    {
+                        @foreach (var entry in CombatEncounter.CombatLog)
+                        {
+                            <div class="log-entry">@entry</div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="empty-state">No combat actions recorded yet</div>
+                    }
+                </div>
+            }
+        </div>
+    }
+</div>

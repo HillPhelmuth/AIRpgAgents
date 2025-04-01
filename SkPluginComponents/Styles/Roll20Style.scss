@@ -49,6 +49,8 @@ $translateLowerY: $faceHeight*0.78 + $translateRingY;
     width: $containerWidth;
     height: $containerHeight;
     perspective: 1000px;
+    transform: scale(0.7); /* 120% size */
+    /*transform-origin: top left;*/
 }
 
 .die20 {
@@ -59,6 +61,7 @@ $translateLowerY: $faceHeight*0.78 + $translateRingY;
     transition: transform $transitionDuration ease-out;
     cursor: pointer;
     transform: rotateX($rotateX);
+    
 
     &.rolling {
         animation: roll $animationDuration linear;

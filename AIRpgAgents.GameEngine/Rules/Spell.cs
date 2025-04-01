@@ -1,9 +1,10 @@
 using System.ComponentModel;
 using System.Security.AccessControl;
 using System.Text.Json.Serialization;
-using AIRpgAgents.GameEngine.Extensions;
 using AIRpgAgents.GameEngine.PlayerCharacter;
 using Newtonsoft.Json.Converters;
+using SkPluginComponents.Models;
+using CosmosIgnore = Newtonsoft.Json.JsonIgnoreAttribute;
 
 namespace AIRpgAgents.GameEngine.Rules;
 
@@ -13,99 +14,106 @@ namespace AIRpgAgents.GameEngine.Rules;
 public class SpellEffect
 {
     /// <summary>
-    /// Gets or sets the name of the effect (e.g., "Stunned", "Blinded", "AC Bonus").
+    /// Gets or sets the name of the type of effect (e.g., "Attack", "Heal", "Protect").
     /// </summary>
-    public string Name { get; set; }           // E.g., "Stunned", "Blinded", "AC Bonus"
+    public SpellEffectType SpellEffectType { get; set; }
 
     /// <summary>
     /// Gets or sets the description of how this effect works.
     /// </summary>
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// Gets or sets the numeric value of the effect, if applicable.
     /// </summary>
-    public int Value { get; set; }             // Numerical value, if applicable
-
-    /// <summary>
-    /// Gets or sets the duration of the effect in rounds.
-    /// </summary>
-    public int Duration { get; set; }          // In rounds
+    public int Value { get; set; }
 
     /// <summary>
     /// Gets or sets who the effect targets ("Self", "Ally", "Enemy").
     /// </summary>
-    public string Target { get; set; }         // "Self", "Ally", "Enemy"
+    public TargetType Target { get; set; }
+    [JsonPropertyName("Range")]
+    public string? Range { get; set; }
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="SpellEffect"/> class with specified parameters.
-    /// </summary>
-    /// <param name="name">The name of the effect.</param>
-    /// <param name="description">The description of the effect.</param>
-    public SpellEffect(string name, string description)
+    [JsonPropertyName("Duration")]
+    public string? Duration { get; set; }
+
+    [JsonPropertyName("DamageType")]
+    public string? DamageType { get; set; }
+
+    [JsonPropertyName("DiceFormula")] 
+    public string DiceFormula { get; set; } = "1D6";
+    [JsonIgnore]
+    [CosmosIgnore]
+    public DieType DamageDie
     {
-        Name = name;
-        Description = description;
+        get
+        {
+            // Remove the leading integer from the damage formula
+            var dieTypeString = DiceFormula[1..];
+            return Enum.TryParse<DieType>(dieTypeString, out var dieType) ? dieType : DieType.D6;
+        }
     }
-}
-public class Spells
-{
-    [JsonPropertyName("Traditions")]
-    public List<Tradition> Traditions { get; set; }
+    [JsonIgnore]
+    [CosmosIgnore]
+    public int DieCount
+    {
+        get
+        {
+            // Get the leading integer from the damage formula
+            var dieCountString = DiceFormula[..1];
+            return int.TryParse(dieCountString.ToUpper(), out var dieCount) ? dieCount : 1;
+        }
+    }
+    [Description("The number of hits the spell makes per cast.")]
+    public int DamageCount { get; set; }
+    [JsonPropertyName("AreaOfEffect")]
+    public string? AreaOfEffect { get; set; }
 
-    private static Spells? _spells;
-    public static Spells GetSpells => _spells ??= FileHelper.ExtractFromAssembly<Spells>("Spells.json");
 }
-
-public class Tradition
+public class SpellTradition
 {
     [JsonPropertyName("Name")]
     public MagicTradition Name { get; set; }
 
     [JsonPropertyName("Description")]
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
-    [JsonPropertyName("Spells")]
-    public List<Spell> Spells { get; set; }
+    [JsonPropertyName("Spells")] 
+    public List<Spell> Spells { get; set; } = [];
 }
 
 public class Spell
 {
     [JsonPropertyName("Name")]
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     [JsonPropertyName("Level")]
-    public long Level { get; set; }
+    public int Level { get; set; }
 
     [JsonPropertyName("Description")]
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     [JsonPropertyName("ManaCost")]
-    public long ManaCost { get; set; }
+    public int ManaCost { get; set; }
 
     [JsonPropertyName("CastTime")]
     public CastTime CastTime { get; set; }
 
     [JsonPropertyName("Range")]
-    public string Range { get; set; }
+    public string? Range { get; set; }
 
     [JsonPropertyName("Duration")]
-    public string Duration { get; set; }
-
-    [JsonPropertyName("DamageType")]
-    public string DamageType { get; set; }
-
-    [JsonPropertyName("DamageFormula")]
-    public string DamageFormula { get; set; }
-
-    [JsonPropertyName("AreaOfEffect")]
-    public string AreaOfEffect { get; set; }
+    public string? Duration { get; set; }
 
     [JsonPropertyName("SaveType")]
     public SaveType SaveType { get; set; }
     
     [JsonPropertyName("Band")]
     public Band Band { get; set; }
+
+    [JsonPropertyName("Effects")]
+    public List<SpellEffect> Effects { get; set; } = [];
 }
 [JsonConverter(typeof(JsonStringEnumConverter))]
 [CosmosConverter(typeof(StringEnumConverter))]
@@ -124,4 +132,38 @@ public enum Band
     Mid,
     [Description("Levels 11 - 15")]
     High
+}
+[JsonConverter(typeof(JsonStringEnumConverter))]
+[CosmosConverter(typeof(StringEnumConverter))]
+public enum SpellEffectType
+{
+    Damage,
+    Heal,
+    ArmorClass,
+    Protect,
+    Condition,
+    Stun,
+    Blind,
+    Paralyze,
+    Fear,
+    Charm,
+    Sleep,
+    Slow,
+    Haste,
+    Dominate,
+    Buff,
+    Summon,
+    Detect,
+    Illusion,
+    Negate,
+    Teleport,
+    Barrier
+}
+[JsonConverter(typeof(JsonStringEnumConverter))]
+[CosmosConverter(typeof(StringEnumConverter))]
+public enum TargetType
+{
+    Self,
+    Ally,
+    Enemy
 }

@@ -25,7 +25,7 @@ public partial class DiceRoller
     [Parameter] 
     public bool IsStandalone { get; set; } = false;
     [Parameter]
-    public bool IsManual { get; set; } = false;
+    public bool IsManual { get; set; } = true;
     protected override void OnInitialized()
     {
         _previousNumberOfRolls = NumberOfRolls;
@@ -33,7 +33,7 @@ public partial class DiceRoller
     }
     protected override Task OnParametersSetAsync()
     {
-        if (_previousNumberOfRolls > NumberOfRolls)
+        if (IsStandalone && _previousNumberOfRolls > NumberOfRolls)
         {
             var componentsToRemoveFromEnd = _previousNumberOfRolls - NumberOfRolls;
             for (var i = 0; i < componentsToRemoveFromEnd; i++)
@@ -47,26 +47,26 @@ public partial class DiceRoller
 
     private async void HandleValueUpdate(int value)
     {
+        
         _rolls.Add(value);
         if (_rolls.Count < NumberOfRolls)
         {
             return;
         }
-        //await Task.Delay(Duration);
-        //if (!IsStandalone)
-        //    RollDiceService.Close(new RollDiceResults(true, new RollDiceParameters() { ["Rolls"] = _rolls, ["Total"] = _rolls.Sum() }));
+        await Task.Delay(Duration);
+        if (!IsStandalone)
+            RollDiceService.Close(new RollDiceResults(true, new RollDiceParameters() { ["Rolls"] = _rolls, ["Total"] = _rolls.Sum() }));
     }
     private bool _rolling;
     private async Task RollAll()
     {
         if (_rolling)
-        {
             return;
-        }
         _rolls.Clear();
         _rolling = true;
         var tasks = new List<Task>();
-        foreach (var component in _components)
+        var dieRollers = IsStandalone ? _components : _components.Where(x => !x.HasRolled);
+        foreach (var component in dieRollers)
         {
             tasks.Add(component.RollDice());
         }

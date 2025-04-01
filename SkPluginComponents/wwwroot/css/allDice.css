@@ -7,6 +7,7 @@
   perspective: 1500px;
   margin: auto auto;
   position: relative;
+  transform: scale(0.5);
 }
 
 .die4 {
@@ -439,6 +440,7 @@
   width: 200px;
   height: 200px;
   perspective: 1500px;
+  transform: scale(0.7);
 }
 
 .die10 {
@@ -590,6 +592,8 @@
   width: 200px;
   height: 200px;
   perspective: 1000px;
+  transform: scale(0.7); /* 120% size */
+  /*transform-origin: top left;*/
 }
 
 .die20 {

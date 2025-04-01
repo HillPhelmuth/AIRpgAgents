@@ -1,0 +1,45 @@
+﻿@inherits RpgComponentBase
+@page "/combatEncounter"
+<RadzenRow Gap="0" Style="height:100%">
+    <RadzenColumn SizeLG="6" Style="position:relative; height:100%">
+        @if (_isStarted)
+        {
+            <RadzenCard Style="padding:2px" Variant="Variant.Text">
+                <RadzenButton Size="ButtonSize.ExtraSmall" Icon="support_agent" Text="Edit Agent" Click="@(() => ShowAgent("CombatEncounterAgent"))"></RadzenButton>
+                <ChatView ResetOnClose="false" AllowRemove=false ViewId="combat" Height="75vh" @ref=_chatView></ChatView>
+            </RadzenCard>
+
+            <RadzenCard Style="position:relative" Variant="Variant.Text">
+                <UserInput IsRequired="@(false)" ButtonLabel="Send" HelperText="User Input" UserInputSubmit="HandleRequest" IsBusy="_isBusy" CancelRequest="Cancel"></UserInput>
+            </RadzenCard>
+        }
+        else
+        {
+            <div id="start-agent-overlay">
+                @if (_isReady)
+                {
+                    <button class="rpg-button" @onclick="StartAgent">
+                        <span class="button-text">Begin Combat encounter Agent</span>
+                    </button>
+                }
+                else
+                {
+                    <div class="loading-container">
+                        <div class="loading-text">Building Combat...</div>
+                        <div class="spinner"></div>
+                    </div>
+                }
+                @* <div class="loading-container">
+                    <div class="loading-text">Waiting for world...</div>
+                    <div class="spinner"></div>
+                </div> *@
+                
+            </div>
+        }
+    </RadzenColumn>
+    <RadzenColumn SizeLG="6" Style="height:100%">
+        <div class="rpgui-container framedgolden2" style="height:100%;overflow-y:auto; font-size:95%">
+           <CombatEncounterDetails CombatEncounter="_combatEncounter"></CombatEncounterDetails>
+        </div>
+    </RadzenColumn>
+</RadzenRow>

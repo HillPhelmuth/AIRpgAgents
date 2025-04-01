@@ -1,12 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
+using System.Text.Json;
+using System.Threading.Tasks;
 using AIRpgAgents.Core.Models;
+using AIRpgAgents.Core.Services;
 using AIRpgAgents.GameEngine;
 using AIRpgAgents.GameEngine.Enums;
+using AIRpgAgents.GameEngine.Monsters;
+using AIRpgAgents.GameEngine.PlayerCharacter;
 using AIRpgAgents.GameEngine.Rules;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.SemanticKernel;
-using SkPluginComponents.Models;
 using static AIRpgAgents.GameEngine.Rules.CombatSystem;
 
 namespace AIRpgAgents.Core.Plugins.NativePlugins;
@@ -14,231 +20,408 @@ namespace AIRpgAgents.Core.Plugins.NativePlugins;
 /// <summary>
 /// A KernelPlugin that provides functionality for resolving combat mechanics as Tool calls for LLMs.
 /// </summary>
-public class CombatSystemPlugin
+public class CombatSystemPlugin(CombatService combatService)
 {
-    private readonly Random _random = new Random();
-    private readonly RollDiceService _diceService;
-    #region Initiative
+    private string _encounterId = string.Empty;
 
-    [KernelFunction, Description("Calculates initiative for combat based on a d20 roll plus ability modifiers.")]
-    [return: Description("The initiative score that determines turn order in combat.")]
-    public async Task<int> CalculateInitiative(
-        [Description("Agility modifier of the character.")] int agilityModifier,
-        [Description("Wits modifier of the character.")] int witsModifier,
-        [Description("If true, uses a previously rolled d20 value instead of rolling a new one.")] bool useProvidedRoll = false,
-        [Description("A previously rolled d20 value (1-20) to use if useProvidedRoll is true.")] int providedRoll = 0)
+    /// <summary>
+    /// Starts a new combat encounter between a party and monsters
+    /// </summary>
+    [KernelFunction, Description("Starts a new combat encounter between the player party and specified monsters")]
+    public async Task<string> StartCombat(Kernel kernel,
+        [Description("Description of the combat environment")] string environmentDescription)
     {
-        int d20Roll = useProvidedRoll ? providedRoll : DieType.D20.RollDie();
-        return d20Roll + agilityModifier + witsModifier;
+        var combatEncounter = kernel.Services.GetRequiredService<CombatEncounter>();
+        _encounterId = combatEncounter.Id;
+        try
+        {
+            if (combatEncounter.MonsterEncounter.Monsters.Count == 0)
+            {
+                return "Error: No monsters specified for the encounter.";
+            }
+            // Start the combat
+            var encounter = await combatService.StartCombat(combatEncounter, environmentDescription);
+            
+            // Return combat narrative
+            return $"Combat started! Encounter ID: {encounter.Id}\n\n{await combatService.GetCombatNarrative(encounter)}";
+        }
+        catch (Exception ex)
+        {
+            return $"Error starting combat: {ex.Message}";
+        }
+    }
+    
+    /// <summary>
+    /// Gets the current state of a combat encounter
+    /// </summary>
+    [KernelFunction, Description("Gets the current state of a combat encounter")]
+    public async Task<string> GetCombatState(
+        [Description("The ID of the combat encounter")] string encounterId)
+    {
+        var encounter = combatService.GetEncounter(encounterId);
+        _encounterId = encounterId;
+        if (encounter == null)
+        {
+            return "Error: Combat encounter not found.";
+        }
+        
+        return await combatService.GetCombatNarrative(encounter);
+    }
+    
+    /// <summary>
+    /// Performs an attack action in combat from a player combatant to a monster
+    /// </summary>
+    [KernelFunction, Description("Performs an attack action from a player combatant to a monster using their IDs")]
+    public async Task<string> PerformPlayerAttack(
+        [Description("The ID of the combat encounter")] string encounterId,
+        [Description("The ID of the attacker (player)")] string attackerId,
+        [Description("The ID of the target (monster)")] string targetId,
+        [Description("Name of the specific attack to use (if applicable)")] string? attackName = null)
+    {
+        var encounter = combatService.GetEncounter(encounterId);
+        
+        //if (encounter == null)
+        //{
+        //    return "Error: Combat encounter not found.";
+        //}
+        //encounter.ActiveCombatant = encounter.InitiativeOrder.FirstOrDefault(x => x.Id == attackerId);
+        //if (encounter.ActiveCombatant == null)
+        //{
+        //    return "Error: It's not this combatant's turn to attack.";
+        //}
+
+        try
+        {
+            var result = await combatService.ProcessPlayerAttackById(encounter, attackerId, targetId, attackName);
+
+            string response = "";
+            if (result.IsHit)
+            {
+                response = result.IsCritical ?
+                    $"{result.AttackerName} landed a CRITICAL HIT on {result.TargetName} with {result.AttackName ?? "an attack"} for {result.DamageDealt} damage!" :
+                    $"{result.AttackerName} hit {result.TargetName} with {result.AttackName ?? "an attack"} for {result.DamageDealt} damage.";
+                response += $" {result.TargetName} has {result.RemainingHP}/{result.MaxHP} HP remaining.";
+                if (result.RemainingHP <= 0)
+                {
+                    response += $" {result.TargetName} has been defeated!";
+                }
+            }
+            else
+            {
+                response = $"{result.AttackerName} attempted to hit {result.TargetName} with {result.AttackName ?? "an attack"} but missed!";
+            }
+            return response;
+        }
+        catch (Exception ex)
+        {
+            return $"Error processing attack: {ex.Message}";
+        }
     }
 
-    [KernelFunction, Description("Resolves initiative ties between characters.")]
-    [return: Description("The ID of the character who acts first. Returns empty if they act simultaneously.")]
-    public string ResolveInitiativeTie(
-        [Description("First character's ID.")] string character1Id,
-        [Description("First character's wits attribute.")] int character1Wits,
-        [Description("First character's agility attribute.")] int character1Agility,
-        [Description("Second character's ID.")] string character2Id,
-        [Description("Second character's wits attribute.")] int character2Wits,
-        [Description("Second character's agility attribute.")] int character2Agility)
+    /// <summary>
+    /// Performs an attack action in combat from a monster combatant to a player
+    /// </summary>
+    [KernelFunction, Description("Performs an attack action from a monster combatant to a player using their IDs")]
+    public async Task<string> PerformMonsterAttack(
+        [Description("The ID of the combat encounter")] string encounterId,
+        [Description("The ID of the attacker (monster)")] string attackerId,
+        [Description("The ID of the target (player)")] string targetId,
+        [Description("Name of the specific attack to use (if applicable)")] string? attackName = null)
     {
-        if (character1Wits > character2Wits)
-            return character1Id;
-        if (character2Wits > character1Wits)
-            return character2Id;
-            
-        // If Wits are tied, check Agility
-        if (character1Agility > character2Agility)
-            return character1Id;
-        if (character2Agility > character1Agility)
-            return character2Id;
-            
-        // If all are equal, they act simultaneously
-        return string.Empty;
+        var encounter = combatService.GetEncounter(encounterId);
+        //if (encounter == null)
+        //{
+        //    return "Error: Combat encounter not found.";
+        //}
+        //encounter.ActiveCombatant = encounter.InitiativeOrder.FirstOrDefault(x => x.Id == attackerId);
+        //if (encounter.ActiveCombatant == null || encounter.ActiveCombatant.Id != attackerId)
+        //{
+        //    return "Error: It's not this combatant's turn to attack.";
+        //}
+
+        try
+        {
+            var result = await combatService.ProcessMonsterAttackById(encounter, attackerId, targetId, attackName);
+
+            string response = "";
+            if (result.IsHit)
+            {
+                response = result.IsCritical ?
+                    $"{result.AttackerName} landed a CRITICAL HIT on {result.TargetName} with {result.AttackName ?? "an attack"} for {result.DamageDealt} damage!" :
+                    $"{result.AttackerName} hit {result.TargetName} with {result.AttackName ?? "an attack"} for {result.DamageDealt} damage.";
+                response += $" {result.TargetName} has {result.RemainingHP}/{result.MaxHP} HP remaining.";
+                if (result.RemainingHP <= 0)
+                {
+                    response += $" {result.TargetName} has been defeated!";
+                }
+            }
+            else
+            {
+                response = $"{result.AttackerName} attempted to hit {result.TargetName} with {result.AttackName ?? "an attack"} but missed!";
+            }
+            return response;
+        }
+        catch (Exception ex)
+        {
+            return $"Error processing attack: {ex.Message}";
+        }
     }
-        
-    #endregion
-        
-    #region Attack Resolution
-        
-    [KernelFunction, Description("Resolves whether an attack hits or misses.")]
-    [return: Description("True if the attack hits, false if it misses.")]
-    public bool ResolveAttack(
-        [Description("The total attack roll (d20 + modifiers).")] int attackRoll,
-        [Description("The target's Armor Class (AC).")] int targetAC,
-        [Description("The natural d20 roll value (1-20) to check for critical hits/misses.")] int naturalRoll)
+    
+    /// <summary>
+    /// Moves to the next turn in combat
+    /// </summary>
+    [KernelFunction, Description("Ends the current turn and advances to the next combatant in the initiative order")]
+    public async Task<string> NextTurn(
+        [Description("The ID of the combat encounter")] string encounterId)
     {
-        // Critical hit always succeeds
-        if (naturalRoll == 20)
-            return true;
+        var encounter = combatService.GetEncounter(encounterId);
+        if (encounter == null)
+        {
+            return "Error: Combat encounter not found.";
+        }
+        
+        var nextCombatant = await combatService.NextTurn(encounter);
+        
+        if (nextCombatant == null)
+        {
+            return "Combat round has ended. Starting a new round.";
+        }
+        
+        return $"It's now {nextCombatant.Name}'s turn to act.";
+    }
+    
+    /// <summary>
+    /// Gets available actions for the current combatant
+    /// </summary>
+    [KernelFunction, Description("Gets the available actions for the current combatant")]
+    public async Task<string> GetAvailableActions(
+        [Description("The ID of the combat encounter")] string encounterId)
+    {
+        var encounter = combatService.GetEncounter(encounterId);
+        var isPlayerCharacter = encounter.ActiveCombatant.IsPlayerCharacter;
+        if (encounter == null)
+        {
+            return "Error: Combat encounter not found.";
+        }
+        
+        if (encounter.ActiveCombatant == null)
+        {
+            return "Error: No active turn in progress.";
+        }
+        
+        var sb = new System.Text.StringBuilder();
+        sb.AppendLine($"Available actions for {encounter.ActiveCombatant.Name}:");
+        
+        // Basic actions available to all
+        var actionIndex = 1;
+        sb.AppendLine($"{actionIndex++}. Attack - Attack an enemy");
+        sb.AppendLine($"{actionIndex++}. Dodge - Take the dodge action (disadvantage to hit you)");
+        sb.AppendLine($"{actionIndex++}. Disengage - Move away without provoking opportunity attacks");
+        sb.AppendLine($"{actionIndex++}. Help - Help an ally (give advantage on their next action)");
+        if (isPlayerCharacter)
+        {
+            var player = encounter.PlayerParty.PartyMembers.FirstOrDefault(x => x.CharacterName == encounter.ActiveCombatant.Name);
+            if (player?.CharacterSheet.Class.HasSpellcasting == true)
+            {
+                foreach (var spell in player?.CharacterSheet?.Spellcasting?.Spells ?? [])
+                {
+                    sb.AppendLine($"{actionIndex++}. Cast {spell.Name} - {spell.Description}");
+                }
                 
-        // Critical miss always fails
-        if (naturalRoll == 1)
-            return false;
-                
-        // Normal hit check
-        return attackRoll >= targetAC;
-    }
-        
-    [KernelFunction, Description("Calculates the attack roll based on attack type.")]
-    [return: Description("The total attack roll value and natural roll as an object.")]
-    public AttackRollResult CalculateAttackRoll(
-        [Description("Type of attack being made (Melee, Ranged, Spell, Special).")] AttackType attackType,
-        [Description("Character's attribute modifier for the attack (based on attack type).")] int attributeModifier,
-        [Description("Character's relevant skill rank for the attack type.")] int skillRank)
-    {
-        int naturalRoll = DieType.D20.RollDie();
-        return new AttackRollResult
-        {
-            TotalRoll = naturalRoll + attributeModifier + skillRank,
-            NaturalRoll = naturalRoll,
-            IsCriticalHit = naturalRoll == 20,
-            IsCriticalMiss = naturalRoll == 1
-        };
-    }
-        
-    #endregion
-        
-    #region Damage Resolution
-        
-    [KernelFunction, Description("Calculates damage for a successful attack.")]
-    [return: Description("The amount of damage dealt.")]
-    public int CalculateDamage(
-        [Description("The type of die used for damage.")] DieType damageDieType,
-        [Description("Number of dice to roll for damage.")] int numberOfDice,
-        [Description("Attribute modifier to add to damage.")] int attributeModifier,
-        [Description("Whether the attack was a critical hit (doubles damage dice).")] bool isCritical = false,
-        [Description("Type of damage being dealt.")] DamageType damageType = DamageType.Slashing)
-    {
-        int totalDamage = 0;
-        int diceToRoll = isCritical ? numberOfDice * 2 : numberOfDice;
-            
-        for (int i = 0; i < diceToRoll; i++)
-        {
-            totalDamage += damageDieType.RollDie();
+            }
         }
-            
-        return totalDamage + attributeModifier;
-    }
+        sb.AppendLine($"{actionIndex}. Something else (describe in detail)");
         
-    [KernelFunction, Description("Applies damage resistance or vulnerability for a target.")]
-    [return: Description("The modified damage after applying resistance/vulnerability.")]
-    public int ApplyDamageModifiers(
-        [Description("Base damage amount.")] int damage,
-        [Description("Type of damage being dealt.")] DamageType damageType,
-        [Description("List of damage types the target is resistant to (takes half damage).")] List<DamageType> resistances = null,
-        [Description("List of damage types the target is vulnerable to (takes double damage).")] List<DamageType> vulnerabilities = null)
-    {
-        double modifiedDamage = damage;
-            
-        // Apply resistance (half damage)
-        if (resistances != null && resistances.Contains(damageType))
-        {
-            modifiedDamage *= 0.5;
-        }
-            
-        // Apply vulnerability (double damage)
-        if (vulnerabilities != null && vulnerabilities.Contains(damageType))
-        {
-            modifiedDamage *= 2;
-        }
-            
-        return (int)Math.Round(modifiedDamage);
-    }
-        
-    #endregion
-        
-    #region Defense
-        
-    [KernelFunction, Description("Calculates a character's Armor Class (AC).")]
-    [return: Description("The character's total AC value.")]
-    public int CalculateArmorClass(
-        [Description("Character's base AC (typically 10).")] int baseAC,
-        [Description("Character's Agility modifier.")] int agilityModifier,
-        [Description("Armor bonus to AC (0 for no armor).")] int armorBonus = 0,
-        [Description("Shield bonus to AC (0 for no shield).")] int shieldBonus = 0,
-        [Description("Any other AC bonuses from magic, abilities, etc.")] int miscBonus = 0)
-    {
-        return baseAC + agilityModifier + armorBonus + shieldBonus + miscBonus;
-    }
-        
-    [KernelFunction, Description("Resolves a dodge action, calculating the AC bonus until next turn.")]
-    [return: Description("The bonus to AC granted by dodging.")]
-    public int ResolveDodgeAction()
-    {
-        // Dodge action grants +2 to AC until the start of the next turn
-        return 2;
-    }
-        
-    [KernelFunction, Description("Attempts to parry an incoming attack as a reaction.")]
-    [return: Description("True if the parry succeeds, false if it fails.")]
-    public bool ResolveParry(
-        [Description("The incoming attack roll.")] int attackRoll,
-        [Description("Character's Agility modifier.")] int agilityModifier)
-    {
-        int d20Roll = DieType.D20.RollDie();
-        return (d20Roll + agilityModifier) >= attackRoll;
-    }
-        
-    #endregion
-        
-    #region Hit Points and Death
-        
-    [KernelFunction, Description("Calculates a character's base hit points at level 1.")]
-    [return: Description("The character's maximum hit points.")]
-    public int CalculateBaseHitPoints(
-        [Description("Character's Vitality modifier.")] int vitalityModifier)
-    {
-        return 10 + vitalityModifier;
-    }
-        
-    [KernelFunction, Description("Makes a death saving throw for a character at 0 HP.")]
-    [return: Description("Result object with success/failure status and whether it was a critical roll.")]
-    public DeathSaveResult MakeDeathSavingThrow()
-    {
-        int d20Roll = DieType.D20.RollDie();
-            
-        return new DeathSaveResult
-        {
-            RollValue = d20Roll,
-            IsSuccess = d20Roll >= 10,
-            IsCriticalSuccess = d20Roll == 20,
-            IsCriticalFailure = d20Roll == 1
-        };
-    }
-        
-    [KernelFunction, Description("Checks if a character dies instantly from massive damage.")]
-    [return: Description("True if the character dies instantly, false otherwise.")]
-    public bool CheckInstantDeath(
-        [Description("Amount of damage taken.")] int damageTaken,
-        [Description("Character's maximum hit points.")] int maxHitPoints)
-    {
-        return damageTaken >= (maxHitPoints * 2);
-    }
-        
-    #endregion
-        
+        // Add specific attacks for monsters
        
-}
+        if (!isPlayerCharacter)
+        {
+            var monster = encounter.MonsterEncounter.Monsters[encounter.ActiveCombatant.Index];
+            if (monster.SpecialAttacks.Count > 0)
+            {
+                sb.AppendLine("\nSpecial Attacks:");
+                foreach (var attack in monster.SpecialAttacks)
+                {
+                    sb.AppendLine($"- {attack.Name}: {attack.DamageDie} + {attack.DamageBonus} {attack.DamageType} damage (Range: {attack.Range}ft)");
+                    if (!string.IsNullOrEmpty(attack.Description))
+                    {
+                        sb.AppendLine($"  {attack.Description}");
+                    }
+                }
+            }
+        }
+        
+        // Add available targets
+        sb.AppendLine("\nAvailable targets:");
+        
+        if (isPlayerCharacter)
+        {
+            // Player can target monsters
+            foreach (var monster in encounter.MonsterEncounter.Monsters.Where(m => m.CurrentHP > 0))
+            {
+                sb.AppendLine($"- {monster.Name} (ID: {monster.Id}): {monster.CurrentHP}/{monster.MaxHP} HP");
+            }
+        }
+        else
+        {
+            // Monster can target players
+            foreach (var player in encounter.PlayerParty.PartyMembers.Where(p => p.CurrentHitPoints > 0))
+            {
+                sb.AppendLine($"- {player.CharacterName} (ID: {player.Id}): {player.CurrentHitPoints}/{player.MaxHitPoints} HP");
+            }
+        }
+        
+        return sb.ToString();
+    }
     
-/// <summary>
-/// Result of a death saving throw
-/// </summary>
-public class DeathSaveResult
-{
-    public int RollValue { get; set; }
-    public bool IsSuccess { get; set; }
-    public bool IsCriticalSuccess { get; set; } // Natural 20 recovers 1 HP
-    public bool IsCriticalFailure { get; set; } // Natural 1 counts as two failures
-}
+    /// <summary>
+    /// Ends a combat encounter
+    /// </summary>
+    [KernelFunction, Description("Ends a combat encounter with the specified result")]
+    public async Task<string> EndCombat(
+        [Description("The ID of the combat encounter")] string encounterId,
+        [Description("The result of the combat (PlayerVictory, PlayerDefeat, Fled, Resolved)")] CombatStatus result)
+    {
+        var encounter = combatService.GetEncounter(encounterId);
+        if (encounter == null)
+        {
+            return "Error: Combat encounter not found.";
+        }
+
+        if (result is CombatStatus.NotStarted or CombatStatus.InProgress)
+        {
+            return "Error: Invalid combat result. Must be one of: PlayerVictory, PlayerDefeat, Fled, Resolved";
+        }
+        
+        await combatService.EndCombat(encounter, result);
+        
+        return $"Combat has ended. Result: {result}";
+    }
     
-/// <summary>
-/// Result of an attack roll containing both the total and natural roll values
-/// </summary>
-public class AttackRollResult
-{
-    public int TotalRoll { get; set; }
-    public int NaturalRoll { get; set; }
-    public bool IsCriticalHit { get; set; }
-    public bool IsCriticalMiss { get; set; }
+    /// <summary>
+    /// Gets the combat log
+    /// </summary>
+    [KernelFunction, Description("Gets the log of combat events")]
+    public async Task<string> GetCombatLog(
+        [Description("The ID of the combat encounter")] string encounterId,
+        [Description("The maximum number of log entries to return (default: 10)")] int maxEntries = 10)
+    {
+        var encounter = combatService.GetEncounter(encounterId);
+        if (encounter == null)
+        {
+            return "Error: Combat encounter not found.";
+        }
+        
+        var log = encounter.CombatLog.TakeLast(maxEntries).ToList();
+        
+        return string.Join("\n", log.Select((entry, i) => $"{i+1}. {entry}"));
+    }
+    
+    /// <summary>
+    /// Casts a spell in combat
+    /// </summary>
+    [KernelFunction, Description("Casts a spell from a player character to a target using their IDs")]
+    public async Task<string> PlayerCastSpell(
+        [Description("The ID of the combat encounter")] string encounterId,
+        [Description("The ID of the spellcaster (player)")] string casterId,
+        [Description("The name of the spell to cast")] string spellName,
+        [Description("The ID of the target (optional, some spells don't require targets)")] string? targetId = null)
+    {
+        try
+        {
+            var encounter = combatService.GetEncounter(encounterId);
+            SpellCastResult result = await combatService.ProcessPlayerCastSpell(encounter, casterId, spellName, targetId);
+
+            if (!result.SuccessfulCast)
+            {
+                return result.Effect!;
+            }
+
+            string response;
+            if (!string.IsNullOrEmpty(result.TargetName))
+            {
+                if (result.DamageDealt > 0)
+                {
+                    response = $"{result.CasterName} casts {result.SpellName} on {result.TargetName}";
+                    response += $", dealing {result.DamageDealt} {result.DamageType} damage!";
+                    
+                    response += $" {result.TargetName} has {result.RemainingHP}/{result.MaxHP} HP remaining.";
+                    if (result.RemainingHP <= 0)
+                    {
+                        response += $" {result.TargetName} has been defeated!";
+                    }
+                }
+                else if (result.HealingDone > 0)
+                {
+                    response = $"{result.CasterName} casts {result.SpellName} on {result.TargetName}";
+                    response += $", healing for {result.HealingDone} HP.";
+                    response += $" {result.TargetName} now has {result.RemainingHP}/{result.MaxHP} HP.";
+                }
+                else
+                {
+                    response = $"{result.CasterName} casts {result.SpellName} on {result.TargetName}. {result.Effect}";
+                }
+            }
+            else
+            {
+                response = $"{result.CasterName} casts {result.SpellName}. {result.Effect}";
+            }
+            
+            response += $" ({result.ManaUsed} mana used, {result.RemainingMana}/{result.MaxMana} remaining)";
+            return response;
+        }
+        catch (Exception ex)
+        {
+            return $"Error casting spell: {ex.Message}";
+        }
+    }
+    
+    /// <summary>
+    /// Uses a skill in combat
+    /// </summary>
+    [KernelFunction, Description("Uses a skill from a player character, optionally targeting another combatant")]
+    public async Task<string> PlayerUseSkill(
+        [Description("The ID of the combat encounter")] string encounterId,
+        [Description("The ID of the skill user (player)")] string userId,
+        [Description("The name of the skill to use")] string skillName, [Description("Your best judgement about how difficult the specific use of the skill is on a scale of 1-20")] int difficulty = 12,
+        [Description("The ID of the target (optional, some skills don't require targets)")] string? targetId = null)
+    {
+        try
+        {
+            var encounter = combatService.GetEncounter(encounterId);
+            SkillUseResult result = await combatService.ProcessPlayerUseSkill(encounter, userId, skillName, targetId);
+
+            string response;
+            if (!string.IsNullOrEmpty(result.TargetName))
+            {
+                response = $"{result.UserName} uses {result.SkillName} on {result.TargetName}. ";
+                if (result.Success)
+                {
+                    response += result.Effect;
+                }
+                else
+                {
+                    response += $"The attempt fails (rolled {result.SkillCheckRoll}, needed higher).";
+                }
+            }
+            else
+            {
+                response = $"{result.UserName} uses {result.SkillName}. ";
+                if (result.Success)
+                {
+                    response += result.Effect;
+                }
+                else
+                {
+                    response += $"The attempt fails (rolled {result.SkillCheckRoll}, needed higher).";
+                }
+            }
+            
+            return response;
+        }
+        catch (Exception ex)
+        {
+            return $"Error using skill: {ex.Message}";
+        }
+    }
 }

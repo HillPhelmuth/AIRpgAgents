@@ -363,3 +363,10 @@ MigrationBackup/
 FodyWeavers.xsd
 /AIRpgAgents/character.json
 /AIRpgAgents/.config/dotnet-tools.json
+/.github/.not.prompt.md
+/.github/.prompt.md
+/.github/.prompt.md
+/.gitignore
+/.github/.prompt.md
+/AIRpgAgents/RpgMonsters.json
+/AIRpgAgents/SelectedMonsters.json
