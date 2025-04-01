@@ -594,7 +594,7 @@ public class CombatService
         }
         else
         {
-            attackMessage = $"{result.AttackerName} hits {result.TargetName} with {result.AttackName ?? "an attack"} for {result.DamageDealt} damage. (Rolled {result.AttackRoll} + {result.AttackBonus} = {result.TotalAttack} vs AC {result.TargetAC})";
+            attackMessage = $"{result.AttackerName} hits {result.TargetName} with {result.AttackName ?? "an attack"} for {result.DamageDealt} damage. (Rolled {result.AttackRoll} + {result.AttackBonus} = {result.TotalAttack} vs AC {result.TargetAC} to hit, Rolled {result.DamageRoll} + {result.DamageBonus} = {result.DamageDealt} damage dealt)";
         }
 
         if (result.RemainingHP <= 0)
@@ -964,12 +964,14 @@ public class CombatService
     private int GetCharacterDamageBonus(CharacterState character, string range)
     {
         // Calculate damage bonus from attributes (typically Strength/Might)
+        var result = 0;
         if (character.CharacterSheet?.Weapons.Find(x => x.IsEquipped)?.Range?.ToLower().Contains("melee") == true)
-            return AttributeSystem.CalculateModifier(character.CharacterSheet.Might);
+           result = AttributeSystem.CalculateModifier(character.CharacterSheet.Might);
         if (character.CharacterSheet?.Weapons.Find(x => x.IsEquipped)?.Range?.ToLower().Contains("ranged") == true)
-            return AttributeSystem.CalculateModifier(character.CharacterSheet.Agility);
+            result = AttributeSystem.CalculateModifier(character.CharacterSheet.Agility);
         // Fallback to a default value
-        return 0;
+        Console.WriteLine($"Damage bonus for {character.CharacterName} is {result}");
+        return result;
     }
 
     /// <summary>

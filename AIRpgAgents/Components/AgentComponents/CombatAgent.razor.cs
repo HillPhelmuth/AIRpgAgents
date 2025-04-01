@@ -33,7 +33,7 @@ public partial class CombatAgent
     private CombatEncounter? _combatEncounter;
     private async Task<CombatEncounter> CreateCombatEncounter()
     {
-        var monsterEncounter = await DndMonsterService.CreateRandomMonsterEncounter(2, 0.25, 0.5, 1.0);
+        var monsterEncounter = await DndMonsterService.CreateRandomMonsterEncounter(2, 0.25, 0.5, 0.75);
         RpgState.ActiveCampaign.PendingMonsterEncounter = monsterEncounter;
         var testPlayers = FileHelper.ExtractFromAssembly<List<CharacterState>>("TestCharacters.json");
         var activeCampaignParty = new RpgParty() { PartyMembers = testPlayers, Name = "Badass Testing Party" };

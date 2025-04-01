@@ -47,9 +47,9 @@ public class CombatEncounterAgent : RpgAgent
     public override async IAsyncEnumerable<string> InvokeStreamingAsync(ChatHistory chatHistory)
     {
         var chatCompletion = Kernel.GetRequiredService<IChatCompletionService>();
-        var requiredArgument = _campaign.ActiveCampaign.CombatEncounters.Find(x => x.IsActive)?.GetCombatSummary();
+        var requiredArgument = _campaign.ActiveCampaign.CombatEncounters.LastOrDefault(x => x.IsActive)?.GetCombatSummary();
         RequiredArguments["combatEncounterSummary"] = requiredArgument;
-        var combatantsInfo = _campaign.ActiveCampaign.CombatEncounters.Find(x => x.IsActive)?.GetCombatantsInfo();
+        var combatantsInfo = _campaign.ActiveCampaign.CombatEncounters.LastOrDefault(x => x.IsActive)?.GetCombatantsInfo();
         RequiredArguments["combatants"] = combatantsInfo;
         UpdateSummaries?.Invoke(requiredArgument, combatantsInfo);
         Console.WriteLine($"Update Summaries invoked from {nameof(CombatEncounterAgent)}");

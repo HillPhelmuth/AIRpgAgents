@@ -9,8 +9,8 @@ public class MonsterAttack : ICombatAttack
 {
     public string Name { get; set; } = "";
     public int AttackBonus { get; set; }
-    public int DamageDieCount { get; set; }
-    public DieType DamageDie { get; set; }
+    public int DamageDieCount { get; set; } = 1;
+    public DieType DamageDie { get; set; } = DieType.D4;
     public int DamageBonus { get; set; }
     public DamageType DamageType { get; set; }
     public string Range { get; set; } = "Melee"; // In feet or melee
